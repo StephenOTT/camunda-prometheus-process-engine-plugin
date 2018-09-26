@@ -11,6 +11,8 @@ Currently functional, but still testing
 
 
 ![basic 1](./docs/images/basic1.png)
+![testprocess](./docs/images/testProcess.png)
+![config 1](./docs/images/config1.png)
 
 # Groovy script Examples:
 
