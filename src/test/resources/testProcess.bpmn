@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="_7FrToMrfEeOyYYI9xhG4Cw" targetNamespace="http://camunda.org/schema/1.0/bpmn" exporter="Camunda Modeler" exporterVersion="1.14.0" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd">
+  <bpmn2:process id="testProcess" isExecutable="true">
+    <bpmn2:startEvent id="StartEvent_1" name="Case Opened">
+      <bpmn2:extensionElements>
+        <camunda:executionListener event="end">
+          <camunda:script scriptFormat="groovy">import io.digitalstate.camunda.prometheus.collectors.SimpleGaugeMetric;
+
+def openCases = new SimpleGaugeMetric('open_cases', 'Number of Open Cases, labeled by Case Type', ['type'])
+
+openCases.increment(['standard'])</camunda:script>
+        </camunda:executionListener>
+      </bpmn2:extensionElements>
+      <bpmn2:outgoing>SequenceFlow_0fc3gcj</bpmn2:outgoing>
+    </bpmn2:startEvent>
+    <bpmn2:endEvent id="EndEvent_1">
+      <bpmn2:incoming>SequenceFlow_1q1fba4</bpmn2:incoming>
+    </bpmn2:endEvent>
+    <bpmn2:sequenceFlow id="SequenceFlow_0h4jbgk" sourceRef="Task_0t067xi" targetRef="Task_0ffexh6" />
+    <bpmn2:sequenceFlow id="SequenceFlow_1mo4as3" sourceRef="Task_0ffexh6" targetRef="Task_0md9it7" />
+    <bpmn2:sequenceFlow id="SequenceFlow_1q1fba4" sourceRef="Task_0md9it7" targetRef="EndEvent_1" />
+    <bpmn2:manualTask id="Task_0md9it7" name="Close Case">
+      <bpmn2:extensionElements>
+        <camunda:executionListener event="end">
+          <camunda:script scriptFormat="groovy">import io.digitalstate.camunda.prometheus.collectors.SimpleGaugeMetric
+
+def openCases = new SimpleGaugeMetric('open_cases')
+
+openCases.decrement(['standard'])
+
+def closedCases = new SimpleGaugeMetric('closed_cases', 'Number of Open Cases, labeled by Case Type', ['type'])
+closedCases.increment(['standard'])</camunda:script>
+        </camunda:executionListener>
+      </bpmn2:extensionElements>
+      <bpmn2:incoming>SequenceFlow_1mo4as3</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_1q1fba4</bpmn2:outgoing>
+    </bpmn2:manualTask>
+    <bpmn2:scriptTask id="Task_0t067xi" name="Check with Third Party" scriptFormat="groovy">
+      <bpmn2:incoming>SequenceFlow_0fc3gcj</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_0h4jbgk</bpmn2:outgoing>
+      <bpmn2:dataOutputAssociation id="DataOutputAssociation_1n48i1r">
+        <bpmn2:targetRef>DataStoreReference_0nrh7pm</bpmn2:targetRef>
+      </bpmn2:dataOutputAssociation>
+      <bpmn2:script>import io.digitalstate.camunda.prometheus.collectors.SimpleHistogramMetric
+
+def httpRequest = new SimpleHistogramMetric('legacy_system_123_request', 'Connection duration time, labeled by HTTP Method', null, ['method'])
+
+httpRequest.startTimer(['POST'])
+
+sleep(Math.abs(new Random().nextInt() % 5000) + 650)
+
+httpRequest.observeDuration()
+</bpmn2:script>
+    </bpmn2:scriptTask>
+    <bpmn2:scriptTask id="Task_0ffexh6" name="Process Payment" scriptFormat="groovy">
+      <bpmn2:incoming>SequenceFlow_0h4jbgk</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_1mo4as3</bpmn2:outgoing>
+      <bpmn2:script>import io.digitalstate.camunda.prometheus.collectors.SimpleGaugeMetric
+
+def money = new SimpleGaugeMetric('money_collected', 'dollar values collected, labeled by form of payment', ['payment_form'])
+
+def amount = Math.abs(new Random().nextDouble() % 284.03) + 23.54
+money.increment(amount, ['credit-card'])</bpmn2:script>
+    </bpmn2:scriptTask>
+    <bpmn2:dataStoreReference id="DataStoreReference_0nrh7pm" name="Legacy System 123" />
+    <bpmn2:sequenceFlow id="SequenceFlow_0fc3gcj" sourceRef="StartEvent_1" targetRef="Task_0t067xi" />
+  </bpmn2:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="testProcess">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_3" bpmnElement="StartEvent_1">
+        <dc:Bounds x="404" y="204" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="388" y="240" width="68" height="13" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_EndEvent_2" bpmnElement="EndEvent_1">
+        <dc:Bounds x="940" y="204" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="913" y="240" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0h4jbgk_di" bpmnElement="SequenceFlow_0h4jbgk">
+        <di:waypoint x="617" y="222" />
+        <di:waypoint x="653" y="222" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="635" y="200.5" width="0" height="13" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1mo4as3_di" bpmnElement="SequenceFlow_1mo4as3">
+        <di:waypoint x="753" y="222" />
+        <di:waypoint x="793" y="222" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="773" y="200.5" width="0" height="13" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1q1fba4_di" bpmnElement="SequenceFlow_1q1fba4">
+        <di:waypoint x="893" y="222" />
+        <di:waypoint x="940" y="222" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="916.5" y="200.5" width="0" height="13" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ManualTask_1pvpgu3_di" bpmnElement="Task_0md9it7">
+        <dc:Bounds x="793" y="182" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ScriptTask_1adh9kt_di" bpmnElement="Task_0t067xi">
+        <dc:Bounds x="517" y="182" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ScriptTask_15qd68t_di" bpmnElement="Task_0ffexh6">
+        <dc:Bounds x="653" y="182" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DataStoreReference_0nrh7pm_di" bpmnElement="DataStoreReference_0nrh7pm">
+        <dc:Bounds x="542" y="340.5" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="529" y="394" width="76" height="25" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="DataOutputAssociation_1n48i1r_di" bpmnElement="DataOutputAssociation_1n48i1r">
+        <di:waypoint x="567" y="262" />
+        <di:waypoint x="567" y="340" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0fc3gcj_di" bpmnElement="SequenceFlow_0fc3gcj">
+        <di:waypoint x="440" y="222" />
+        <di:waypoint x="517" y="222" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="478.5" y="200.5" width="0" height="13" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn2:definitions>
