@@ -1,6 +1,9 @@
 package io.digitalstate.camunda.prometheus;
 
+import io.digitalstate.camunda.prometheus.collectors.camunda.CamundaMetrics;
+import io.digitalstate.camunda.prometheus.collectors.custom.CamundaCustomMetrics;
 import io.prometheus.client.CollectorRegistry;
+import org.camunda.bpm.engine.impl.calendar.DateTimeUtil;
 import org.camunda.bpm.engine.impl.cfg.AbstractProcessEnginePlugin;
 
 import org.camunda.bpm.engine.impl.cfg.ProcessEngineConfigurationImpl;
@@ -13,6 +16,9 @@ public class PrometheusProcessMetricsProcessEnginePlugin extends AbstractProcess
 //    private String classList = "";
 //    private Boolean startupMetricLoading = false;
     private String port = "9999";
+    private long pollingFrequencyMills = 900000;
+    private long pollingStartDelayMills = 0;
+    private String queryStartDate = DateTimeUtil.now().toString();
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PrometheusProcessMetricsProcessEnginePlugin.class);
     final private CollectorRegistry registry = CollectorRegistry.defaultRegistry;
@@ -44,6 +50,14 @@ public class PrometheusProcessMetricsProcessEnginePlugin extends AbstractProcess
 
     @Override
     public void postProcessEngineBuild(ProcessEngine processEngine) {
+        new CamundaMetrics(processEngine,
+                getPollingFrequencyMills(),
+                getPollingStartDelayMills(),
+                DateTimeUtil.parseDateTime(getQueryStartDate()));
+
+        new CamundaCustomMetrics(processEngine,
+                getPollingFrequencyMills(),
+                getPollingStartDelayMills());
     }
 
 
@@ -74,5 +88,27 @@ public class PrometheusProcessMetricsProcessEnginePlugin extends AbstractProcess
 
     public String getPort(){
         return this.port;
+    }
+
+    public void setPollingFrequencyMills(long frequencyMills){
+        this.pollingFrequencyMills = frequencyMills;
+    }
+    public long getPollingFrequencyMills(){
+        return this.pollingFrequencyMills;
+    }
+
+    public void setPollingStartDelayMills(long delayMills){
+        this.pollingStartDelayMills = delayMills;
+    }
+    public long getPollingStartDelayMills(){
+        return this.pollingStartDelayMills;
+    }
+
+    public void setQueryStartDate(String startDate){
+        this.queryStartDate = DateTimeUtil.parseDateTime(startDate).toString();
+    }
+
+    public String getQueryStartDate(){
+        return this.queryStartDate;
     }
 }

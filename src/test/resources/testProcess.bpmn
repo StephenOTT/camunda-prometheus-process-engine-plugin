@@ -14,11 +14,11 @@ openCases.increment(['standard'])</camunda:script>
       <bpmn2:outgoing>SequenceFlow_0fc3gcj</bpmn2:outgoing>
     </bpmn2:startEvent>
     <bpmn2:endEvent id="EndEvent_1">
-      <bpmn2:incoming>SequenceFlow_1q1fba4</bpmn2:incoming>
+      <bpmn2:incoming>SequenceFlow_03c5cbh</bpmn2:incoming>
     </bpmn2:endEvent>
     <bpmn2:sequenceFlow id="SequenceFlow_0h4jbgk" sourceRef="Task_0t067xi" targetRef="Task_0ffexh6" />
     <bpmn2:sequenceFlow id="SequenceFlow_1mo4as3" sourceRef="Task_0ffexh6" targetRef="Task_0md9it7" />
-    <bpmn2:sequenceFlow id="SequenceFlow_1q1fba4" sourceRef="Task_0md9it7" targetRef="EndEvent_1" />
+    <bpmn2:sequenceFlow id="SequenceFlow_1q1fba4" sourceRef="Task_0md9it7" targetRef="Task_1sl2bl4" />
     <bpmn2:manualTask id="Task_0md9it7" name="Close Case">
       <bpmn2:extensionElements>
         <camunda:executionListener event="end">
@@ -49,8 +49,7 @@ httpRequest.startTimer(['POST'])
 
 sleep(Math.abs(new Random().nextInt() % 5000) + 650)
 
-httpRequest.observeDuration()
-</bpmn2:script>
+httpRequest.observeDuration()</bpmn2:script>
     </bpmn2:scriptTask>
     <bpmn2:scriptTask id="Task_0ffexh6" name="Process Payment" scriptFormat="groovy">
       <bpmn2:incoming>SequenceFlow_0h4jbgk</bpmn2:incoming>
@@ -64,6 +63,12 @@ money.increment(amount, ['credit-card'])</bpmn2:script>
     </bpmn2:scriptTask>
     <bpmn2:dataStoreReference id="DataStoreReference_0nrh7pm" name="Legacy System 123" />
     <bpmn2:sequenceFlow id="SequenceFlow_0fc3gcj" sourceRef="StartEvent_1" targetRef="Task_0t067xi" />
+    <bpmn2:sequenceFlow id="SequenceFlow_03c5cbh" sourceRef="Task_1sl2bl4" targetRef="EndEvent_1" />
+    <bpmn2:scriptTask id="Task_1sl2bl4" name="execute script" camunda:asyncBefore="true" scriptFormat="groovy">
+      <bpmn2:incoming>SequenceFlow_1q1fba4</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_03c5cbh</bpmn2:outgoing>
+      <bpmn2:script>println 123</bpmn2:script>
+    </bpmn2:scriptTask>
   </bpmn2:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="testProcess">
@@ -74,9 +79,9 @@ money.increment(amount, ['credit-card'])</bpmn2:script>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="_BPMNShape_EndEvent_2" bpmnElement="EndEvent_1">
-        <dc:Bounds x="940" y="204" width="36" height="36" />
+        <dc:Bounds x="1049" y="204" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="913" y="240" width="90" height="20" />
+          <dc:Bounds x="1022" y="240" width="90" height="20" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_0h4jbgk_di" bpmnElement="SequenceFlow_0h4jbgk">
@@ -95,9 +100,9 @@ money.increment(amount, ['credit-card'])</bpmn2:script>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_1q1fba4_di" bpmnElement="SequenceFlow_1q1fba4">
         <di:waypoint x="893" y="222" />
-        <di:waypoint x="940" y="222" />
+        <di:waypoint x="920" y="222" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="916.5" y="200.5" width="0" height="13" />
+          <dc:Bounds x="861.5" y="200.5" width="90" height="13" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="ManualTask_1pvpgu3_di" bpmnElement="Task_0md9it7">
@@ -126,6 +131,16 @@ money.increment(amount, ['credit-card'])</bpmn2:script>
           <dc:Bounds x="478.5" y="200.5" width="0" height="13" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_03c5cbh_di" bpmnElement="SequenceFlow_03c5cbh">
+        <di:waypoint x="1020" y="222" />
+        <di:waypoint x="1049" y="222" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1034.5" y="200.5" width="0" height="13" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ScriptTask_0se1atk_di" bpmnElement="Task_1sl2bl4">
+        <dc:Bounds x="920" y="182" width="100" height="80" />
+      </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
 </bpmn2:definitions>

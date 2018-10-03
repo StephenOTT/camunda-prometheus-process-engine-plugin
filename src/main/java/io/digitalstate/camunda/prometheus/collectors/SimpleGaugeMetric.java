@@ -13,7 +13,7 @@ public class SimpleGaugeMetric {
     private static HashMap<String, Gauge> gauges = new HashMap<>();
     private final String gaugeName;
 
-    SimpleGaugeMetric(String name, String help, List<String> labelNames) {
+    public SimpleGaugeMetric(String name, String help, List<String> labelNames) {
         if (!gauges.containsKey(name)) {
             Gauge.Builder gaugeBuilder = Gauge.build()
                     .namespace("camunda")
@@ -29,55 +29,51 @@ public class SimpleGaugeMetric {
         gaugeName = name;
     }
 
-    SimpleGaugeMetric(String name){
+    public SimpleGaugeMetric(String name){
         this(name, "A basic gauge", null);
     }
 
-    String getGaugeName(){
+    public String getGaugeName(){
         return this.gaugeName;
     }
 
-    void increment(Number incrementValue) {
+    public void increment(Number incrementValue) {
         gauges.get(this.gaugeName).inc(incrementValue.doubleValue());
     }
 
-    void increment() {
+    public void increment() {
         gauges.get(this.gaugeName).inc();
     }
 
-    void increment(Number incrementValue, List<String> labels) {
+    public void increment(Number incrementValue, List<String> labels) {
         gauges.get(this.gaugeName).labels(labels.toArray(new String[0])).inc(incrementValue.doubleValue());
     }
 
-    void increment(List<String> labels) {
+    public void increment(List<String> labels) {
         gauges.get(this.gaugeName).labels(labels.toArray(new String[0])).inc();
     }
 
-    void decrement(Number decrementValue) {
+    public void decrement(Number decrementValue) {
         gauges.get(this.gaugeName).dec(decrementValue.doubleValue());
     }
 
-    void decrement() {
+    public void decrement() {
         gauges.get(this.gaugeName).dec();
     }
 
-    void decrement(Number decrementValue, List<String> labels) {
+    public void decrement(Number decrementValue, List<String> labels) {
         gauges.get(this.gaugeName).labels(labels.toArray(new String[0])).dec(decrementValue.doubleValue());
     }
 
-    void decrement(List<String>labels) {
+    public void decrement(List<String>labels) {
         gauges.get(this.gaugeName).labels(labels.toArray(new String[0])).dec();
     }
 
-    Double getValue(List<String> labels){
+    public Double getValue(List<String> labels){
         return gauges.get(this.gaugeName).labels(labels.toArray(new String[0])).get();
     }
 
-    Double getValue(){
-        return gauges.get(this.gaugeName).get();
-    }
-
-    void  setValue(Number value){
-        gauges.get(this.gaugeName).set(value.doubleValue());
+    public void  setValue(Number value, List<String> labels){
+        gauges.get(this.gaugeName).labels(labels.toArray(new String[0])).set(value.doubleValue());
     }
 }

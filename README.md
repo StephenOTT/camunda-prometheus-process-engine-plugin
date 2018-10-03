@@ -1,8 +1,9 @@
 # Camunda BPM Prometheus Metrics Process Engine Plugin
 
 
-High level prometheus client for Camunda BPM, implemented as a Camunda Process Engine Plugin.
-Clinet provides a series of simple metric classes that can be activated from any scripting or java class within a Camunda execution.
+Camunda Process Engine Plugin that implements a Prometheus Client HTTP Server, Collectors for the Camunda Metric 
+system, Examples of Custom metric collection occuring based on a timer, and reusable collect metric classes that 
+can be used throughout BPMN, CMMN and DMN executions. 
 
 
 WIP
@@ -14,7 +15,9 @@ Currently functional, but still testing
 ![testprocess](./docs/images/testProcess.png)
 ![config 1](./docs/images/config1.png)
 
-# Groovy script Examples:
+# Script examples for BPMN, DMN, CMMN execution: Creating and using Metric within the BPM execution
+ 
+ **Groovy script Examples:**
 
 ```groovy
 import io.digitalstate.camunda.prometheus.collectors.SimpleGaugeMetric;
@@ -88,15 +91,53 @@ Labels are supported and are generally implemented as a optional parameter in th
 <property name="processEnginePlugins">
     <list>
         ...
-        <bean id="prometheusPlugin" class="io.digitalstate.camunda.prometheus.PrometheusProcessMetricsProcessEnginePlugin">
-            <property name="port" value="9999" />
-        </bean>
+            <bean id="prometheusPlugin" class="io.digitalstate.camunda.prometheus.PrometheusProcessMetricsProcessEnginePlugin">
+                 <property name="port" value="9999" />
+                 <property name="pollingFrequencyMills">
+                     <value type="java.lang.Long">5000</value>
+                 </property>
+                 <property name="pollingStartDelayMills">
+                     <value type="java.lang.Long">0</value>
+                 </property>
+                 <property name="queryStartDate" value="2015-10-03T17:59:38+00:00"/>
+            </bean>
         ...
     </list>
 </property>
 ```
 
 The port is the port that the HTTP Server that Prometheus will use to access the metrics.
+
+# Default Metrics
+
+Notes:
+
+1. All default metrics are configured through the plugin properties of `pollingFrequencyMills` and `pollingStartDelayMills`.
+1. All default metrics use a `engine_name` label which is used to identity the unique engine collecting the metrics.
+
+There is two default metrics that are loaded:
+
+## Camunda Engine Metrics (Default metric system/queries provided by Camunda):
+
+All custom metrics as defined in the Camunda Metrics documentation are implemented:
+
+LINK to Camunda Metrics Docs are located here.
+
+Metric names follow the pattern of:
+
+`metric_[metric name using underscores]`
+
+Example:  Using the Camunda metric `activity-instance-start`, the metric would be created as 
+`metric_activity_instance_start`, and would appear in Prometheus / Grafana as `camunda_metric_activity_instance_start`, 
+where the `camunda_` is the namespace of the metric
+
+
+## Camunda Custom Metrics
+
+Custom are currently designed as example usage of metrics.  The Custom metrics implement the following collection:
+
+1. Management Statistics Query of Process Definitions: Generates a Gauge count of Process Definition Key and total 
+process instance count.
 
 
 # Prometheus Setup:
@@ -123,5 +164,4 @@ where `localhost` is the domain of the Camunda server and `9999` is the port con
 1. Add try/catch to all registration and modifications and log errors rather than throwing error.
 1. Add Better Prometheus usage docs
 1. Add screenshots of examples of dashboards
-1. Add further docs on the Simple Metric classes
 1. :exclamation: Add Camunda Startup logic to perform Engine queries for pre-population of initial values/current values of metrics.  Example: If a count or gauge is running that is tracking a "number of dollars collected", if camunda is restarted, we want to recalculate this value on startup so we are not restarting at zero.

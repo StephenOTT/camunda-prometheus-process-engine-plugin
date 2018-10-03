@@ -6,7 +6,7 @@
 
     <groupId>io.digitalstate.camunda.prometheus</groupId>
     <artifactId>camunda-prometheus-process-metrics-process-engine-plugin</artifactId>
-    <version>v0.5</version>
+    <version>v0.6</version>
     <packaging>jar</packaging>
 
     <name>Camunda Prometheus Process Metrics Process Engine Plugin</name>
