@@ -9,7 +9,6 @@ import org.slf4j.LoggerFactory;
 import java.util.Timer;
 import java.util.TimerTask;
 
-
 public class CamundaMetrics {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CamundaMetrics.class);
@@ -37,7 +36,7 @@ public class CamundaMetrics {
                 DmnExecution.collect(processEngine, startDate, DateTimeUtil.now());
                 JobExecutor.collect(processEngine, startDate, DateTimeUtil.now());
             }
-        }, startDelayMills, frequencyMills);
+        }, startDelayMills, frequencyMills); // End of TimerTask
     }
 
 }

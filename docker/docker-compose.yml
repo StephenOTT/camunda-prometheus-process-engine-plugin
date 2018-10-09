@@ -1,0 +1,14 @@
+version: '3'
+services:
+    camunda:
+        build: .
+        environment:
+          - JAVA_OPTS=-Djava.security.egd=file:/dev/./urandom -Duser.timezone=America/Montreal
+        ports:
+          - "8055:8080"
+          - "9999:9999"
+        networks:
+          - prometheus-grafana_monitor-net
+networks:
+    prometheus-grafana_monitor-net:
+        external: true

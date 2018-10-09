@@ -100,6 +100,7 @@ Labels are supported and are generally implemented as a optional parameter in th
                      <value type="java.lang.Long">0</value>
                  </property>
                  <property name="queryStartDate" value="2015-10-03T17:59:38+00:00"/>
+                 <property name="camundaReportingIntervalInSeconds" value="5"/>
             </bean>
         ...
     </list>

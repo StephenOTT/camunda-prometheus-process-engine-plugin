@@ -29,7 +29,13 @@ public class CamundaCustomMetrics {
 
                 LOGGER.debug("Timer Execution: Camunda Custom Metrics");
 
-                BpmnProcessDefinition.collect(processEngine);
+                BpmnProcessDefinition.collectAll(processEngine);
+                UserTasks.collectAll(processEngine);
+                ProcessInstances.collectAll(processEngine);
+                IdentityServiceMetrics.collectAll(processEngine);
+                EventsMetrics.collectAll(processEngine);
+                TimerMetrics.collectAll(processEngine);
+                IncidentMetrics.collectAll(processEngine);
 
             }
         }, startDelayMills, frequencyMills);

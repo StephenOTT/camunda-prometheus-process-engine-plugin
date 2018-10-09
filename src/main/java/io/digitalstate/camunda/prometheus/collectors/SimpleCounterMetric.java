@@ -58,4 +58,9 @@ public class SimpleCounterMetric {
     public Double getValue(List<String> labels){
         return counters.get(this.counterName).labels(labels.toArray(new String[0])).get();
     }
+
+    public void setValue(double value){
+        counters.get(this.counterName);
+    }
+
 }

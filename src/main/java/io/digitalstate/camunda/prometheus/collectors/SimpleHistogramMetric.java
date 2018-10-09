@@ -4,7 +4,6 @@ import io.prometheus.client.Histogram;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -17,7 +16,7 @@ public class SimpleHistogramMetric {
     private final String histogramName;
     private Histogram.Timer requestTimer;
 
-    SimpleHistogramMetric(String name, String help, List<Double> buckets, List<String> labelNames) {
+    public SimpleHistogramMetric(String name, String help, List<Double> buckets, List<String> labelNames) {
         if (!histograms.containsKey(name)) {
             Histogram.Builder summaryBuilder = Histogram.build()
                     .namespace("camunda")
@@ -36,38 +35,38 @@ public class SimpleHistogramMetric {
         histogramName = name;
     }
 
-    SimpleHistogramMetric(String name){
+    public SimpleHistogramMetric(String name){
         this(name, "A basic histogram", null, null);
     }
 
-    void startTimer(List<String> labels){
+    public void startTimer(List<String> labels){
         this.requestTimer = histograms.get(this.histogramName)
                 .labels(labels.toArray(new String[0]))
                 .startTimer();
     }
-    void startTimer(){
+    public void startTimer(){
         Histogram histogram = histograms.get(this.histogramName);
         this.requestTimer = histogram.startTimer();
     }
 
     // Stops Timer
-    void observeDuration(){
+    public void observeDuration(){
         this.requestTimer.observeDuration();
     }
 
-    void observeValue(Number observedValue, List<String> labels){
+    public void observeValue(Number observedValue, List<String> labels){
         Histogram histogram = histograms.get(this.histogramName);
         if (labels != null){
             histogram.labels(labels.toArray(new String[0]));
         }
         histogram.observe(observedValue.doubleValue());
     }
-    void observeValue(Number observedValue){
+    public void observeValue(Number observedValue){
         Histogram histogram = histograms.get(this.histogramName);
         histogram.observe(observedValue.doubleValue());
     }
 
-    String getHistogramName(){
+    public String getHistogramName(){
         return this.histogramName;
     }
 
