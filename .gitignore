@@ -57,3 +57,5 @@ build-reports/
 # Maven
 log/
 target/
+
+.mvn/*/*.jar
