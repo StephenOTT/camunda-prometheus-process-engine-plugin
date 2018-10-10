@@ -25,11 +25,7 @@
                 <!--<ref bean="connectProcessEnginePlugin" />-->
                 <ref bean="spinProcessEnginePlugin" />
                 <bean id="prometheusPlugin" class="io.digitalstate.camunda.prometheus.PrometheusProcessMetricsProcessEnginePlugin">
-                    <!--<property name="classList" value="io.digitalstate.camunda.prometheus.collectors.SimpleGaugeMetric" />-->
                     <property name="port" value="9999" />
-                    <property name="pollingFrequencyMills" value="5000"/>
-                    <property name="pollingStartDelayMills" value="0" />
-                    <property name="queryStartDate" value="2015-10-03T17:59:38+00:00"/>
                     <property name="camundaReportingIntervalInSeconds" value="5"/>
                     <property name="collectorYmlFilePath" value="/prometheus-metrics.yml"/>
                 </bean>

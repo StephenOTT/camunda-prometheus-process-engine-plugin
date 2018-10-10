@@ -35,26 +35,6 @@ public class PrometheusProcessMetricsProcessEnginePlugin extends AbstractProcess
     private String port = "9999";
 
     /**
-     * Polling Frequency interval in Milliseconds: How often should Prometheus Metrics poll the Camunda Metrics System.
-     * This number should ideally be a number slightly greater than the Camunda Reporting Interval.
-     * Default pilling frequency is 900000 which is 15 minutes.
-     */
-    private String pollingFrequencyMills = "900000";
-
-    /**
-     * Start Delay period for Prometheus Metrics Reporting Timer in Milliseconds
-     */
-    private String pollingStartDelayMills = "0";
-
-    /**
-     * The Start Date that Metric data should be queried from.
-     * The default is set to the DateTimeUtil.now() time which would be when the engine started.
-     * This would change for each time the server starts up.
-     * Recommend to manually set a sensible start date if you have longer Reporting Intervals.
-     */
-    private String queryStartDate = DateTimeUtil.now().toString();
-
-    /**
      * The Interval for Camunda Reporting Metrics to execute on the DB.
      * This is overriding the default 15min interval in the Camunda Engine.
      * This plugin defaults to a 900 second interval, which is 15 minutes.
@@ -119,24 +99,6 @@ public class PrometheusProcessMetricsProcessEnginePlugin extends AbstractProcess
     }
     public String getPort(){
         return this.port;
-    }
-    public void setPollingFrequencyMills(String frequencyMills){
-        this.pollingFrequencyMills = frequencyMills;
-    }
-    public String getPollingFrequencyMills(){
-        return this.pollingFrequencyMills;
-    }
-    public void setPollingStartDelayMills(String delayMills){
-        this.pollingStartDelayMills = delayMills;
-    }
-    public String getPollingStartDelayMills(){
-        return this.pollingStartDelayMills;
-    }
-    public void setQueryStartDate(String startDate){
-        this.queryStartDate = DateTimeUtil.parseDateTime(startDate).toString();
-    }
-    public String getQueryStartDate(){
-        return this.queryStartDate;
     }
     public String getCamundaReportingIntervalInSeconds(){
         return this.camundaReportingIntervalInSeconds;

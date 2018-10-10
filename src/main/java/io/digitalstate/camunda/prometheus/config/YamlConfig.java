@@ -5,6 +5,9 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
+import io.digitalstate.camunda.prometheus.config.yaml.CustomMetricsConfig;
+import io.digitalstate.camunda.prometheus.config.yaml.SystemMetricsConfig;
+import io.digitalstate.camunda.prometheus.config.yaml.YamlFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

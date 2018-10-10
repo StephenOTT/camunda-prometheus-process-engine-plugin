@@ -1,6 +1,6 @@
 package io.digitalstate.camunda.prometheus.collectors.custom;
 
-import io.digitalstate.camunda.prometheus.config.CustomMetricsConfig;
+import io.digitalstate.camunda.prometheus.config.yaml.CustomMetricsConfig;
 import org.camunda.bpm.engine.ProcessEngine;
 
 import org.slf4j.Logger;

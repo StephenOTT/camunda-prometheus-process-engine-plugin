@@ -1,4 +1,4 @@
-package io.digitalstate.camunda.prometheus.config;
+package io.digitalstate.camunda.prometheus.config.yaml;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package io.digitalstate.camunda.prometheus.config;
+package io.digitalstate.camunda.prometheus.config.yaml;
 
 import org.camunda.bpm.engine.impl.calendar.DateTimeUtil;
 import org.joda.time.DateTime;

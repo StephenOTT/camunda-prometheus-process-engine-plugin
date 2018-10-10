@@ -1,4 +1,4 @@
-package io.digitalstate.camunda.prometheus.config;
+package io.digitalstate.camunda.prometheus.config.yaml;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

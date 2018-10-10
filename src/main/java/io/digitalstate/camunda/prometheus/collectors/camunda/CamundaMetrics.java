@@ -1,6 +1,6 @@
 package io.digitalstate.camunda.prometheus.collectors.camunda;
 
-import io.digitalstate.camunda.prometheus.config.SystemMetricsConfig;
+import io.digitalstate.camunda.prometheus.config.yaml.SystemMetricsConfig;
 import org.camunda.bpm.engine.ProcessEngine;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;

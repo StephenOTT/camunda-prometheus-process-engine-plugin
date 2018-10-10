@@ -1,0 +1,52 @@
+# Camunda Prometheus Metrics configuration
+# each object is a timer configuration
+---
+system:
+- collector: io.digitalstate.camunda.prometheus.collectors.camunda.BpmnExecution
+  enable: true
+  startDate: 2015-10-03T17:59:38+00:00
+  endDate: now
+  startDelay: 0
+  frequency: 5000
+- collector: io.digitalstate.camunda.prometheus.collectors.camunda.DmnExecution
+  enable: true
+  startDate: 2015-10-03T17:59:38+00:00
+  endDate: now
+  startDelay: 0
+  frequency: 5000
+- collector: io.digitalstate.camunda.prometheus.collectors.camunda.JobExecutor
+  enable: true
+  startDate: 2015-10-03T17:59:38+00:00
+  endDate: now
+  startDelay: 0
+  frequency: 5000
+
+custom:
+- collector: /customcollectors/UserTasks.groovy
+  enable: true
+  startDelay: 0
+  frequency: 5000
+- collector: /customcollectors/BpmnProcessDefinition.groovy
+  enable: true
+  startDelay: 0
+  frequency: 5000
+- collector: /customcollectors/EventsMetrics.groovy
+  enable: true
+  startDelay: 0
+  frequency: 5000
+- collector: /customcollectors/IdentityServiceMetrics.groovy
+  enable: true
+  startDelay: 0
+  frequency: 5000
+- collector: /customcollectors/IncidentMetrics.groovy
+  enable: true
+  startDelay: 0
+  frequency: 5000
+- collector: /customcollectors/ProcessInstances.groovy
+  enable: true
+  startDelay: 0
+  frequency: 5000
+- collector: /customcollectors/TimerMetrics.groovy
+  enable: true
+  startDelay: 0
+  frequency: 5000
