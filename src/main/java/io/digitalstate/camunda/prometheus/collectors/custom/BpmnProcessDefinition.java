@@ -8,6 +8,8 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Example usage of creating a custom metric that starts at runtime and performs a timed query of the engine
@@ -16,6 +18,16 @@ import java.util.List;
 public class BpmnProcessDefinition {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(BpmnProcessDefinition.class);
+
+    public BpmnProcessDefinition(ProcessEngine processEngine, long startDelayMills, long frequencyMills){
+        String timerName = this.getClass().getName() + " timer";
+        new Timer(timerName, true).schedule(new TimerTask() {
+            @Override
+            public void run() {
+                collectAll(processEngine);
+            }
+        }, startDelayMills, frequencyMills);
+    }
 
     /**
      * Collected Process Definition Instance counts using the Management Service's Process Definition Statistics Query

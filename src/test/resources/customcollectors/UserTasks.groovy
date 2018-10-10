@@ -1,40 +1,21 @@
-package io.digitalstate.camunda.prometheus.collectors.custom;
+package customcollectors;
 
 import io.digitalstate.camunda.prometheus.collectors.SimpleGaugeMetric;
 import org.camunda.bpm.engine.ProcessEngine;
-import org.camunda.bpm.engine.management.ProcessDefinitionStatistics;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  * User Task Collectors
  */
 
-class UserTasks {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(UserTasks.class);
-
-    public UserTasks(ProcessEngine processEngine, long startDelayMills, long frequencyMills){
-        String timerName = this.getClass().getName() + " timer";
-        new Timer(timerName, true).schedule(new TimerTask() {
-            @Override
-            public void run() {
-                collectAll(processEngine);
-            }
-        }, startDelayMills, frequencyMills);
-    }
+collectAll((ProcessEngine)processEngine, (Logger)LOGGER)
 
     /**
      * Collect Count of active user tasks.
      * @param processEngine
      * @param engineName
      */
-    public static void collectActiveUserTasksCount(ProcessEngine processEngine, String engineName){
+    static void collectActiveUserTasksCount(ProcessEngine processEngine, String engineName, Logger LOG){
         SimpleGaugeMetric counter = new SimpleGaugeMetric(
                 "active_user_tasks_count",
                 "The number of active user tasks",
@@ -43,7 +24,7 @@ class UserTasks {
 
         long count = processEngine.getTaskService().createTaskQuery().active().count();
 
-        LOGGER.debug("Collecting Metric Number of Active User Tasks: " + count);
+        LOG.debug("Collecting Metric Number of Active User Tasks: " + count);
 
         counter.setValue(count, Arrays.asList(engineName));
 
@@ -54,7 +35,7 @@ class UserTasks {
      * @param processEngine
      * @param engineName
      */
-    public static void collectUnassignedActiveUserTasksCount(ProcessEngine processEngine, String engineName){
+    static void collectUnassignedActiveUserTasksCount(ProcessEngine processEngine, String engineName, Logger LOG){
         SimpleGaugeMetric counter = new SimpleGaugeMetric(
                 "active_unassigned_user_tasks_count",
                 "The number of unassigned active user tasks",
@@ -63,7 +44,7 @@ class UserTasks {
 
         long count = processEngine.getTaskService().createTaskQuery().active().taskUnassigned().count();
 
-        LOGGER.debug("Collecting Metric Number of Unassigned Active User Tasks: " + count);
+        LOG.debug("Collecting Metric Number of Unassigned Active User Tasks: " + count);
 
         counter.setValue(count, Arrays.asList(engineName));
 
@@ -74,7 +55,7 @@ class UserTasks {
      * @param processEngine
      * @param engineName
      */
-    public static void collectSuspendedUserTasksCount(ProcessEngine processEngine, String engineName){
+    static void collectSuspendedUserTasksCount(ProcessEngine processEngine, String engineName, Logger LOG){
         SimpleGaugeMetric counter = new SimpleGaugeMetric(
                 "suspended_user_tasks_count",
                 "The number of suspended user tasks where the task is suspended because the process is suspended.",
@@ -83,7 +64,7 @@ class UserTasks {
 
         long count = processEngine.getTaskService().createTaskQuery().suspended().count();
 
-        LOGGER.debug("Collecting Metric Number of Suspended User Tasks: " + count);
+        LOG.debug("Collecting Metric Number of Suspended User Tasks: " + count);
 
         counter.setValue(count, Arrays.asList(engineName));
 
@@ -93,12 +74,11 @@ class UserTasks {
      * Collects all collectors defined in this class.
      * @param processEngine
      */
-    public static void collectAll(ProcessEngine processEngine){
+     static void collectAll(ProcessEngine processEngine, Logger LOG){
         String engineName = processEngine.getName();
 
-        collectActiveUserTasksCount(processEngine, engineName);
-        collectUnassignedActiveUserTasksCount(processEngine, engineName);
-        collectSuspendedUserTasksCount(processEngine, engineName);
+        collectActiveUserTasksCount(processEngine, engineName, LOG);
+        collectUnassignedActiveUserTasksCount(processEngine, engineName, LOG);
+        collectSuspendedUserTasksCount(processEngine, engineName, LOG);
 
     }
-}

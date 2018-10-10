@@ -1,34 +1,18 @@
-package io.digitalstate.camunda.prometheus.collectors.custom;
+package customcollectors
 
 import io.digitalstate.camunda.prometheus.collectors.SimpleGaugeMetric;
 import org.camunda.bpm.engine.ProcessEngine;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import java.util.Arrays;
-import java.util.Timer;
-import java.util.TimerTask;
 
-public class IncidentMetrics {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(IncidentMetrics.class);
-
-    public IncidentMetrics(ProcessEngine processEngine, long startDelayMills, long frequencyMills){
-        String timerName = this.getClass().getName() + " timer";
-        new Timer(timerName, true).schedule(new TimerTask() {
-            @Override
-            public void run() {
-                collectAll(processEngine);
-            }
-        }, startDelayMills, frequencyMills);
-    }
+collectAll((ProcessEngine)processEngine, (Logger)LOGGER)
 
     /**
      * Collect Count of open incidents.
      * @param processEngine
      * @param engineName
      */
-    public static void collectOpenIncidentCount(ProcessEngine processEngine, String engineName){
+    static void collectOpenIncidentCount(ProcessEngine processEngine, String engineName, Logger LOG){
         SimpleGaugeMetric gauge = new SimpleGaugeMetric(
                 "open_incidents_count",
                 "The number of incidents currently open.",
@@ -39,7 +23,7 @@ public class IncidentMetrics {
                 .open()
                 .count();
 
-        LOGGER.debug("Collecting Metric Number of open incidents " + count);
+        LOG.debug("Collecting Metric Number of open incidents " + count);
 
         gauge.setValue(count, Arrays.asList(engineName));
     }
@@ -49,7 +33,7 @@ public class IncidentMetrics {
      * @param processEngine
      * @param engineName
      */
-    public static void collectResolvedIncidentCount(ProcessEngine processEngine, String engineName){
+    static void collectResolvedIncidentCount(ProcessEngine processEngine, String engineName, Logger LOG){
         SimpleGaugeMetric gauge = new SimpleGaugeMetric(
                 "resolved_incidents_count",
                 "The number of incidents resolved.",
@@ -60,7 +44,7 @@ public class IncidentMetrics {
                 .resolved()
                 .count();
 
-        LOGGER.debug("Collecting Metric Number of resolved incidents " + count);
+        LOG.debug("Collecting Metric Number of resolved incidents " + count);
 
         gauge.setValue(count, Arrays.asList(engineName));
     }
@@ -70,7 +54,7 @@ public class IncidentMetrics {
      * @param processEngine
      * @param engineName
      */
-    public static void collectDeletedIncidentCount(ProcessEngine processEngine, String engineName){
+    static void collectDeletedIncidentCount(ProcessEngine processEngine, String engineName, Logger LOG){
         SimpleGaugeMetric gauge = new SimpleGaugeMetric(
                 "deleted_incidents_count",
                 "The number of incidents deleted.",
@@ -81,7 +65,7 @@ public class IncidentMetrics {
                 .deleted()
                 .count();
 
-        LOGGER.debug("Collecting Metric Number of deleted incidents " + count);
+        LOG.debug("Collecting Metric Number of deleted incidents " + count);
 
         gauge.setValue(count, Arrays.asList(engineName));
     }
@@ -91,11 +75,10 @@ public class IncidentMetrics {
      * Collects all collectors defined in this class.
      * @param processEngine
      */
-    public static void collectAll(ProcessEngine processEngine){
+    static void collectAll(ProcessEngine processEngine, Logger LOG){
         String engineName = processEngine.getName();
 
-        collectOpenIncidentCount(processEngine, engineName);
-        collectDeletedIncidentCount(processEngine, engineName);
-        collectResolvedIncidentCount(processEngine, engineName);
+        collectOpenIncidentCount(processEngine, engineName, LOG);
+        collectDeletedIncidentCount(processEngine, engineName, LOG);
+        collectResolvedIncidentCount(processEngine, engineName, LOG);
     }
-}

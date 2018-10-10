@@ -1,13 +1,14 @@
 package io.digitalstate.camunda.prometheus.collectors.camunda;
 
+import io.digitalstate.camunda.prometheus.config.SystemMetricsConfig;
 import org.camunda.bpm.engine.ProcessEngine;
-import org.camunda.bpm.engine.impl.calendar.DateTimeUtil;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Timer;
-import java.util.TimerTask;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.util.List;
 
 public class CamundaMetrics {
 
@@ -16,27 +17,46 @@ public class CamundaMetrics {
     /**
      * Constructor for starting the Prometheus Camunda Metrics Collectors
      * @param processEngine
-     * @param frequencyMills
-     * @param startDelayMills
-     * @param startDate
      */
-    public CamundaMetrics(ProcessEngine processEngine, long frequencyMills, long startDelayMills, DateTime startDate){
+    public CamundaMetrics(List<SystemMetricsConfig> systemMetricsConfigs, ProcessEngine processEngine){
 
         LOGGER.info("Starting instance of Prometheus Camunda Metrics");
 
-        Timer timer = new Timer("Camunda Prometheus Metrics", true);
+        systemMetricsConfigs.forEach(config ->
+                processSystemMetricConfig(config, processEngine)
+        );
+//        new BpmnExecution(processEngine, startDate, DateTimeUtil.now(), startDelayMills, frequencyMills);
+//        new DmnExecution(processEngine, startDate, DateTimeUtil.now(), startDelayMills, frequencyMills);
+//        new JobExecutor(processEngine, startDate, DateTimeUtil.now(), startDelayMills, frequencyMills);
+    }
 
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
+    /**
+     *
+     * @param config
+     * @param processEngine
+     */
+    private void processSystemMetricConfig(SystemMetricsConfig config, ProcessEngine processEngine){
+        if (config.getEnable()){
+            try {
+                Constructor<?> collectorConstructor = config.getCollector()
+                        .getConstructor(ProcessEngine.class, DateTime.class, DateTime.class, long.class, long.class);
 
-                LOGGER.debug("Timer Execution: Executing Prometheus BPMN, DMN, and Job Executor Collections.");
+                collectorConstructor.newInstance(processEngine,
+                        config.getStartDate(),
+                        config.getEndDate(),
+                        config.getStartDelay(),
+                        config.getFrequency());
 
-                BpmnExecution.collect(processEngine, startDate, DateTimeUtil.now());
-                DmnExecution.collect(processEngine, startDate, DateTimeUtil.now());
-                JobExecutor.collect(processEngine, startDate, DateTimeUtil.now());
+            } catch (NoSuchMethodException e) {
+                LOGGER.error("Cant Find Method", e);
+            } catch (IllegalAccessException e) {
+                LOGGER.error("Illegal Access", e);
+            } catch (InstantiationException e) {
+                LOGGER.error("Could not Instantiate", e);
+            } catch (InvocationTargetException e) {
+                LOGGER.error("Invocation Target Exception", e);
             }
-        }, startDelayMills, frequencyMills); // End of TimerTask
+        }
     }
 
 }

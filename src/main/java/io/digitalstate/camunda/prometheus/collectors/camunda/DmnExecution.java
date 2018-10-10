@@ -9,10 +9,24 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
+import java.util.Timer;
+import java.util.TimerTask;
 
 class DmnExecution {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DmnExecution.class);
+
+    public DmnExecution(ProcessEngine processEngine, DateTime startDate, DateTime endDate, long startDelayMills, long frequencyMills){
+        String timerName = this.getClass().getName() + " timer";
+        new Timer(timerName, true).schedule(new TimerTask() {
+            @Override
+            public void run() {
+                collectAll(processEngine, startDate, endDate);
+            }
+        }, startDelayMills, frequencyMills);
+
+        LOGGER.info("Created Prometheus Metrics Collection Timer for: " + getClass().getName());
+    }
 
     /**
      * Collects the number of decision elements executed during evaluation of DMN decision tables. For one table, this is calculated as the number of clauses multiplied by the number of rules.
@@ -21,7 +35,7 @@ class DmnExecution {
      * @param startDate
      * @param endDate
      */
-    static void collectExecutedDecisionElements(MetricsQuery metricsQuery, String engineName, DateTime startDate, DateTime endDate){
+    public static void collectExecutedDecisionElements(MetricsQuery metricsQuery, String engineName, DateTime startDate, DateTime endDate){
         SimpleGaugeMetric counter = new SimpleGaugeMetric(
                 "metric_executed_decision_elements",
                 "The number of decision elements executed during evaluation of DMN decision tables. For one table, this is calculated as the number of clauses multiplied by the number of rules.",
@@ -44,7 +58,7 @@ class DmnExecution {
      * @param startDate
      * @param endDate
      */
-    static void collect(ProcessEngine processEngine, DateTime startDate, DateTime endDate){
+    public static void collectAll(ProcessEngine processEngine, DateTime startDate, DateTime endDate){
         MetricsQuery metricsQuery =  processEngine.getManagementService().createMetricsQuery();
         String engineName = processEngine.getName();
 

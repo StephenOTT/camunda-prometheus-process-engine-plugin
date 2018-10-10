@@ -9,10 +9,24 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
+import java.util.Timer;
+import java.util.TimerTask;
 
 class BpmnExecution {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(BpmnExecution.class);
+
+    public BpmnExecution(ProcessEngine processEngine, DateTime startDate, DateTime endDate, long startDelayMills, long frequencyMills){
+        String timerName = this.getClass().getName() + " timer";
+        new Timer(timerName, true).schedule(new TimerTask() {
+            @Override
+            public void run() {
+                collectAll(processEngine, startDate, endDate);
+            }
+        }, startDelayMills, frequencyMills);
+
+        LOGGER.info("Created Prometheus Metrics Collection Timer for: " + getClass().getName());
+    }
 
     /**
      * Collects the number of activity instances started. This is also known as flow node instances (FNI).
@@ -21,7 +35,7 @@ class BpmnExecution {
      * @param startDate start date for query
      * @param endDate end date for query
      */
-    static void collectActivityInstancesStarted(MetricsQuery metricsQuery, String engineName, DateTime startDate, DateTime endDate){
+    public static void collectActivityInstancesStarted(MetricsQuery metricsQuery, String engineName, DateTime startDate, DateTime endDate){
         SimpleGaugeMetric counter = new SimpleGaugeMetric(
                 "metric_activity_instance_start",
                 "The number of activity instances started. This is also known as flow node instances (FNI).",
@@ -46,7 +60,7 @@ class BpmnExecution {
      * @param startDate start date for query
      * @param endDate end date for query
      */
-    static void collectActivityInstancesEnded(MetricsQuery metricsQuery, String engineName, DateTime startDate, DateTime endDate){
+    public static void collectActivityInstancesEnded(MetricsQuery metricsQuery, String engineName, DateTime startDate, DateTime endDate){
         SimpleGaugeMetric counter = new SimpleGaugeMetric(
                 "metric_activity_instance_end",
                 "The number of activity instances ended.",
@@ -63,11 +77,11 @@ class BpmnExecution {
 
     /**
      * Collects all collectors defined in this class
-     * @param processEngine The Process engine to collect from
+     * @param processEngine The Process engine to collectAll from
      * @param startDate The DataTime to use as a Start Date filter
      * @param endDate The DateTime to use as a End Date filter
      */
-    static void collect(ProcessEngine processEngine, DateTime startDate, DateTime endDate){
+    public static void collectAll(ProcessEngine processEngine, DateTime startDate, DateTime endDate){
         MetricsQuery metricsQuery =  processEngine.getManagementService().createMetricsQuery();
         String engineName = processEngine.getName();
 

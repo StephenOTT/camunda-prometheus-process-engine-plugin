@@ -17,6 +17,16 @@ public class ProcessInstances {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ProcessInstances.class);
 
+    public ProcessInstances(ProcessEngine processEngine, long startDelayMills, long frequencyMills){
+        String timerName = this.getClass().getName() + " timer";
+        new Timer(timerName, true).schedule(new TimerTask() {
+            @Override
+            public void run() {
+                collectAll(processEngine);
+            }
+        }, startDelayMills, frequencyMills);
+    }
+
     /**
      * Collect Counts for Active Process instances for each Process Definition Key
      * @param processEngine

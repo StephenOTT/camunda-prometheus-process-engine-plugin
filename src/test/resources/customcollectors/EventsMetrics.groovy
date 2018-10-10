@@ -1,34 +1,17 @@
-package io.digitalstate.camunda.prometheus.collectors.custom;
+package customcollectors
 
 import io.digitalstate.camunda.prometheus.collectors.SimpleGaugeMetric;
 import org.camunda.bpm.engine.ProcessEngine;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import java.util.Arrays;
-import java.util.Timer;
-import java.util.TimerTask;
-
-public class EventsMetrics {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(EventsMetrics.class);
-
-    public EventsMetrics(ProcessEngine processEngine, long startDelayMills, long frequencyMills){
-        String timerName = this.getClass().getName() + " timer";
-        new Timer(timerName, true).schedule(new TimerTask() {
-            @Override
-            public void run() {
-                collectAll(processEngine);
-            }
-        }, startDelayMills, frequencyMills);
-    }
+collectAll((ProcessEngine)processEngine, (Logger)LOGGER)
 
     /**
      * Collect Count of message event subscriptions.
      * @param processEngine
      * @param engineName
      */
-    public static void collectMessageEventSubscriptionCount(ProcessEngine processEngine, String engineName){
+    static void collectMessageEventSubscriptionCount(ProcessEngine processEngine, String engineName, Logger LOG){
         SimpleGaugeMetric counter = new SimpleGaugeMetric(
                 "message_event_subscription_count",
                 "The number of message event subscriptions.",
@@ -40,7 +23,7 @@ public class EventsMetrics {
                 .eventType("message")
                 .count();
 
-        LOGGER.debug("Collecting Metric Number of message event subscriptions: " + count);
+        LOG.debug("Collecting Metric Number of message event subscriptions: " + count);
 
         counter.setValue(count, Arrays.asList(engineName));
     }
@@ -50,7 +33,7 @@ public class EventsMetrics {
      * @param processEngine
      * @param engineName
      */
-    public static void collectSignalEventSubscriptionCount(ProcessEngine processEngine, String engineName){
+    static void collectSignalEventSubscriptionCount(ProcessEngine processEngine, String engineName, Logger LOG){
         SimpleGaugeMetric counter = new SimpleGaugeMetric(
                 "signal_event_subscription_count",
                 "The number of signal event subscriptions.",
@@ -62,7 +45,7 @@ public class EventsMetrics {
                 .eventType("signal")
                 .count();
 
-        LOGGER.debug("Collecting Metric Number of signal event subscriptions: " + count);
+        LOG.debug("Collecting Metric Number of signal event subscriptions: " + count);
 
         counter.setValue(count, Arrays.asList(engineName));
     }
@@ -72,7 +55,7 @@ public class EventsMetrics {
      * @param processEngine
      * @param engineName
      */
-    public static void collectCompensationEventSubscriptionCount(ProcessEngine processEngine, String engineName){
+    static void collectCompensationEventSubscriptionCount(ProcessEngine processEngine, String engineName, Logger LOG){
         SimpleGaugeMetric counter = new SimpleGaugeMetric(
                 "compensation_event_subscription_count",
                 "The number of compensation event subscriptions.",
@@ -84,7 +67,7 @@ public class EventsMetrics {
                 .eventType("compensation")
                 .count();
 
-        LOGGER.debug("Collecting Metric Number of compensation event subscriptions: " + count);
+        LOG.debug("Collecting Metric Number of compensation event subscriptions: " + count);
 
         counter.setValue(count, Arrays.asList(engineName));
     }
@@ -94,7 +77,7 @@ public class EventsMetrics {
      * @param processEngine
      * @param engineName
      */
-    public static void collectConditionalEventSubscriptionCount(ProcessEngine processEngine, String engineName){
+    static void collectConditionalEventSubscriptionCount(ProcessEngine processEngine, String engineName, Logger LOG){
         SimpleGaugeMetric counter = new SimpleGaugeMetric(
                 "conditional_event_subscription_count",
                 "The number of conditional event subscriptions.",
@@ -106,7 +89,7 @@ public class EventsMetrics {
                 .eventType("conditional")
                 .count();
 
-        LOGGER.debug("Collecting Metric Number of conditional event subscriptions: " + count);
+        LOG.debug("Collecting Metric Number of conditional event subscriptions: " + count);
 
         counter.setValue(count, Arrays.asList(engineName));
     }
@@ -115,12 +98,11 @@ public class EventsMetrics {
      * Collects all collectors defined in this class.
      * @param processEngine
      */
-    public static void collectAll(ProcessEngine processEngine){
+    static void collectAll(ProcessEngine processEngine, Logger LOG){
         String engineName = processEngine.getName();
 
-        collectMessageEventSubscriptionCount(processEngine, engineName);
-        collectSignalEventSubscriptionCount(processEngine, engineName);
-        collectCompensationEventSubscriptionCount(processEngine, engineName);
-        collectConditionalEventSubscriptionCount(processEngine, engineName);
+        collectMessageEventSubscriptionCount(processEngine, engineName, LOG);
+        collectSignalEventSubscriptionCount(processEngine, engineName, LOG);
+        collectCompensationEventSubscriptionCount(processEngine, engineName, LOG);
+        collectConditionalEventSubscriptionCount(processEngine, engineName, LOG);
     }
-}

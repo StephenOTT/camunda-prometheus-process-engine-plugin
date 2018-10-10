@@ -9,10 +9,24 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
+import java.util.Timer;
+import java.util.TimerTask;
 
 class JobExecutor {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(JobExecutor.class);
+
+    public JobExecutor(ProcessEngine processEngine, DateTime startDate, DateTime endDate, long startDelayMills, long frequencyMills){
+        String timerName = this.getClass().getName() + " timer";
+        new Timer(timerName, true).schedule(new TimerTask() {
+            @Override
+            public void run() {
+                collectAll(processEngine, startDate, endDate);
+            }
+        }, startDelayMills, frequencyMills);
+
+        LOGGER.info("Created Prometheus Metrics Collection Timer for: " + getClass().getName());
+    }
 
     /**
      * Collects the number of jobs successfully executed.
@@ -21,7 +35,7 @@ class JobExecutor {
      * @param startDate
      * @param endDate
      */
-    static void collectJobSuccessful(MetricsQuery metricsQuery, String engineName, DateTime startDate, DateTime endDate){
+    public static void collectJobSuccessful(MetricsQuery metricsQuery, String engineName, DateTime startDate, DateTime endDate){
         SimpleGaugeMetric counter = new SimpleGaugeMetric(
                 "metric_job_successful",
                 "The number of jobs successfully executed.",
@@ -45,7 +59,7 @@ class JobExecutor {
      * @param startDate
      * @param endDate
      */
-    static void collectJobFailed(MetricsQuery metricsQuery, String engineName, DateTime startDate, DateTime endDate){
+    public static void collectJobFailed(MetricsQuery metricsQuery, String engineName, DateTime startDate, DateTime endDate){
         SimpleGaugeMetric counter = new SimpleGaugeMetric(
                 "metric_job_failed",
                 "The number of jobs that failed to execute and that were submitted for retry. Every failed attempt to execute a job is counted.",
@@ -69,7 +83,7 @@ class JobExecutor {
      * @param startDate
      * @param endDate
      */
-    static void collectJobAcquisitionAttempt(MetricsQuery metricsQuery, String engineName, DateTime startDate, DateTime endDate){
+    public static void collectJobAcquisitionAttempt(MetricsQuery metricsQuery, String engineName, DateTime startDate, DateTime endDate){
         SimpleGaugeMetric counter = new SimpleGaugeMetric(
                 "metric_job_acquisition_attempt",
                 "The number of job acquisition cycles performed.",
@@ -93,7 +107,7 @@ class JobExecutor {
      * @param startDate
      * @param endDate
      */
-    static void collectJobAcquiredSuccess(MetricsQuery metricsQuery, String engineName, DateTime startDate, DateTime endDate){
+    public static void collectJobAcquiredSuccess(MetricsQuery metricsQuery, String engineName, DateTime startDate, DateTime endDate){
         SimpleGaugeMetric counter = new SimpleGaugeMetric(
                 "metric_job_acquired_success",
                 "The number of jobs that were acquired and successfully locked for execution.",
@@ -117,7 +131,7 @@ class JobExecutor {
      * @param startDate
      * @param endDate
      */
-    static void collectJobAcquiredFailure(MetricsQuery metricsQuery, String engineName, DateTime startDate, DateTime endDate){
+    public static void collectJobAcquiredFailure(MetricsQuery metricsQuery, String engineName, DateTime startDate, DateTime endDate){
         SimpleGaugeMetric counter = new SimpleGaugeMetric(
                 "metric_job_acquired_failure",
                 "The number of jobs that were acquired but could not be locked for execution due to another job executor locking/executing the jobs in parallel.",
@@ -141,7 +155,7 @@ class JobExecutor {
      * @param startDate
      * @param endDate
      */
-    static void collectJobExecutionRejected(MetricsQuery metricsQuery, String engineName, DateTime startDate, DateTime endDate){
+    public static void collectJobExecutionRejected(MetricsQuery metricsQuery, String engineName, DateTime startDate, DateTime endDate){
         SimpleGaugeMetric counter = new SimpleGaugeMetric(
                 "metric_job_execution_rejected",
                 "The number of successfully acquired jobs submitted for execution that were rejected due to saturated execution resources. This is an indicator that the execution thread pool's job queue is full.",
@@ -165,7 +179,7 @@ class JobExecutor {
      * @param startDate
      * @param endDate
      */
-    static void collectJobLockedExclusive(MetricsQuery metricsQuery, String engineName, DateTime startDate, DateTime endDate){
+    public static void collectJobLockedExclusive(MetricsQuery metricsQuery, String engineName, DateTime startDate, DateTime endDate){
         SimpleGaugeMetric counter = new SimpleGaugeMetric(
                 "metric_job_locked_exclusive",
                 "The number of exclusive jobs that are immediately locked and executed.",
@@ -188,7 +202,7 @@ class JobExecutor {
      * @param startDate
      * @param endDate
      */
-    static void collect(ProcessEngine processEngine, DateTime startDate, DateTime endDate){
+    public static void collectAll(ProcessEngine processEngine, DateTime startDate, DateTime endDate){
         MetricsQuery metricsQuery =  processEngine.getManagementService().createMetricsQuery();
         String engineName = processEngine.getName();
 

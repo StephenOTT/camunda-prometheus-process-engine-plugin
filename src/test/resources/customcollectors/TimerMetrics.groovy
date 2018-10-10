@@ -1,34 +1,18 @@
-package io.digitalstate.camunda.prometheus.collectors.custom;
+package customcollectors
 
 import io.digitalstate.camunda.prometheus.collectors.SimpleGaugeMetric;
 import org.camunda.bpm.engine.ProcessEngine;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import java.util.Arrays;
-import java.util.Timer;
-import java.util.TimerTask;
 
-public class TimerMetrics {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(TimerMetrics.class);
-
-    public TimerMetrics(ProcessEngine processEngine, long startDelayMills, long frequencyMills){
-        String timerName = this.getClass().getName() + " timer";
-        new Timer(timerName, true).schedule(new TimerTask() {
-            @Override
-            public void run() {
-                collectAll(processEngine);
-            }
-        }, startDelayMills, frequencyMills);
-    }
+collectAll((ProcessEngine)processEngine, (Logger)LOGGER)
 
     /**
      * Collect Count of active timer jobs.
      * @param processEngine
      * @param engineName
      */
-    public static void collectActiveTimerJobCount(ProcessEngine processEngine, String engineName){
+    static void collectActiveTimerJobCount(ProcessEngine processEngine, String engineName, Logger LOG){
         SimpleGaugeMetric counter = new SimpleGaugeMetric(
                 "active_timer_job_count",
                 "The number of active timer jobs.",
@@ -41,7 +25,7 @@ public class TimerMetrics {
                 .timers()
                 .count();
 
-        LOGGER.debug("Collecting Metric Number of active timer jobs: " + count);
+        LOG.debug("Collecting Metric Number of active timer jobs: " + count);
 
         counter.setValue(count, Arrays.asList(engineName));
     }
@@ -51,7 +35,7 @@ public class TimerMetrics {
      * @param processEngine
      * @param engineName
      */
-    public static void collectSuspendedTimerJobCount(ProcessEngine processEngine, String engineName){
+    static void collectSuspendedTimerJobCount(ProcessEngine processEngine, String engineName, Logger LOG){
         SimpleGaugeMetric counter = new SimpleGaugeMetric(
                 "suspended_timer_job_count",
                 "The number of suspended timer jobs.",
@@ -64,7 +48,7 @@ public class TimerMetrics {
                 .timers()
                 .count();
 
-        LOGGER.debug("Collecting Metric Number of suspended timer jobs: " + count);
+        LOG.debug("Collecting Metric Number of suspended timer jobs: " + count);
 
         counter.setValue(count, Arrays.asList(engineName));
     }
@@ -73,10 +57,9 @@ public class TimerMetrics {
      * Collects all collectors defined in this class.
      * @param processEngine
      */
-    public static void collectAll(ProcessEngine processEngine){
+    static void collectAll(ProcessEngine processEngine, Logger LOG){
         String engineName = processEngine.getName();
 
-        collectActiveTimerJobCount(processEngine, engineName);
-        collectSuspendedTimerJobCount(processEngine, engineName);
+        collectActiveTimerJobCount(processEngine, engineName, LOG);
+        collectSuspendedTimerJobCount(processEngine, engineName, LOG);
     }
-}
