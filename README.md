@@ -5,7 +5,7 @@ Camunda Process Engine Plugin that implements a Prometheus Client HTTP Server, C
 system, and a Groovy based custom collector system allowing yml based configuration of custom collectors that are based on groovy scripts.
 
 
-Still a working in progress but fully functional.
+:exclamation: Still a work in progress, but fully functional.
 
 
 ![basic 1](./docs/images/camunda-grafana-metrics-2.png)
