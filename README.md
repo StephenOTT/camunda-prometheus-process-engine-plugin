@@ -1,19 +1,29 @@
-# Camunda BPM Prometheus Metrics Process Engine Plugin
+# Camunda BPM Prometheus Process Engine Plugin
 
 
 Camunda Process Engine Plugin that implements a Prometheus Client HTTP Server, Collectors for the Camunda Metric 
-system, Examples of Custom metric collection occuring based on a timer, and reusable collect metric classes that 
-can be used throughout BPMN, CMMN and DMN executions. 
+system, and a Groovy based custom collector system allowing yml based configuration of custom collectors that are based on groovy scripts.
 
 
-WIP
-
-Currently functional, but still testing
+Still a working in progress but fully functional.
 
 
 ![basic 1](./docs/images/camunda-grafana-metrics-2.png)
 ![testprocess](./docs/images/testProcess.png)
 ![config 1](./docs/images/config1.png)
+
+
+# How to Install Plugin into Camunda
+
+TODO: Add more details
+
+1. Download Jar with Deps or Add Dep into your build
+
+2. Configure plugin
+
+3. Configure YML file
+
+
 
 # Metrics Classes
 
