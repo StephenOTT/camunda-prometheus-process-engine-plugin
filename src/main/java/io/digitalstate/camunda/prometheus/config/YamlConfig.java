@@ -11,6 +11,7 @@ import io.digitalstate.camunda.prometheus.config.yaml.YamlFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Path;
@@ -30,7 +31,7 @@ public class YamlConfig {
         ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
         try {
             // @TODO Add error handling for file not found
-            Path file = Paths.get(getClass().getResource(filePath).toURI());
+            Path file = Paths.get(filePath);
 
             // @TODO Add error handling for various read errors such as no system section, no custom section, etc.
             yamlConfig = mapper.readValue(file.toFile(), YamlFile.class);
@@ -54,8 +55,6 @@ public class YamlConfig {
             e.printStackTrace();
         } catch (NullPointerException e){
             LOGGER.error("Unable to parse YAML, likely due to bad YAML format.");
-            e.printStackTrace();
-        } catch (URISyntaxException e) {
             e.printStackTrace();
         }
     }

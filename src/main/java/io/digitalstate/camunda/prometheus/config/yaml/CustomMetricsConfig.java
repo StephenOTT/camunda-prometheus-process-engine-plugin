@@ -19,11 +19,7 @@ public class CustomMetricsConfig {
     private Map<String, Object> config;
 
     public void setCollector(String filePath) {
-        try {
-            this.collector = Paths.get(getClass().getResource(filePath).toURI());
-        } catch (URISyntaxException e) {
-            LOGGER.error("Cannot find groovy script: " + filePath, e);
-        }
+        this.collector = Paths.get(filePath);
     }
 
     public Path getCollector() {

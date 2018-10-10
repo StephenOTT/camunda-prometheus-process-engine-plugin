@@ -51,13 +51,6 @@ public class PrometheusProcessMetricsProcessEnginePlugin extends AbstractProcess
 
     @Override
     public void preInit(ProcessEngineConfigurationImpl processEngineConfiguration) {
-
-        // @TODO add better file checking
-        URL ymlConfigFile = getClass().getResource(getCollectorYmlFilePath());
-        if (ymlConfigFile == null){
-            LOGGER.error("Cannot find YAML configuration file", new RuntimeException());
-        }
-
         // Starts up the Prometheus Client HTTP Server
         new MetricsExporter(new Integer(getPort()));
     }

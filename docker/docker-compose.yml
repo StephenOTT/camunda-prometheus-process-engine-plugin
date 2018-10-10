@@ -9,6 +9,9 @@ services:
           - "9999:9999"
         networks:
           - prometheus-grafana_monitor-net
+        volumes:
+          - ./docker/volumes/customcollectors:/customcollectors/
+          - ./docker/volumes/camunda_prometheus:/camunda_prometheus/
 networks:
     prometheus-grafana_monitor-net:
         external: true

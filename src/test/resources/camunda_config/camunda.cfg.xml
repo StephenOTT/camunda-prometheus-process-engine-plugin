@@ -27,7 +27,7 @@
                 <bean id="prometheusPlugin" class="io.digitalstate.camunda.prometheus.PrometheusProcessMetricsProcessEnginePlugin">
                     <property name="port" value="9999" />
                     <property name="camundaReportingIntervalInSeconds" value="5"/>
-                    <property name="collectorYmlFilePath" value="/prometheus-metrics.yml"/>
+                    <property name="collectorYmlFilePath" value="src/test/resources/prometheus-metrics.yml"/>
                 </bean>
             </list>
         </property>
