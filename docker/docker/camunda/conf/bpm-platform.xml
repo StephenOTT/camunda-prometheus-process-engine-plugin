@@ -36,7 +36,7 @@
             </plugin>
 
             <plugin>
-                <class>io.digitalstate.camunda.prometheus.PrometheusProcessMetricsProcessEnginePlugin</class>
+                <class>io.digitalstate.camunda.prometheus.PrometheusProcessEnginePlugin</class>
             <properties>
                 <property name="port">9999</property>
                 <property name="camundaReportingIntervalInSeconds">5</property>

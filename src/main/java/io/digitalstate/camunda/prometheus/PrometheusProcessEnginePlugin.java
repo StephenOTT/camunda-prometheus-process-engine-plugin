@@ -4,7 +4,6 @@ import io.digitalstate.camunda.prometheus.collectors.camunda.CamundaMetrics;
 import io.digitalstate.camunda.prometheus.collectors.custom.CamundaCustomMetrics;
 import io.digitalstate.camunda.prometheus.config.YamlConfig;
 import io.prometheus.client.CollectorRegistry;
-import org.camunda.bpm.engine.impl.calendar.DateTimeUtil;
 import org.camunda.bpm.engine.impl.cfg.AbstractProcessEnginePlugin;
 
 import org.camunda.bpm.engine.impl.cfg.ProcessEngineConfigurationImpl;
@@ -13,9 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.camunda.bpm.engine.ProcessEngine;
 
-import java.net.URL;
-
-public class PrometheusProcessMetricsProcessEnginePlugin extends AbstractProcessEnginePlugin {
+public class PrometheusProcessEnginePlugin extends AbstractProcessEnginePlugin {
 
     /**
      * The Port that the Prometheus Client HTTP Server will be exposed on.
@@ -46,7 +43,7 @@ public class PrometheusProcessMetricsProcessEnginePlugin extends AbstractProcess
      */
     private String collectorYmlFilePath;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(PrometheusProcessMetricsProcessEnginePlugin.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PrometheusProcessEnginePlugin.class);
     final private CollectorRegistry registry = CollectorRegistry.defaultRegistry;
 
     @Override

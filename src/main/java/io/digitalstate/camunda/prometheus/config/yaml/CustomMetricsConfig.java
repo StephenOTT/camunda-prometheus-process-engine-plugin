@@ -2,27 +2,29 @@ package io.digitalstate.camunda.prometheus.config.yaml;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.net.URISyntaxException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
 import java.util.Map;
 
 public class CustomMetricsConfig {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CustomMetricsConfig.class);
-
-    private Path collector;
+    private Resource collector;
     private Boolean enable;
     private long startDelay;
     private long frequency;
     private Map<String, Object> config;
 
     public void setCollector(String filePath) {
-        this.collector = Paths.get(filePath);
+        if (filePath.startsWith("classpath:")){
+            collector = new ClassPathResource(filePath.substring(10));
+        } else {
+            collector = new FileSystemResource(filePath);
+        }
     }
 
-    public Path getCollector() {
+    public Resource getCollector() {
         return collector;
     }
 

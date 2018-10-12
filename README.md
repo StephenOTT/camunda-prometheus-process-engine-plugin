@@ -4,17 +4,46 @@ Camunda Process Engine Plugin that implements a Prometheus Client HTTP Server, C
 system, and a Groovy based custom collector system allowing yml based configuration of custom collectors that are based on groovy scripts.
 
 ![basic 1](./docs/images/camunda-grafana-metrics-2.png)
-![testprocess](./docs/images/testProcess.png)
-![config 1](./docs/images/config1.png)
-
 
 # How to Install Plugin into Camunda
 
-1. Download Jar with Deps or Add this project as a dependecy into your build
+# As a Jar:
 
-2. Configure plugin through the camunda config xml.
+See the usage in `./docker/Dockerfile`
 
-3. Configure YML file for the metric collectors.
+# As a dependency
+
+Add JitPack as a repository source in your build file.
+
+If you are using Maven, then add the following to your pom.xml
+
+```xml
+<project>
+...
+    <repositories>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+    </repositories>
+...
+```
+
+This snippet will enable Maven dependency download directly from Github.com
+
+Then add the following dependency:
+
+```xml
+...
+ <dependency>
+    <groupId>com.github.digitalstate</groupId>
+    <artifactId>camunda-prometheus-process-engine-plugin</artifactId>
+    <version>v0.09</version>
+    <scope>compile</scope>
+ </dependency>
+ ...
+```
+
 
 # Plugin Configuration
 
@@ -23,7 +52,7 @@ system, and a Groovy based custom collector system allowing yml based configurat
 <property name="processEnginePlugins">
     <list>
         ...
-            <bean id="prometheusPlugin" class="io.digitalstate.camunda.prometheus.PrometheusProcessMetricsProcessEnginePlugin">
+            <bean id="prometheusPlugin" class="io.digitalstate.camunda.prometheus.PrometheusProcessEnginePlugin">
                  <property name="port" value="9999" />
                  <property name="camundaReportingIntervalInSeconds" value="5"/>
                  <property name="collectorYmlFilePath" value="/camunda-prometheus/prometheus-metrics.yml"</property>
@@ -36,33 +65,12 @@ system, and a Groovy based custom collector system allowing yml based configurat
 The port is the port that the HTTP Server that Prometheus will use to access the metrics.
 
 
-# Prometheus and Camunda Deployment/Setup:
-
-1. Prometheus/Grafana Setup: `./docker/prometheus-grafana` : run `USERNAME=admin PASSWORD=admin docker-compose up`
-1. Camunda 7.9.0 Setup: `./docker` : run `docker-compose up`
-
-Prometheus will attempt to scape the Camunda metrics through the exposed endpoint from the plugin.
-
-Make sure that Camunda and Prometheus are part of the same network / Prometheus is able to access the  metrics http endpoint being exposed on the Camunda server.
-
-See the examples in the ./docker folder of this project.
-
-
-# Default Grafana Configuration
-
-A default Grafana dashboard with common queries is provided:
-
-See folder: `./grafana/dashboards`
-
-1. Current working template: `Camunda Metrics-1.json`
-
-
 # YAML Collector Configuration
 
 Each collector is configured through a single yaml file.  the Yaml file is set in the PLugins xml configuation such as:
 
 ```xml
-<bean id="prometheusPlugin" class="io.digitalstate.camunda.prometheus.PrometheusProcessMetricsProcessEnginePlugin">
+<bean id="prometheusPlugin" class="io.digitalstate.camunda.prometheus.PrometheusProcessEnginePlugin">
     ...
      <property name="collectorYmlFilePath" value="/camunda-prometheus/prometheus-metrics.yml"</property>
 </bean>
@@ -104,14 +112,27 @@ custom:
   frequency: 5000
 ```
 
+```yaml
+custom:
+- collector: classpath:/prometheus/customcollectors/IncidentMetrics.groovy
+  enable: true
+  startDelay: 0
+  frequency: 5000
+```
+
 Where:
 
-1. `collector` (string, file path) is the file path to the groovy script file which will be used for collector execution.  The script is pre-compiled on timer creation; if changes are made to the groovy during runtime, the engine will need to be restarted for changes to come into effect.
+1. `collector` (string, file path) is the file path to the groovy script file which will be used for collector execution.  The script is pre-compiled on timer creation; if changes are made to the groovy during runtime, the engine will need to be restarted for changes to come into effect.  If the path is prepended with `classpath:` then the collector location will assume a classpath path to the resource.
 1. `enable` (boolean) allows you to enable and disable the collector.
 1. `startDelay` (long) the amount of time in milliseconds that the collector delay it self from starting on the first startup.  This is useful if you have other plugins or systems that you want to wait to finish starting before you execute the collector for the first time.
 1. `frequency` (long) the amount of time in milliseconds between executions of the collector.
 1. `config` (object/map) (:exclamation: **EXPERIMENTAL**) a key/value (`<String, Object>`) map for storing custom configurations to be used in the script execution.  Config can be accessed in the groovy script execution using the `config.getConfig()` method, where `config` is the CustomMetricsConfig.class which is being exposed to the script through bindings, and `.getConfig()` is returning the map in the `config` property of the collector.   
 
+
+## Default Custom Collectors
+
+A series of custom collectors are included.
+See: `./src/main/resources/prometheus/customcollectors`  
 
 ## Full Example
 
@@ -152,11 +173,11 @@ custom:
   enable: true
   startDelay: 0
   frequency: 5000
-- collector: /customcollectors/IdentityServiceMetrics.groovy
+- collector: classpath:/customcollectors/IdentityServiceMetrics.groovy
   enable: true
   startDelay: 0
   frequency: 5000
-- collector: /customcollectors/IncidentMetrics.groovy
+- collector: classpath:/customcollectors/IncidentMetrics.groovy
   enable: true
   startDelay: 0
   frequency: 5000
@@ -169,6 +190,28 @@ custom:
   startDelay: 0
   frequency: 5000
 ```
+
+
+
+# Prometheus and Camunda Deployment/Setup:
+
+1. Prometheus/Grafana Setup: `./docker/prometheus-grafana` : run `USERNAME=admin PASSWORD=admin docker-compose up`
+1. Camunda 7.9.0 Setup: `./docker` : run `docker-compose up`
+
+Prometheus will attempt to scape the Camunda metrics through the exposed endpoint from the plugin.
+
+Make sure that Camunda and Prometheus are part of the same network / Prometheus is able to access the  metrics http endpoint being exposed on the Camunda server.
+
+See the examples in the ./docker folder of this project.
+
+
+# Default Grafana Configuration
+
+A default Grafana dashboard with common queries is provided:
+
+See folder: `./grafana/dashboards`
+
+1. Current working template: `Camunda Metrics-1.json`
 
 
 # Custom Metrics as Groovy Scripts
@@ -223,6 +266,11 @@ Labels are supported and are generally implemented as a optional parameter in th
 
 
 # Script examples for BPMN, DMN, CMMN execution: Creating and using Metric within the BPM execution
+ 
+ ![testprocess](./docs/images/testProcess.png)
+ 
+ ![config 1](./docs/images/config1.png)
+ 
  
  **Groovy script Examples:**
 

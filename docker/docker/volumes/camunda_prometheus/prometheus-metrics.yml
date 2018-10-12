@@ -38,15 +38,15 @@ custom:
   enable: true
   startDelay: 0
   frequency: 5000
-- collector: /customcollectors/IncidentMetrics.groovy
+- collector: classpath:/prometheus/customcollectors/IncidentMetrics.groovy
   enable: true
   startDelay: 0
   frequency: 5000
-- collector: /customcollectors/ProcessInstances.groovy
+- collector: classpath:/prometheus/customcollectors/ProcessInstances.groovy
   enable: true
   startDelay: 0
   frequency: 5000
-- collector: /customcollectors/TimerMetrics.groovy
+- collector: classpath:prometheus/customcollectors/TimerMetrics.groovy
   enable: true
   startDelay: 0
   frequency: 5000

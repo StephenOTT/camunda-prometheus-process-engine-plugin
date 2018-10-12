@@ -24,7 +24,7 @@
             <list>
                 <!--<ref bean="connectProcessEnginePlugin" />-->
                 <ref bean="spinProcessEnginePlugin" />
-                <bean id="prometheusPlugin" class="io.digitalstate.camunda.prometheus.PrometheusProcessMetricsProcessEnginePlugin">
+                <bean id="prometheusPlugin" class="io.digitalstate.camunda.prometheus.PrometheusProcessEnginePlugin">
                     <property name="port" value="9999" />
                     <property name="camundaReportingIntervalInSeconds" value="5"/>
                     <property name="collectorYmlFilePath" value="src/test/resources/prometheus-metrics.yml"/>

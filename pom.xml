@@ -5,11 +5,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>io.digitalstate.camunda.prometheus</groupId>
-    <artifactId>camunda-prometheus-metrics-process-engine-plugin</artifactId>
-    <version>v0.8</version>
+    <artifactId>camunda-prometheus-process-engine-plugin</artifactId>
+    <version>v0.9</version>
     <packaging>jar</packaging>
 
-    <name>Camunda Prometheus Metrics Process Engine Plugin</name>
+    <name>Camunda Prometheus Process Engine Plugin</name>
 
     <properties>
         <version.camunda-bpm>7.9.0</version.camunda-bpm>
@@ -119,6 +119,13 @@
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
             <version>2.9.6</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+            <version>3.1.2.RELEASE</version>
+            <scope>compile</scope>
         </dependency>
 
     </dependencies>

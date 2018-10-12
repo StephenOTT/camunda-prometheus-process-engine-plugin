@@ -22,31 +22,31 @@ system:
     frequency: 5000
 
 custom:
-  - collector: src/test/resources/customcollectors/UserTasks.groovy
+  - collector: ./target/test-classes/customcollectors/UserTasks.groovy
     enable: true
     startDelay: 0
     frequency: 5000
-  - collector: src/test/resources/customcollectors/BpmnProcessDefinition.groovy
+  - collector: target/test-classes/customcollectors/BpmnProcessDefinition.groovy
     enable: true
     startDelay: 0
     frequency: 5000
-  - collector: src/test/resources/customcollectors/EventsMetrics.groovy
+  - collector: classpath:/customcollectors/EventsMetrics.groovy
     enable: true
     startDelay: 0
     frequency: 5000
-  - collector: src/test/resources/customcollectors/IdentityServiceMetrics.groovy
+  - collector: classpath:/customcollectors/IdentityServiceMetrics.groovy
     enable: true
     startDelay: 0
     frequency: 5000
-  - collector: src/test/resources/customcollectors/IncidentMetrics.groovy
+  - collector: classpath:/customcollectors/IncidentMetrics.groovy
     enable: true
     startDelay: 0
     frequency: 5000
-  - collector: src/test/resources/customcollectors/ProcessInstances.groovy
+  - collector: classpath:/customcollectors/ProcessInstances.groovy
     enable: true
     startDelay: 0
     frequency: 5000
-  - collector: src/test/resources/customcollectors/TimerMetrics.groovy
+  - collector: classpath:/customcollectors/TimerMetrics.groovy
     enable: true
     startDelay: 0
     frequency: 5000
