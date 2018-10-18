@@ -50,3 +50,9 @@ custom:
   enable: true
   startDelay: 0
   frequency: 5000
+  # Warning!! UserOperationLog collector performs a lot of Count queries (1 for each type of operation) Has potential to create performance impacts
+  # Recommend that you select specific collectors and execute them in their own scripts on their needed timers.
+- collector: /customcollectors/UserOperationLog.groovy
+  enable: true
+  startDelay: 0
+  gfrequency: 5000
