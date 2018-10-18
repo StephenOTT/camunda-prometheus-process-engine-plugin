@@ -1,4 +1,4 @@
-package prometheus.customcollectors;
+package customcollectors;
 
 import io.digitalstate.camunda.prometheus.collectors.SimpleGaugeMetric;
 import org.camunda.bpm.engine.ProcessEngine
