@@ -6,13 +6,13 @@ import org.camunda.bpm.engine.history.UserOperationLogEntry;
 import org.slf4j.Logger;
 
 /**
- * User Task Collectors
+ * User Operation Log Collectors
  */
 
 collectAll((ProcessEngine)processEngine, (Logger)LOGGER)
 
 /**
- * Collect Count of active user tasks.
+ * Generic collector User Operation Log: Operation Type filter
  * @param processEngine
  * @param engineName
  */
@@ -78,5 +78,4 @@ static void collectAll(ProcessEngine processEngine, Logger LOG){
     collectOperationType(processEngine, engineName, LOG, UserOperationLogEntry.OPERATION_TYPE_SUSPEND_PROCESS_DEFINITION);
     collectOperationType(processEngine, engineName, LOG, UserOperationLogEntry.OPERATION_TYPE_UPDATE);
     collectOperationType(processEngine, engineName, LOG, UserOperationLogEntry.OPERATION_TYPE_UPDATE_HISTORY_TIME_TO_LIVE);
-
 }
