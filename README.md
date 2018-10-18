@@ -38,7 +38,7 @@ Then add the following dependency:
  <dependency>
     <groupId>com.github.digitalstate</groupId>
     <artifactId>camunda-prometheus-process-engine-plugin</artifactId>
-    <version>v0.09</version>
+    <version>v1.0.0</version>
     <scope>compile</scope>
  </dependency>
  ...
