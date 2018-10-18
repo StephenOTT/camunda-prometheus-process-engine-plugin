@@ -38,11 +38,12 @@ Then add the following dependency:
  <dependency>
     <groupId>com.github.digitalstate</groupId>
     <artifactId>camunda-prometheus-process-engine-plugin</artifactId>
-    <version>v1.1.0</version>
+    <version>v0.0.0-Replace-This-With-Real-Version</version>
     <scope>compile</scope>
  </dependency>
  ...
 ```
+:exclamation: See the [Releases](https://github.com/StephenOTT/camunda-prometheus-process-engine-plugin/releases) for the latest version number :exclamation:
 
 
 # Plugin Configuration
