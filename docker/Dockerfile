@@ -4,4 +4,4 @@ RUN rm -r webapps/camunda-invoice
 COPY docker/camunda/conf/ /camunda/conf
 
 # Copy third-party Java libraries
-COPY docker/camunda/lib/camunda-prometheus-process-engine-plugin-v0.9-jar-with-dependencies.jar /camunda/lib/camunda-prometheus-process-engine-plugin-v0.9-jar-with-dependencies.jar
+COPY docker/camunda/lib/camunda-prometheus-process-engine-plugin-v1.0.0-jar-with-dependencies.jar /camunda/lib/camunda-prometheus-process-engine-plugin-v1.0.0-jar-with-dependencies.jar
