@@ -1,5 +1,3 @@
-package prometheus.customcollectors;
-
 import io.digitalstate.camunda.prometheus.collectors.SimpleGaugeMetric;
 import org.camunda.bpm.engine.ProcessEngine
 import org.camunda.bpm.engine.history.UserOperationLogEntry;

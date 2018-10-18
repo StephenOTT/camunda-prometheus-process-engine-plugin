@@ -2,57 +2,59 @@
 # each object is a timer configuration
 ---
 system:
-  - collector: io.digitalstate.camunda.prometheus.collectors.camunda.BpmnExecution
-    enable: true
-    startDate: 2015-10-03T17:59:38+00:00
-    endDate: now
-    startDelay: 0
-    frequency: 5000
-  - collector: io.digitalstate.camunda.prometheus.collectors.camunda.DmnExecution
-    enable: true
-    startDate: 2015-10-03T17:59:38+00:00
-    endDate: now
-    startDelay: 0
-    frequency: 5000
-  - collector: io.digitalstate.camunda.prometheus.collectors.camunda.JobExecutor
-    enable: true
-    startDate: 2015-10-03T17:59:38+00:00
-    endDate: now
-    startDelay: 0
-    frequency: 5000
+- collector: io.digitalstate.camunda.prometheus.collectors.camunda.BpmnExecution
+  enable: true
+  startDate: 2015-10-03T17:59:38+00:00
+  endDate: now
+  startDelay: 0
+  frequency: 5000
+- collector: io.digitalstate.camunda.prometheus.collectors.camunda.DmnExecution
+  enable: true
+  startDate: 2015-10-03T17:59:38+00:00
+  endDate: now
+  startDelay: 0
+  frequency: 5000
+- collector: io.digitalstate.camunda.prometheus.collectors.camunda.JobExecutor
+  enable: true
+  startDate: 2015-10-03T17:59:38+00:00
+  endDate: now
+  startDelay: 0
+  frequency: 5000
 
 custom:
-  - collector: ./target/test-classes/customcollectors/UserTasks.groovy
-    enable: true
-    startDelay: 0
-    frequency: 5000
-  - collector: target/test-classes/customcollectors/BpmnProcessDefinition.groovy
-    enable: true
-    startDelay: 0
-    frequency: 5000
-  - collector: classpath:/customcollectors/EventsMetrics.groovy
-    enable: true
-    startDelay: 0
-    frequency: 5000
-  - collector: classpath:/customcollectors/IdentityServiceMetrics.groovy
-    enable: true
-    startDelay: 0
-    frequency: 5000
-  - collector: classpath:/customcollectors/IncidentMetrics.groovy
-    enable: true
-    startDelay: 0
-    frequency: 5000
-  - collector: classpath:/customcollectors/ProcessInstances.groovy
-    enable: true
-    startDelay: 0
-    frequency: 5000
-  - collector: classpath:/customcollectors/TimerMetrics.groovy
-    enable: true
-    startDelay: 0
-    frequency: 5000
-    # Warning!! UserOperationLog collector performs a lot of Count queries (1 for each type of operation) Has potential to create performance impacts
-    # Recommend that you select specific collectors and execute them in their own scripts on their needed timers.
-  - collector: classpath:/customcollectors/UserOperationLog.groovy
-    enable: true
-    startDelay: 0
-    frequency: 5000
+- collector: ./target/test-classes/customcollectors/UserTasks.groovy
+  enable: true
+  startDelay: 0
+  frequency: 5000
+- collector: ./target/test-classes/customcollectors/BpmnProcessDefinition.groovy
+  enable: true
+  startDelay: 0
+  frequency: 5000
+- collector: ./target/test-classes/customcollectors/EventsMetrics.groovy
+  enable: true
+  startDelay: 0
+  frequency: 5000
+- collector: ./target/test-classes/customcollectors/IdentityServiceMetrics.groovy
+  enable: true
+  startDelay: 0
+  frequency: 5000
+- collector: classpath:/prometheus/customcollectors/IncidentMetrics.groovy
+  enable: true
+  startDelay: 0
+  frequency: 5000
+- collector: classpath:/prometheus/customcollectors/ProcessInstances.groovy
+  enable: true
+  startDelay: 0
+  frequency: 5000
+- collector: classpath:prometheus/customcollectors/TimerMetrics.groovy
+  enable: true
+  startDelay: 0
+  frequency: 5000
+- collector: ./target/test-classes/customcollectors/UserOperationLog.groovy
+  enable: true
+  startDelay: 0
+  frequency: 5000
+- collector: ./target/test-classes/customcollectors/ExternalTasks.groovy
+  enable: true
+  startDelay: 0
+  frequency: 5000
