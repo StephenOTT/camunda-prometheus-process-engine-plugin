@@ -60,3 +60,39 @@ custom:
   enable: true
   startDelay: 0
   frequency: 5000
+- collector: classpath:prometheus/customcollectors/ExternalTasksCustomTopics.groovy
+  enable: true
+  startDelay: 0
+  frequency: 10000
+  config:
+    topics:
+    - myTopic1
+    - myTopic2
+    - someCustomTopic
+- collector: classpath:prometheus/customcollectors/ExternalTasksCustomTopics.groovy
+  enable: true
+  startDelay: 0
+  frequency: 8000
+  config:
+    topics:
+    - myTopic3
+    - myTopic4
+    - someOtherCustomTopic
+- collector: classpath:prometheus/customcollectors/ExternalTasksCustomWorkers.groovy
+  enable: true
+  startDelay: 0
+  frequency: 2000
+  config:
+    workers:
+    - someWorkerID123
+    - someOtherWorkerId567890
+    - someLegacyWorker001
+- collector: classpath:prometheus/customcollectors/ExternalTasksCustomWorkers.groovy
+  enable: true
+  startDelay: 0
+  frequency: 2000
+  config:
+    workers:
+    - SW1
+    - SW2
+    - SW3

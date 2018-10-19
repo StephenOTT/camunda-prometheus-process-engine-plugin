@@ -3,19 +3,19 @@
 ---
 system:
 - collector: io.digitalstate.camunda.prometheus.collectors.camunda.BpmnExecution
-  enable: true
+  enable: false
   startDate: 2015-10-03T17:59:38+00:00
   endDate: now
   startDelay: 0
   frequency: 5000
 - collector: io.digitalstate.camunda.prometheus.collectors.camunda.DmnExecution
-  enable: true
+  enable: false
   startDate: 2015-10-03T17:59:38+00:00
   endDate: now
   startDelay: 0
   frequency: 5000
 - collector: io.digitalstate.camunda.prometheus.collectors.camunda.JobExecutor
-  enable: true
+  enable: false
   startDate: 2015-10-03T17:59:38+00:00
   endDate: now
   startDelay: 0
@@ -23,38 +23,74 @@ system:
 
 custom:
 - collector: ./target/test-classes/customcollectors/UserTasks.groovy
-  enable: true
+  enable: false
   startDelay: 0
   frequency: 5000
 - collector: ./target/test-classes/customcollectors/BpmnProcessDefinition.groovy
-  enable: true
+  enable: false
   startDelay: 0
   frequency: 5000
 - collector: ./target/test-classes/customcollectors/EventsMetrics.groovy
-  enable: true
+  enable: false
   startDelay: 0
   frequency: 5000
 - collector: ./target/test-classes/customcollectors/IdentityServiceMetrics.groovy
-  enable: true
+  enable: false
   startDelay: 0
   frequency: 5000
 - collector: classpath:/prometheus/customcollectors/IncidentMetrics.groovy
-  enable: true
+  enable: false
   startDelay: 0
   frequency: 5000
 - collector: classpath:/prometheus/customcollectors/ProcessInstances.groovy
-  enable: true
+  enable: false
   startDelay: 0
   frequency: 5000
 - collector: classpath:prometheus/customcollectors/TimerMetrics.groovy
-  enable: true
+  enable: false
   startDelay: 0
   frequency: 5000
 - collector: ./target/test-classes/customcollectors/UserOperationLog.groovy
-  enable: true
+  enable: false
   startDelay: 0
   frequency: 5000
 - collector: ./target/test-classes/customcollectors/ExternalTasks.groovy
-  enable: true
+  enable: false
   startDelay: 0
   frequency: 5000
+- collector: ./target/test-classes/customcollectors/ExternalTasksCustomTopics.groovy
+  enable: true
+  startDelay: 0
+  frequency: 10000
+  config:
+    topics:
+      - myTopic1
+      - myTopic2
+      - someCustomTopic
+- collector: ./target/test-classes/customcollectors/ExternalTasksCustomTopics.groovy
+  enable: true
+  startDelay: 0
+  frequency: 8000
+  config:
+    topics:
+    - myTopic3
+    - myTopic4
+    - someOtherCustomTopic
+- collector: ./target/test-classes/customcollectors/ExternalTasksCustomWorkers.groovy
+  enable: true
+  startDelay: 0
+  frequency: 2000
+  config:
+    workers:
+    - someWorkerID123
+    - someOtherWorkerId567890
+    - someLegacyWorker001
+- collector: ./target/test-classes/customcollectors/ExternalTasksCustomWorkers.groovy
+  enable: true
+  startDelay: 0
+  frequency: 2000
+  config:
+    workers:
+    - someWorkerJohn
+    - someOtherWorkerChris
+    - someLegacyWorkerFrank
