@@ -799,6 +799,281 @@
       "id": 77,
       "panels": [
         {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": "${DS_PROMETHEUS}",
+          "fill": 1,
+          "gridPos": {
+            "h": 9,
+            "w": 24,
+            "x": 0,
+            "y": 2
+          },
+          "id": 126,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": false,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 1,
+          "links": [],
+          "nullPointMode": "null",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "camunda_user_operation_log_type_Activate",
+              "format": "time_series",
+              "intervalFactor": 1,
+              "legendFormat": "",
+              "refId": "A"
+            },
+            {
+              "expr": "camunda_user_operation_log_type_ActivateBatch",
+              "format": "time_series",
+              "intervalFactor": 1,
+              "refId": "B"
+            },
+            {
+              "expr": "camunda_user_operation_log_type_ActivateJob",
+              "format": "time_series",
+              "intervalFactor": 1,
+              "refId": "C"
+            },
+            {
+              "expr": "camunda_user_operation_log_type_ActivateJobDefinition",
+              "format": "time_series",
+              "intervalFactor": 1,
+              "refId": "D"
+            },
+            {
+              "expr": "camunda_user_operation_log_type_ActivateProcessDefinition",
+              "format": "time_series",
+              "intervalFactor": 1,
+              "refId": "E"
+            },
+            {
+              "expr": "camunda_user_operation_log_type_AddAttachment",
+              "format": "time_series",
+              "intervalFactor": 1,
+              "refId": "F"
+            },
+            {
+              "expr": "camunda_user_operation_log_type_AddGroupLink",
+              "format": "time_series",
+              "intervalFactor": 1,
+              "refId": "G"
+            },
+            {
+              "expr": "camunda_user_operation_log_type_AddUserLink",
+              "format": "time_series",
+              "intervalFactor": 1,
+              "refId": "H"
+            },
+            {
+              "expr": "camunda_user_operation_log_type_Assign",
+              "format": "time_series",
+              "intervalFactor": 1,
+              "refId": "I"
+            },
+            {
+              "expr": "camunda_user_operation_log_type_Claim",
+              "format": "time_series",
+              "intervalFactor": 1,
+              "refId": "J"
+            },
+            {
+              "expr": "camunda_user_operation_log_type_Complete",
+              "format": "time_series",
+              "intervalFactor": 1,
+              "refId": "K"
+            },
+            {
+              "expr": "camunda_user_operation_log_type_Create",
+              "format": "time_series",
+              "intervalFactor": 1,
+              "refId": "L"
+            },
+            {
+              "expr": "camunda_user_operation_log_type_Delegate",
+              "format": "time_series",
+              "intervalFactor": 1,
+              "refId": "M"
+            },
+            {
+              "expr": "camunda_user_operation_log_type_Delete",
+              "format": "time_series",
+              "intervalFactor": 1,
+              "refId": "N"
+            },
+            {
+              "expr": "camunda_user_operation_log_type_DeleteAttachment",
+              "format": "time_series",
+              "intervalFactor": 1,
+              "refId": "O"
+            },
+            {
+              "expr": "camunda_user_operation_log_type_DeleteGroupLink",
+              "format": "time_series",
+              "intervalFactor": 1,
+              "refId": "P"
+            },
+            {
+              "expr": "camunda_user_operation_log_type_DeleteUserLink",
+              "format": "time_series",
+              "intervalFactor": 1,
+              "refId": "Q"
+            },
+            {
+              "expr": "camunda_user_operation_log_type_Migrate",
+              "format": "time_series",
+              "intervalFactor": 1,
+              "refId": "R"
+            },
+            {
+              "expr": "camunda_user_operation_log_type_ModifyProcessInstance",
+              "format": "time_series",
+              "intervalFactor": 1,
+              "refId": "S"
+            },
+            {
+              "expr": "camunda_user_operation_log_type_ModifyVariable",
+              "format": "time_series",
+              "intervalFactor": 1,
+              "refId": "T"
+            },
+            {
+              "expr": "camunda_user_operation_log_type_Resolve",
+              "format": "time_series",
+              "intervalFactor": 1,
+              "refId": "U"
+            },
+            {
+              "expr": "camunda_user_operation_log_type_RestartProcessInstance",
+              "format": "time_series",
+              "intervalFactor": 1,
+              "refId": "V"
+            },
+            {
+              "expr": "camunda_user_operation_log_type_SetExternalTaskRetries",
+              "format": "time_series",
+              "intervalFactor": 1,
+              "refId": "W"
+            },
+            {
+              "expr": "camunda_user_operation_log_type_SetJobRetries",
+              "format": "time_series",
+              "intervalFactor": 1,
+              "refId": "X"
+            },
+            {
+              "expr": "camunda_user_operation_log_type_SetOwner",
+              "format": "time_series",
+              "intervalFactor": 1,
+              "refId": "Y"
+            },
+            {
+              "expr": "camunda_user_operation_log_type_SetPriority",
+              "format": "time_series",
+              "intervalFactor": 1,
+              "refId": "Z"
+            },
+            {
+              "expr": "camunda_user_operation_log_type_SetVariable",
+              "format": "time_series",
+              "intervalFactor": 1
+            },
+            {
+              "expr": "camunda_user_operation_log_type_Suspend",
+              "format": "time_series",
+              "intervalFactor": 1
+            },
+            {
+              "expr": "camunda_user_operation_log_type_SuspendBatch",
+              "format": "time_series",
+              "intervalFactor": 1
+            },
+            {
+              "expr": "camunda_user_operation_log_type_SuspendJob",
+              "format": "time_series",
+              "intervalFactor": 1
+            },
+            {
+              "expr": "camunda_user_operation_log_type_SuspendJobDefinition",
+              "format": "time_series",
+              "intervalFactor": 1
+            },
+            {
+              "expr": "camunda_user_operation_log_type_SuspendProcessDefinition",
+              "format": "time_series",
+              "intervalFactor": 1
+            },
+            {
+              "expr": "camunda_user_operation_log_type_Update",
+              "format": "time_series",
+              "intervalFactor": 1
+            },
+            {
+              "expr": "camunda_user_operation_log_type_UpdateHistoryTimeToLive",
+              "format": "time_series",
+              "intervalFactor": 1
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "User Operations Count",
+          "tooltip": {
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "decimals": 0,
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": "0",
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": false
+            }
+          ],
+          "yaxis": {
+            "align": false,
+            "alignLevel": null
+          }
+        },
+        {
           "cacheTimeout": null,
           "colorBackground": false,
           "colorValue": false,
@@ -820,7 +1095,7 @@
             "h": 3,
             "w": 6,
             "x": 0,
-            "y": 1
+            "y": 11
           },
           "id": 79,
           "interval": null,
@@ -900,9 +1175,9 @@
             "h": 3,
             "w": 6,
             "x": 6,
-            "y": 1
+            "y": 11
           },
-          "id": 80,
+          "id": 90,
           "interval": null,
           "links": [],
           "mappingType": 1,
@@ -939,14 +1214,14 @@
           "tableColumn": "",
           "targets": [
             {
-              "expr": "camunda_user_operation_log_type_ActivateBatch",
+              "expr": "camunda_user_operation_log_type_Create",
               "format": "time_series",
               "intervalFactor": 1,
               "refId": "A"
             }
           ],
           "thresholds": "",
-          "title": "User Log Operation: Activate Batch",
+          "title": "User Log Operation: Create",
           "type": "singlestat",
           "valueFontSize": "80%",
           "valueMaps": [
@@ -980,327 +1255,7 @@
             "h": 3,
             "w": 6,
             "x": 12,
-            "y": 1
-          },
-          "id": 81,
-          "interval": null,
-          "links": [],
-          "mappingType": 1,
-          "mappingTypes": [
-            {
-              "name": "value to text",
-              "value": 1
-            },
-            {
-              "name": "range to text",
-              "value": 2
-            }
-          ],
-          "maxDataPoints": 100,
-          "nullPointMode": "connected",
-          "nullText": null,
-          "postfix": "",
-          "postfixFontSize": "50%",
-          "prefix": "",
-          "prefixFontSize": "50%",
-          "rangeMaps": [
-            {
-              "from": "null",
-              "text": "N/A",
-              "to": "null"
-            }
-          ],
-          "sparkline": {
-            "fillColor": "rgba(31, 118, 189, 0.18)",
-            "full": false,
-            "lineColor": "rgb(31, 120, 193)",
-            "show": true
-          },
-          "tableColumn": "",
-          "targets": [
-            {
-              "expr": "camunda_user_operation_log_type_ActivateJob",
-              "format": "time_series",
-              "intervalFactor": 1,
-              "refId": "A"
-            }
-          ],
-          "thresholds": "",
-          "title": "User Log Operation: Activate Job",
-          "type": "singlestat",
-          "valueFontSize": "80%",
-          "valueMaps": [
-            {
-              "op": "=",
-              "text": "N/A",
-              "value": "null"
-            }
-          ],
-          "valueName": "current"
-        },
-        {
-          "cacheTimeout": null,
-          "colorBackground": false,
-          "colorValue": false,
-          "colors": [
-            "#299c46",
-            "rgba(237, 129, 40, 0.89)",
-            "#d44a3a"
-          ],
-          "datasource": "${DS_PROMETHEUS}",
-          "format": "none",
-          "gauge": {
-            "maxValue": 100,
-            "minValue": 0,
-            "show": false,
-            "thresholdLabels": false,
-            "thresholdMarkers": true
-          },
-          "gridPos": {
-            "h": 3,
-            "w": 6,
-            "x": 18,
-            "y": 1
-          },
-          "id": 82,
-          "interval": null,
-          "links": [],
-          "mappingType": 1,
-          "mappingTypes": [
-            {
-              "name": "value to text",
-              "value": 1
-            },
-            {
-              "name": "range to text",
-              "value": 2
-            }
-          ],
-          "maxDataPoints": 100,
-          "nullPointMode": "connected",
-          "nullText": null,
-          "postfix": "",
-          "postfixFontSize": "50%",
-          "prefix": "",
-          "prefixFontSize": "50%",
-          "rangeMaps": [
-            {
-              "from": "null",
-              "text": "N/A",
-              "to": "null"
-            }
-          ],
-          "sparkline": {
-            "fillColor": "rgba(31, 118, 189, 0.18)",
-            "full": false,
-            "lineColor": "rgb(31, 120, 193)",
-            "show": true
-          },
-          "tableColumn": "",
-          "targets": [
-            {
-              "expr": "camunda_user_operation_log_type_ActivateJobDefinition",
-              "format": "time_series",
-              "intervalFactor": 1,
-              "refId": "A"
-            }
-          ],
-          "thresholds": "",
-          "title": "User Log Operation: Activate Job Definition",
-          "type": "singlestat",
-          "valueFontSize": "80%",
-          "valueMaps": [
-            {
-              "op": "=",
-              "text": "N/A",
-              "value": "null"
-            }
-          ],
-          "valueName": "current"
-        },
-        {
-          "cacheTimeout": null,
-          "colorBackground": false,
-          "colorValue": false,
-          "colors": [
-            "#299c46",
-            "rgba(237, 129, 40, 0.89)",
-            "#d44a3a"
-          ],
-          "datasource": "${DS_PROMETHEUS}",
-          "format": "none",
-          "gauge": {
-            "maxValue": 100,
-            "minValue": 0,
-            "show": false,
-            "thresholdLabels": false,
-            "thresholdMarkers": true
-          },
-          "gridPos": {
-            "h": 3,
-            "w": 6,
-            "x": 0,
-            "y": 4
-          },
-          "id": 83,
-          "interval": null,
-          "links": [],
-          "mappingType": 1,
-          "mappingTypes": [
-            {
-              "name": "value to text",
-              "value": 1
-            },
-            {
-              "name": "range to text",
-              "value": 2
-            }
-          ],
-          "maxDataPoints": 100,
-          "nullPointMode": "connected",
-          "nullText": null,
-          "postfix": "",
-          "postfixFontSize": "50%",
-          "prefix": "",
-          "prefixFontSize": "50%",
-          "rangeMaps": [
-            {
-              "from": "null",
-              "text": "N/A",
-              "to": "null"
-            }
-          ],
-          "sparkline": {
-            "fillColor": "rgba(31, 118, 189, 0.18)",
-            "full": false,
-            "lineColor": "rgb(31, 120, 193)",
-            "show": true
-          },
-          "tableColumn": "",
-          "targets": [
-            {
-              "expr": "camunda_user_operation_log_type_ActivateProcessDefinition",
-              "format": "time_series",
-              "intervalFactor": 1,
-              "refId": "A"
-            }
-          ],
-          "thresholds": "",
-          "title": "User Log Operation: Activate Process Definition",
-          "type": "singlestat",
-          "valueFontSize": "80%",
-          "valueMaps": [
-            {
-              "op": "=",
-              "text": "N/A",
-              "value": "null"
-            }
-          ],
-          "valueName": "current"
-        },
-        {
-          "cacheTimeout": null,
-          "colorBackground": false,
-          "colorValue": false,
-          "colors": [
-            "#299c46",
-            "rgba(237, 129, 40, 0.89)",
-            "#d44a3a"
-          ],
-          "datasource": "${DS_PROMETHEUS}",
-          "format": "none",
-          "gauge": {
-            "maxValue": 100,
-            "minValue": 0,
-            "show": false,
-            "thresholdLabels": false,
-            "thresholdMarkers": true
-          },
-          "gridPos": {
-            "h": 3,
-            "w": 6,
-            "x": 6,
-            "y": 4
-          },
-          "id": 84,
-          "interval": null,
-          "links": [],
-          "mappingType": 1,
-          "mappingTypes": [
-            {
-              "name": "value to text",
-              "value": 1
-            },
-            {
-              "name": "range to text",
-              "value": 2
-            }
-          ],
-          "maxDataPoints": 100,
-          "nullPointMode": "connected",
-          "nullText": null,
-          "postfix": "",
-          "postfixFontSize": "50%",
-          "prefix": "",
-          "prefixFontSize": "50%",
-          "rangeMaps": [
-            {
-              "from": "null",
-              "text": "N/A",
-              "to": "null"
-            }
-          ],
-          "sparkline": {
-            "fillColor": "rgba(31, 118, 189, 0.18)",
-            "full": false,
-            "lineColor": "rgb(31, 120, 193)",
-            "show": true
-          },
-          "tableColumn": "",
-          "targets": [
-            {
-              "expr": "camunda_user_operation_log_type_AddAttachment",
-              "format": "time_series",
-              "intervalFactor": 1,
-              "refId": "A"
-            }
-          ],
-          "thresholds": "",
-          "title": "User Log Operation: Add Attachment",
-          "type": "singlestat",
-          "valueFontSize": "80%",
-          "valueMaps": [
-            {
-              "op": "=",
-              "text": "N/A",
-              "value": "null"
-            }
-          ],
-          "valueName": "current"
-        },
-        {
-          "cacheTimeout": null,
-          "colorBackground": false,
-          "colorValue": false,
-          "colors": [
-            "#299c46",
-            "rgba(237, 129, 40, 0.89)",
-            "#d44a3a"
-          ],
-          "datasource": "${DS_PROMETHEUS}",
-          "format": "none",
-          "gauge": {
-            "maxValue": 100,
-            "minValue": 0,
-            "show": false,
-            "thresholdLabels": false,
-            "thresholdMarkers": true
-          },
-          "gridPos": {
-            "h": 3,
-            "w": 6,
-            "x": 12,
-            "y": 4
+            "y": 11
           },
           "id": 85,
           "interval": null,
@@ -1380,7 +1335,7 @@
             "h": 3,
             "w": 6,
             "x": 18,
-            "y": 4
+            "y": 11
           },
           "id": 86,
           "interval": null,
@@ -1460,7 +1415,327 @@
             "h": 3,
             "w": 6,
             "x": 0,
-            "y": 7
+            "y": 14
+          },
+          "id": 83,
+          "interval": null,
+          "links": [],
+          "mappingType": 1,
+          "mappingTypes": [
+            {
+              "name": "value to text",
+              "value": 1
+            },
+            {
+              "name": "range to text",
+              "value": 2
+            }
+          ],
+          "maxDataPoints": 100,
+          "nullPointMode": "connected",
+          "nullText": null,
+          "postfix": "",
+          "postfixFontSize": "50%",
+          "prefix": "",
+          "prefixFontSize": "50%",
+          "rangeMaps": [
+            {
+              "from": "null",
+              "text": "N/A",
+              "to": "null"
+            }
+          ],
+          "sparkline": {
+            "fillColor": "rgba(31, 118, 189, 0.18)",
+            "full": false,
+            "lineColor": "rgb(31, 120, 193)",
+            "show": true
+          },
+          "tableColumn": "",
+          "targets": [
+            {
+              "expr": "camunda_user_operation_log_type_ActivateProcessDefinition",
+              "format": "time_series",
+              "intervalFactor": 1,
+              "refId": "A"
+            }
+          ],
+          "thresholds": "",
+          "title": "User Log Operation: Activate Process Definition",
+          "type": "singlestat",
+          "valueFontSize": "80%",
+          "valueMaps": [
+            {
+              "op": "=",
+              "text": "N/A",
+              "value": "null"
+            }
+          ],
+          "valueName": "current"
+        },
+        {
+          "cacheTimeout": null,
+          "colorBackground": false,
+          "colorValue": false,
+          "colors": [
+            "#299c46",
+            "rgba(237, 129, 40, 0.89)",
+            "#d44a3a"
+          ],
+          "datasource": "${DS_PROMETHEUS}",
+          "format": "none",
+          "gauge": {
+            "maxValue": 100,
+            "minValue": 0,
+            "show": false,
+            "thresholdLabels": false,
+            "thresholdMarkers": true
+          },
+          "gridPos": {
+            "h": 3,
+            "w": 6,
+            "x": 6,
+            "y": 14
+          },
+          "id": 80,
+          "interval": null,
+          "links": [],
+          "mappingType": 1,
+          "mappingTypes": [
+            {
+              "name": "value to text",
+              "value": 1
+            },
+            {
+              "name": "range to text",
+              "value": 2
+            }
+          ],
+          "maxDataPoints": 100,
+          "nullPointMode": "connected",
+          "nullText": null,
+          "postfix": "",
+          "postfixFontSize": "50%",
+          "prefix": "",
+          "prefixFontSize": "50%",
+          "rangeMaps": [
+            {
+              "from": "null",
+              "text": "N/A",
+              "to": "null"
+            }
+          ],
+          "sparkline": {
+            "fillColor": "rgba(31, 118, 189, 0.18)",
+            "full": false,
+            "lineColor": "rgb(31, 120, 193)",
+            "show": true
+          },
+          "tableColumn": "",
+          "targets": [
+            {
+              "expr": "camunda_user_operation_log_type_ActivateBatch",
+              "format": "time_series",
+              "intervalFactor": 1,
+              "refId": "A"
+            }
+          ],
+          "thresholds": "",
+          "title": "User Log Operation: Activate Batch",
+          "type": "singlestat",
+          "valueFontSize": "80%",
+          "valueMaps": [
+            {
+              "op": "=",
+              "text": "N/A",
+              "value": "null"
+            }
+          ],
+          "valueName": "current"
+        },
+        {
+          "cacheTimeout": null,
+          "colorBackground": false,
+          "colorValue": false,
+          "colors": [
+            "#299c46",
+            "rgba(237, 129, 40, 0.89)",
+            "#d44a3a"
+          ],
+          "datasource": "${DS_PROMETHEUS}",
+          "format": "none",
+          "gauge": {
+            "maxValue": 100,
+            "minValue": 0,
+            "show": false,
+            "thresholdLabels": false,
+            "thresholdMarkers": true
+          },
+          "gridPos": {
+            "h": 3,
+            "w": 6,
+            "x": 12,
+            "y": 14
+          },
+          "id": 81,
+          "interval": null,
+          "links": [],
+          "mappingType": 1,
+          "mappingTypes": [
+            {
+              "name": "value to text",
+              "value": 1
+            },
+            {
+              "name": "range to text",
+              "value": 2
+            }
+          ],
+          "maxDataPoints": 100,
+          "nullPointMode": "connected",
+          "nullText": null,
+          "postfix": "",
+          "postfixFontSize": "50%",
+          "prefix": "",
+          "prefixFontSize": "50%",
+          "rangeMaps": [
+            {
+              "from": "null",
+              "text": "N/A",
+              "to": "null"
+            }
+          ],
+          "sparkline": {
+            "fillColor": "rgba(31, 118, 189, 0.18)",
+            "full": false,
+            "lineColor": "rgb(31, 120, 193)",
+            "show": true
+          },
+          "tableColumn": "",
+          "targets": [
+            {
+              "expr": "camunda_user_operation_log_type_ActivateJob",
+              "format": "time_series",
+              "intervalFactor": 1,
+              "refId": "A"
+            }
+          ],
+          "thresholds": "",
+          "title": "User Log Operation: Activate Job",
+          "type": "singlestat",
+          "valueFontSize": "80%",
+          "valueMaps": [
+            {
+              "op": "=",
+              "text": "N/A",
+              "value": "null"
+            }
+          ],
+          "valueName": "current"
+        },
+        {
+          "cacheTimeout": null,
+          "colorBackground": false,
+          "colorValue": false,
+          "colors": [
+            "#299c46",
+            "rgba(237, 129, 40, 0.89)",
+            "#d44a3a"
+          ],
+          "datasource": "${DS_PROMETHEUS}",
+          "format": "none",
+          "gauge": {
+            "maxValue": 100,
+            "minValue": 0,
+            "show": false,
+            "thresholdLabels": false,
+            "thresholdMarkers": true
+          },
+          "gridPos": {
+            "h": 3,
+            "w": 6,
+            "x": 18,
+            "y": 14
+          },
+          "id": 82,
+          "interval": null,
+          "links": [],
+          "mappingType": 1,
+          "mappingTypes": [
+            {
+              "name": "value to text",
+              "value": 1
+            },
+            {
+              "name": "range to text",
+              "value": 2
+            }
+          ],
+          "maxDataPoints": 100,
+          "nullPointMode": "connected",
+          "nullText": null,
+          "postfix": "",
+          "postfixFontSize": "50%",
+          "prefix": "",
+          "prefixFontSize": "50%",
+          "rangeMaps": [
+            {
+              "from": "null",
+              "text": "N/A",
+              "to": "null"
+            }
+          ],
+          "sparkline": {
+            "fillColor": "rgba(31, 118, 189, 0.18)",
+            "full": false,
+            "lineColor": "rgb(31, 120, 193)",
+            "show": true
+          },
+          "tableColumn": "",
+          "targets": [
+            {
+              "expr": "camunda_user_operation_log_type_ActivateJobDefinition",
+              "format": "time_series",
+              "intervalFactor": 1,
+              "refId": "A"
+            }
+          ],
+          "thresholds": "",
+          "title": "User Log Operation: Activate Job Definition",
+          "type": "singlestat",
+          "valueFontSize": "80%",
+          "valueMaps": [
+            {
+              "op": "=",
+              "text": "N/A",
+              "value": "null"
+            }
+          ],
+          "valueName": "current"
+        },
+        {
+          "cacheTimeout": null,
+          "colorBackground": false,
+          "colorValue": false,
+          "colors": [
+            "#299c46",
+            "rgba(237, 129, 40, 0.89)",
+            "#d44a3a"
+          ],
+          "datasource": "${DS_PROMETHEUS}",
+          "format": "none",
+          "gauge": {
+            "maxValue": 100,
+            "minValue": 0,
+            "show": false,
+            "thresholdLabels": false,
+            "thresholdMarkers": true
+          },
+          "gridPos": {
+            "h": 3,
+            "w": 6,
+            "x": 0,
+            "y": 17
           },
           "id": 87,
           "interval": null,
@@ -1540,9 +1815,9 @@
             "h": 3,
             "w": 6,
             "x": 6,
-            "y": 7
+            "y": 17
           },
-          "id": 88,
+          "id": 84,
           "interval": null,
           "links": [],
           "mappingType": 1,
@@ -1579,14 +1854,14 @@
           "tableColumn": "",
           "targets": [
             {
-              "expr": "camunda_user_operation_log_type_Claim",
+              "expr": "camunda_user_operation_log_type_AddAttachment",
               "format": "time_series",
               "intervalFactor": 1,
               "refId": "A"
             }
           ],
           "thresholds": "",
-          "title": "User Log Operation: Claim",
+          "title": "User Log Operation: Add Attachment",
           "type": "singlestat",
           "valueFontSize": "80%",
           "valueMaps": [
@@ -1620,7 +1895,7 @@
             "h": 3,
             "w": 6,
             "x": 12,
-            "y": 7
+            "y": 17
           },
           "id": 89,
           "interval": null,
@@ -1700,327 +1975,7 @@
             "h": 3,
             "w": 6,
             "x": 18,
-            "y": 7
-          },
-          "id": 90,
-          "interval": null,
-          "links": [],
-          "mappingType": 1,
-          "mappingTypes": [
-            {
-              "name": "value to text",
-              "value": 1
-            },
-            {
-              "name": "range to text",
-              "value": 2
-            }
-          ],
-          "maxDataPoints": 100,
-          "nullPointMode": "connected",
-          "nullText": null,
-          "postfix": "",
-          "postfixFontSize": "50%",
-          "prefix": "",
-          "prefixFontSize": "50%",
-          "rangeMaps": [
-            {
-              "from": "null",
-              "text": "N/A",
-              "to": "null"
-            }
-          ],
-          "sparkline": {
-            "fillColor": "rgba(31, 118, 189, 0.18)",
-            "full": false,
-            "lineColor": "rgb(31, 120, 193)",
-            "show": true
-          },
-          "tableColumn": "",
-          "targets": [
-            {
-              "expr": "camunda_user_operation_log_type_Create",
-              "format": "time_series",
-              "intervalFactor": 1,
-              "refId": "A"
-            }
-          ],
-          "thresholds": "",
-          "title": "User Log Operation: Create",
-          "type": "singlestat",
-          "valueFontSize": "80%",
-          "valueMaps": [
-            {
-              "op": "=",
-              "text": "N/A",
-              "value": "null"
-            }
-          ],
-          "valueName": "current"
-        },
-        {
-          "cacheTimeout": null,
-          "colorBackground": false,
-          "colorValue": false,
-          "colors": [
-            "#299c46",
-            "rgba(237, 129, 40, 0.89)",
-            "#d44a3a"
-          ],
-          "datasource": "${DS_PROMETHEUS}",
-          "format": "none",
-          "gauge": {
-            "maxValue": 100,
-            "minValue": 0,
-            "show": false,
-            "thresholdLabels": false,
-            "thresholdMarkers": true
-          },
-          "gridPos": {
-            "h": 3,
-            "w": 6,
-            "x": 0,
-            "y": 10
-          },
-          "id": 91,
-          "interval": null,
-          "links": [],
-          "mappingType": 1,
-          "mappingTypes": [
-            {
-              "name": "value to text",
-              "value": 1
-            },
-            {
-              "name": "range to text",
-              "value": 2
-            }
-          ],
-          "maxDataPoints": 100,
-          "nullPointMode": "connected",
-          "nullText": null,
-          "postfix": "",
-          "postfixFontSize": "50%",
-          "prefix": "",
-          "prefixFontSize": "50%",
-          "rangeMaps": [
-            {
-              "from": "null",
-              "text": "N/A",
-              "to": "null"
-            }
-          ],
-          "sparkline": {
-            "fillColor": "rgba(31, 118, 189, 0.18)",
-            "full": false,
-            "lineColor": "rgb(31, 120, 193)",
-            "show": true
-          },
-          "tableColumn": "",
-          "targets": [
-            {
-              "expr": "camunda_user_operation_log_type_Delegate",
-              "format": "time_series",
-              "intervalFactor": 1,
-              "refId": "A"
-            }
-          ],
-          "thresholds": "",
-          "title": "User Log Operation: Delegate",
-          "type": "singlestat",
-          "valueFontSize": "80%",
-          "valueMaps": [
-            {
-              "op": "=",
-              "text": "N/A",
-              "value": "null"
-            }
-          ],
-          "valueName": "current"
-        },
-        {
-          "cacheTimeout": null,
-          "colorBackground": false,
-          "colorValue": false,
-          "colors": [
-            "#299c46",
-            "rgba(237, 129, 40, 0.89)",
-            "#d44a3a"
-          ],
-          "datasource": "${DS_PROMETHEUS}",
-          "format": "none",
-          "gauge": {
-            "maxValue": 100,
-            "minValue": 0,
-            "show": false,
-            "thresholdLabels": false,
-            "thresholdMarkers": true
-          },
-          "gridPos": {
-            "h": 3,
-            "w": 6,
-            "x": 6,
-            "y": 10
-          },
-          "id": 92,
-          "interval": null,
-          "links": [],
-          "mappingType": 1,
-          "mappingTypes": [
-            {
-              "name": "value to text",
-              "value": 1
-            },
-            {
-              "name": "range to text",
-              "value": 2
-            }
-          ],
-          "maxDataPoints": 100,
-          "nullPointMode": "connected",
-          "nullText": null,
-          "postfix": "",
-          "postfixFontSize": "50%",
-          "prefix": "",
-          "prefixFontSize": "50%",
-          "rangeMaps": [
-            {
-              "from": "null",
-              "text": "N/A",
-              "to": "null"
-            }
-          ],
-          "sparkline": {
-            "fillColor": "rgba(31, 118, 189, 0.18)",
-            "full": false,
-            "lineColor": "rgb(31, 120, 193)",
-            "show": true
-          },
-          "tableColumn": "",
-          "targets": [
-            {
-              "expr": "camunda_user_operation_log_type_Delete",
-              "format": "time_series",
-              "intervalFactor": 1,
-              "refId": "A"
-            }
-          ],
-          "thresholds": "",
-          "title": "User Log Operation: Delete",
-          "type": "singlestat",
-          "valueFontSize": "80%",
-          "valueMaps": [
-            {
-              "op": "=",
-              "text": "N/A",
-              "value": "null"
-            }
-          ],
-          "valueName": "current"
-        },
-        {
-          "cacheTimeout": null,
-          "colorBackground": false,
-          "colorValue": false,
-          "colors": [
-            "#299c46",
-            "rgba(237, 129, 40, 0.89)",
-            "#d44a3a"
-          ],
-          "datasource": "${DS_PROMETHEUS}",
-          "format": "none",
-          "gauge": {
-            "maxValue": 100,
-            "minValue": 0,
-            "show": false,
-            "thresholdLabels": false,
-            "thresholdMarkers": true
-          },
-          "gridPos": {
-            "h": 3,
-            "w": 6,
-            "x": 12,
-            "y": 10
-          },
-          "id": 93,
-          "interval": null,
-          "links": [],
-          "mappingType": 1,
-          "mappingTypes": [
-            {
-              "name": "value to text",
-              "value": 1
-            },
-            {
-              "name": "range to text",
-              "value": 2
-            }
-          ],
-          "maxDataPoints": 100,
-          "nullPointMode": "connected",
-          "nullText": null,
-          "postfix": "",
-          "postfixFontSize": "50%",
-          "prefix": "",
-          "prefixFontSize": "50%",
-          "rangeMaps": [
-            {
-              "from": "null",
-              "text": "N/A",
-              "to": "null"
-            }
-          ],
-          "sparkline": {
-            "fillColor": "rgba(31, 118, 189, 0.18)",
-            "full": false,
-            "lineColor": "rgb(31, 120, 193)",
-            "show": true
-          },
-          "tableColumn": "",
-          "targets": [
-            {
-              "expr": "camunda_user_operation_log_type_DeleteAttachment",
-              "format": "time_series",
-              "intervalFactor": 1,
-              "refId": "A"
-            }
-          ],
-          "thresholds": "",
-          "title": "User Log Operation: Delete Attachment",
-          "type": "singlestat",
-          "valueFontSize": "80%",
-          "valueMaps": [
-            {
-              "op": "=",
-              "text": "N/A",
-              "value": "null"
-            }
-          ],
-          "valueName": "current"
-        },
-        {
-          "cacheTimeout": null,
-          "colorBackground": false,
-          "colorValue": false,
-          "colors": [
-            "#299c46",
-            "rgba(237, 129, 40, 0.89)",
-            "#d44a3a"
-          ],
-          "datasource": "${DS_PROMETHEUS}",
-          "format": "none",
-          "gauge": {
-            "maxValue": 100,
-            "minValue": 0,
-            "show": false,
-            "thresholdLabels": false,
-            "thresholdMarkers": true
-          },
-          "gridPos": {
-            "h": 3,
-            "w": 6,
-            "x": 18,
-            "y": 10
+            "y": 17
           },
           "id": 94,
           "interval": null,
@@ -2100,9 +2055,9 @@
             "h": 3,
             "w": 6,
             "x": 0,
-            "y": 13
+            "y": 20
           },
-          "id": 95,
+          "id": 91,
           "interval": null,
           "links": [],
           "mappingType": 1,
@@ -2139,14 +2094,14 @@
           "tableColumn": "",
           "targets": [
             {
-              "expr": "camunda_user_operation_log_type_DeleteUserLink",
+              "expr": "camunda_user_operation_log_type_Delegate",
               "format": "time_series",
               "intervalFactor": 1,
               "refId": "A"
             }
           ],
           "thresholds": "",
-          "title": "User Log Operation: Delete User Link",
+          "title": "User Log Operation: Delegate",
           "type": "singlestat",
           "valueFontSize": "80%",
           "valueMaps": [
@@ -2180,9 +2135,9 @@
             "h": 3,
             "w": 6,
             "x": 6,
-            "y": 13
+            "y": 20
           },
-          "id": 96,
+          "id": 88,
           "interval": null,
           "links": [],
           "mappingType": 1,
@@ -2219,14 +2174,14 @@
           "tableColumn": "",
           "targets": [
             {
-              "expr": "camunda_user_operation_log_type_Migrate",
+              "expr": "camunda_user_operation_log_type_Claim",
               "format": "time_series",
               "intervalFactor": 1,
               "refId": "A"
             }
           ],
           "thresholds": "",
-          "title": "User Log Operation: Migrate",
+          "title": "User Log Operation: Claim",
           "type": "singlestat",
           "valueFontSize": "80%",
           "valueMaps": [
@@ -2260,9 +2215,9 @@
             "h": 3,
             "w": 6,
             "x": 12,
-            "y": 13
+            "y": 20
           },
-          "id": 97,
+          "id": 93,
           "interval": null,
           "links": [],
           "mappingType": 1,
@@ -2299,14 +2254,14 @@
           "tableColumn": "",
           "targets": [
             {
-              "expr": "camunda_user_operation_log_type_ModifyProcessInstance",
+              "expr": "camunda_user_operation_log_type_DeleteAttachment",
               "format": "time_series",
               "intervalFactor": 1,
               "refId": "A"
             }
           ],
           "thresholds": "",
-          "title": "User Log Operation: Modify Process Instance",
+          "title": "User Log Operation: Delete Attachment",
           "type": "singlestat",
           "valueFontSize": "80%",
           "valueMaps": [
@@ -2340,7 +2295,7 @@
             "h": 3,
             "w": 6,
             "x": 18,
-            "y": 13
+            "y": 20
           },
           "id": 98,
           "interval": null,
@@ -2420,9 +2375,9 @@
             "h": 3,
             "w": 6,
             "x": 0,
-            "y": 16
+            "y": 23
           },
-          "id": 99,
+          "id": 95,
           "interval": null,
           "links": [],
           "mappingType": 1,
@@ -2459,14 +2414,14 @@
           "tableColumn": "",
           "targets": [
             {
-              "expr": "camunda_user_operation_log_type_Resolve",
+              "expr": "camunda_user_operation_log_type_DeleteUserLink",
               "format": "time_series",
               "intervalFactor": 1,
               "refId": "A"
             }
           ],
           "thresholds": "",
-          "title": "User Log Operation: Resolve",
+          "title": "User Log Operation: Delete User Link",
           "type": "singlestat",
           "valueFontSize": "80%",
           "valueMaps": [
@@ -2500,9 +2455,9 @@
             "h": 3,
             "w": 6,
             "x": 6,
-            "y": 16
+            "y": 23
           },
-          "id": 100,
+          "id": 92,
           "interval": null,
           "links": [],
           "mappingType": 1,
@@ -2539,14 +2494,14 @@
           "tableColumn": "",
           "targets": [
             {
-              "expr": "camunda_user_operation_log_type_RestartProcessInstance",
+              "expr": "camunda_user_operation_log_type_Delete",
               "format": "time_series",
               "intervalFactor": 1,
               "refId": "A"
             }
           ],
           "thresholds": "",
-          "title": "User Log Operation: Restart Process Instance",
+          "title": "User Log Operation: Delete",
           "type": "singlestat",
           "valueFontSize": "80%",
           "valueMaps": [
@@ -2580,9 +2535,9 @@
             "h": 3,
             "w": 6,
             "x": 12,
-            "y": 16
+            "y": 23
           },
-          "id": 101,
+          "id": 97,
           "interval": null,
           "links": [],
           "mappingType": 1,
@@ -2619,14 +2574,14 @@
           "tableColumn": "",
           "targets": [
             {
-              "expr": "camunda_user_operation_log_type_SetExternalTaskRetries",
+              "expr": "camunda_user_operation_log_type_ModifyProcessInstance",
               "format": "time_series",
               "intervalFactor": 1,
               "refId": "A"
             }
           ],
           "thresholds": "",
-          "title": "User Log Operation: Set External Task Retries",
+          "title": "User Log Operation: Modify Process Instance",
           "type": "singlestat",
           "valueFontSize": "80%",
           "valueMaps": [
@@ -2660,7 +2615,7 @@
             "h": 3,
             "w": 6,
             "x": 18,
-            "y": 16
+            "y": 23
           },
           "id": 102,
           "interval": null,
@@ -2740,9 +2695,9 @@
             "h": 3,
             "w": 6,
             "x": 0,
-            "y": 19
+            "y": 26
           },
-          "id": 103,
+          "id": 99,
           "interval": null,
           "links": [],
           "mappingType": 1,
@@ -2779,14 +2734,14 @@
           "tableColumn": "",
           "targets": [
             {
-              "expr": "camunda_user_operation_log_type_SetOwner",
+              "expr": "camunda_user_operation_log_type_Resolve",
               "format": "time_series",
               "intervalFactor": 1,
               "refId": "A"
             }
           ],
           "thresholds": "",
-          "title": "User Log Operation: Set Owner",
+          "title": "User Log Operation: Resolve",
           "type": "singlestat",
           "valueFontSize": "80%",
           "valueMaps": [
@@ -2820,9 +2775,9 @@
             "h": 3,
             "w": 6,
             "x": 6,
-            "y": 19
+            "y": 26
           },
-          "id": 104,
+          "id": 96,
           "interval": null,
           "links": [],
           "mappingType": 1,
@@ -2859,14 +2814,14 @@
           "tableColumn": "",
           "targets": [
             {
-              "expr": "camunda_user_operation_log_type_SetPriority",
+              "expr": "camunda_user_operation_log_type_Migrate",
               "format": "time_series",
               "intervalFactor": 1,
               "refId": "A"
             }
           ],
           "thresholds": "",
-          "title": "User Log Operation: Set Priority",
+          "title": "User Log Operation: Migrate",
           "type": "singlestat",
           "valueFontSize": "80%",
           "valueMaps": [
@@ -2900,9 +2855,9 @@
             "h": 3,
             "w": 6,
             "x": 12,
-            "y": 19
+            "y": 26
           },
-          "id": 105,
+          "id": 101,
           "interval": null,
           "links": [],
           "mappingType": 1,
@@ -2939,14 +2894,14 @@
           "tableColumn": "",
           "targets": [
             {
-              "expr": "camunda_user_operation_log_type_SetVariable",
+              "expr": "camunda_user_operation_log_type_SetExternalTaskRetries",
               "format": "time_series",
               "intervalFactor": 1,
               "refId": "A"
             }
           ],
           "thresholds": "",
-          "title": "User Log Operation: Set Variable",
+          "title": "User Log Operation: Set External Task Retries",
           "type": "singlestat",
           "valueFontSize": "80%",
           "valueMaps": [
@@ -2980,7 +2935,7 @@
             "h": 3,
             "w": 6,
             "x": 18,
-            "y": 19
+            "y": 26
           },
           "id": 106,
           "interval": null,
@@ -3060,9 +3015,9 @@
             "h": 3,
             "w": 6,
             "x": 0,
-            "y": 22
+            "y": 29
           },
-          "id": 107,
+          "id": 103,
           "interval": null,
           "links": [],
           "mappingType": 1,
@@ -3099,14 +3054,14 @@
           "tableColumn": "",
           "targets": [
             {
-              "expr": "camunda_user_operation_log_type_SuspendBatch",
+              "expr": "camunda_user_operation_log_type_SetOwner",
               "format": "time_series",
               "intervalFactor": 1,
               "refId": "A"
             }
           ],
           "thresholds": "",
-          "title": "User Log Operation: Suspend Batch",
+          "title": "User Log Operation: Set Owner",
           "type": "singlestat",
           "valueFontSize": "80%",
           "valueMaps": [
@@ -3140,9 +3095,9 @@
             "h": 3,
             "w": 6,
             "x": 6,
-            "y": 22
+            "y": 29
           },
-          "id": 108,
+          "id": 100,
           "interval": null,
           "links": [],
           "mappingType": 1,
@@ -3179,14 +3134,14 @@
           "tableColumn": "",
           "targets": [
             {
-              "expr": "camunda_user_operation_log_type_SuspendJob",
+              "expr": "camunda_user_operation_log_type_RestartProcessInstance",
               "format": "time_series",
               "intervalFactor": 1,
               "refId": "A"
             }
           ],
           "thresholds": "",
-          "title": "User Log Operation: Suspend Job",
+          "title": "User Log Operation: Restart Process Instance",
           "type": "singlestat",
           "valueFontSize": "80%",
           "valueMaps": [
@@ -3220,9 +3175,9 @@
             "h": 3,
             "w": 6,
             "x": 12,
-            "y": 22
+            "y": 29
           },
-          "id": 109,
+          "id": 105,
           "interval": null,
           "links": [],
           "mappingType": 1,
@@ -3259,14 +3214,14 @@
           "tableColumn": "",
           "targets": [
             {
-              "expr": "camunda_user_operation_log_type_SuspendJobDefinition",
+              "expr": "camunda_user_operation_log_type_SetVariable",
               "format": "time_series",
               "intervalFactor": 1,
               "refId": "A"
             }
           ],
           "thresholds": "",
-          "title": "User Log Operation: Suspend Job Definition",
+          "title": "User Log Operation: Set Variable",
           "type": "singlestat",
           "valueFontSize": "80%",
           "valueMaps": [
@@ -3300,7 +3255,7 @@
             "h": 3,
             "w": 6,
             "x": 18,
-            "y": 22
+            "y": 29
           },
           "id": 110,
           "interval": null,
@@ -3380,7 +3335,247 @@
             "h": 3,
             "w": 6,
             "x": 0,
-            "y": 25
+            "y": 32
+          },
+          "id": 107,
+          "interval": null,
+          "links": [],
+          "mappingType": 1,
+          "mappingTypes": [
+            {
+              "name": "value to text",
+              "value": 1
+            },
+            {
+              "name": "range to text",
+              "value": 2
+            }
+          ],
+          "maxDataPoints": 100,
+          "nullPointMode": "connected",
+          "nullText": null,
+          "postfix": "",
+          "postfixFontSize": "50%",
+          "prefix": "",
+          "prefixFontSize": "50%",
+          "rangeMaps": [
+            {
+              "from": "null",
+              "text": "N/A",
+              "to": "null"
+            }
+          ],
+          "sparkline": {
+            "fillColor": "rgba(31, 118, 189, 0.18)",
+            "full": false,
+            "lineColor": "rgb(31, 120, 193)",
+            "show": true
+          },
+          "tableColumn": "",
+          "targets": [
+            {
+              "expr": "camunda_user_operation_log_type_SuspendBatch",
+              "format": "time_series",
+              "intervalFactor": 1,
+              "refId": "A"
+            }
+          ],
+          "thresholds": "",
+          "title": "User Log Operation: Suspend Batch",
+          "type": "singlestat",
+          "valueFontSize": "80%",
+          "valueMaps": [
+            {
+              "op": "=",
+              "text": "N/A",
+              "value": "null"
+            }
+          ],
+          "valueName": "current"
+        },
+        {
+          "cacheTimeout": null,
+          "colorBackground": false,
+          "colorValue": false,
+          "colors": [
+            "#299c46",
+            "rgba(237, 129, 40, 0.89)",
+            "#d44a3a"
+          ],
+          "datasource": "${DS_PROMETHEUS}",
+          "format": "none",
+          "gauge": {
+            "maxValue": 100,
+            "minValue": 0,
+            "show": false,
+            "thresholdLabels": false,
+            "thresholdMarkers": true
+          },
+          "gridPos": {
+            "h": 3,
+            "w": 6,
+            "x": 6,
+            "y": 32
+          },
+          "id": 104,
+          "interval": null,
+          "links": [],
+          "mappingType": 1,
+          "mappingTypes": [
+            {
+              "name": "value to text",
+              "value": 1
+            },
+            {
+              "name": "range to text",
+              "value": 2
+            }
+          ],
+          "maxDataPoints": 100,
+          "nullPointMode": "connected",
+          "nullText": null,
+          "postfix": "",
+          "postfixFontSize": "50%",
+          "prefix": "",
+          "prefixFontSize": "50%",
+          "rangeMaps": [
+            {
+              "from": "null",
+              "text": "N/A",
+              "to": "null"
+            }
+          ],
+          "sparkline": {
+            "fillColor": "rgba(31, 118, 189, 0.18)",
+            "full": false,
+            "lineColor": "rgb(31, 120, 193)",
+            "show": true
+          },
+          "tableColumn": "",
+          "targets": [
+            {
+              "expr": "camunda_user_operation_log_type_SetPriority",
+              "format": "time_series",
+              "intervalFactor": 1,
+              "refId": "A"
+            }
+          ],
+          "thresholds": "",
+          "title": "User Log Operation: Set Priority",
+          "type": "singlestat",
+          "valueFontSize": "80%",
+          "valueMaps": [
+            {
+              "op": "=",
+              "text": "N/A",
+              "value": "null"
+            }
+          ],
+          "valueName": "current"
+        },
+        {
+          "cacheTimeout": null,
+          "colorBackground": false,
+          "colorValue": false,
+          "colors": [
+            "#299c46",
+            "rgba(237, 129, 40, 0.89)",
+            "#d44a3a"
+          ],
+          "datasource": "${DS_PROMETHEUS}",
+          "format": "none",
+          "gauge": {
+            "maxValue": 100,
+            "minValue": 0,
+            "show": false,
+            "thresholdLabels": false,
+            "thresholdMarkers": true
+          },
+          "gridPos": {
+            "h": 3,
+            "w": 6,
+            "x": 12,
+            "y": 32
+          },
+          "id": 109,
+          "interval": null,
+          "links": [],
+          "mappingType": 1,
+          "mappingTypes": [
+            {
+              "name": "value to text",
+              "value": 1
+            },
+            {
+              "name": "range to text",
+              "value": 2
+            }
+          ],
+          "maxDataPoints": 100,
+          "nullPointMode": "connected",
+          "nullText": null,
+          "postfix": "",
+          "postfixFontSize": "50%",
+          "prefix": "",
+          "prefixFontSize": "50%",
+          "rangeMaps": [
+            {
+              "from": "null",
+              "text": "N/A",
+              "to": "null"
+            }
+          ],
+          "sparkline": {
+            "fillColor": "rgba(31, 118, 189, 0.18)",
+            "full": false,
+            "lineColor": "rgb(31, 120, 193)",
+            "show": true
+          },
+          "tableColumn": "",
+          "targets": [
+            {
+              "expr": "camunda_user_operation_log_type_SuspendJobDefinition",
+              "format": "time_series",
+              "intervalFactor": 1,
+              "refId": "A"
+            }
+          ],
+          "thresholds": "",
+          "title": "User Log Operation: Suspend Job Definition",
+          "type": "singlestat",
+          "valueFontSize": "80%",
+          "valueMaps": [
+            {
+              "op": "=",
+              "text": "N/A",
+              "value": "null"
+            }
+          ],
+          "valueName": "current"
+        },
+        {
+          "cacheTimeout": null,
+          "colorBackground": false,
+          "colorValue": false,
+          "colors": [
+            "#299c46",
+            "rgba(237, 129, 40, 0.89)",
+            "#d44a3a"
+          ],
+          "datasource": "${DS_PROMETHEUS}",
+          "format": "none",
+          "gauge": {
+            "maxValue": 100,
+            "minValue": 0,
+            "show": false,
+            "thresholdLabels": false,
+            "thresholdMarkers": true
+          },
+          "gridPos": {
+            "h": 3,
+            "w": 6,
+            "x": 0,
+            "y": 35
           },
           "id": 111,
           "interval": null,
@@ -3460,7 +3655,87 @@
             "h": 3,
             "w": 6,
             "x": 6,
-            "y": 25
+            "y": 35
+          },
+          "id": 108,
+          "interval": null,
+          "links": [],
+          "mappingType": 1,
+          "mappingTypes": [
+            {
+              "name": "value to text",
+              "value": 1
+            },
+            {
+              "name": "range to text",
+              "value": 2
+            }
+          ],
+          "maxDataPoints": 100,
+          "nullPointMode": "connected",
+          "nullText": null,
+          "postfix": "",
+          "postfixFontSize": "50%",
+          "prefix": "",
+          "prefixFontSize": "50%",
+          "rangeMaps": [
+            {
+              "from": "null",
+              "text": "N/A",
+              "to": "null"
+            }
+          ],
+          "sparkline": {
+            "fillColor": "rgba(31, 118, 189, 0.18)",
+            "full": false,
+            "lineColor": "rgb(31, 120, 193)",
+            "show": true
+          },
+          "tableColumn": "",
+          "targets": [
+            {
+              "expr": "camunda_user_operation_log_type_SuspendJob",
+              "format": "time_series",
+              "intervalFactor": 1,
+              "refId": "A"
+            }
+          ],
+          "thresholds": "",
+          "title": "User Log Operation: Suspend Job",
+          "type": "singlestat",
+          "valueFontSize": "80%",
+          "valueMaps": [
+            {
+              "op": "=",
+              "text": "N/A",
+              "value": "null"
+            }
+          ],
+          "valueName": "current"
+        },
+        {
+          "cacheTimeout": null,
+          "colorBackground": false,
+          "colorValue": false,
+          "colors": [
+            "#299c46",
+            "rgba(237, 129, 40, 0.89)",
+            "#d44a3a"
+          ],
+          "datasource": "${DS_PROMETHEUS}",
+          "format": "none",
+          "gauge": {
+            "maxValue": 100,
+            "minValue": 0,
+            "show": false,
+            "thresholdLabels": false,
+            "thresholdMarkers": true
+          },
+          "gridPos": {
+            "h": 3,
+            "w": 6,
+            "x": 6,
+            "y": 38
           },
           "id": 112,
           "interval": null,
@@ -5882,5 +6157,5 @@
   "timezone": "browser",
   "title": "Camunda Metrics 1",
   "uid": "EloJ7n1mz",
-  "version": 3
+  "version": 4
 }
