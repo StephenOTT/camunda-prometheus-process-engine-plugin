@@ -4,21 +4,22 @@ import io.prometheus.client.Summary;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 public class SimpleSummaryMetric {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SimpleSummaryMetric.class);
 
-    private static HashMap<String, Summary> summaries = new HashMap<>();
+    private static ConcurrentMap<String, Summary> summaries = new ConcurrentHashMap<>();
 
     private final String summaryName;
     private Summary.Timer requestTimer;
 
     // Counters always start at zero when they are initialized, as per prometheus docs.
     public SimpleSummaryMetric(String name, String help, List<String> labelNames) {
-        if (!summaries.containsKey(name)) {
+        summaries.computeIfAbsent(name, k -> {
             Summary.Builder summaryBuilder = Summary.build()
                     .namespace("camunda")
                     .name(name)
@@ -28,8 +29,9 @@ public class SimpleSummaryMetric {
             }
             Summary summary = summaryBuilder.register();
             LOGGER.info("Prometheus SimpleSummaryMetric has been created: " + name);
-            summaries.put(name,summary);
-        }
+            return summary;
+        });
+
         summaryName = name;
     }
 

@@ -4,18 +4,19 @@ import io.prometheus.client.Counter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 public class SimpleCounterMetric {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SimpleCounterMetric.class);
-    private static HashMap<String, Counter> counters = new HashMap<>();
+    private static ConcurrentMap<String, Counter> counters = new ConcurrentHashMap<>();
     private final String counterName;
 
     // Counters always start at zero when they are initialized, as per prometheus docs.
     public SimpleCounterMetric(String name, String help, List<String> labelNames) {
-        if (!counters.containsKey(name)) {
+        counters.computeIfAbsent(name, key ->{
             Counter.Builder counterBuilder = Counter.build()
                     .namespace("camunda")
                     .name(name)
@@ -25,8 +26,8 @@ public class SimpleCounterMetric {
             }
             Counter counter = counterBuilder.register();
             LOGGER.info("Prometheus SimpleCounterMetric has been created: " + name);
-            counters.put(name,counter);
-        }
+            return counter;
+        });
         counterName = name;
     }
 

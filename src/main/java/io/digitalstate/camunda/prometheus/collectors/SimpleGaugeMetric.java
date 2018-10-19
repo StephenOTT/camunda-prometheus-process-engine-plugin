@@ -4,28 +4,29 @@ import io.prometheus.client.Gauge;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 public class SimpleGaugeMetric {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SimpleGaugeMetric.class);
-    private static HashMap<String, Gauge> gauges = new HashMap<>();
+    private static ConcurrentMap<String, Gauge> gauges = new ConcurrentHashMap<>();
     private final String gaugeName;
 
     public SimpleGaugeMetric(String name, String help, List<String> labelNames) {
-        if (!gauges.containsKey(name)) {
+        gauges.computeIfAbsent(name, key ->{
             Gauge.Builder gaugeBuilder = Gauge.build()
                     .namespace("camunda")
                     .name(name)
                     .help(help);
-            if (labelNames != null){
+            if (labelNames != null) {
                 gaugeBuilder.labelNames(labelNames.toArray(new String[0]));
             }
             Gauge gauge = gaugeBuilder.register();
             LOGGER.info("Prometheus SimpleGaugeMetric has been created: " + name);
-            gauges.put(name,gauge);
-        }
+            return gauge;
+        });
         gaugeName = name;
     }
 

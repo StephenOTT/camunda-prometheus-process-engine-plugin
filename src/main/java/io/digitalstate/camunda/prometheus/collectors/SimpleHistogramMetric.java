@@ -4,20 +4,21 @@ import io.prometheus.client.Histogram;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 public class SimpleHistogramMetric {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SimpleHistogramMetric.class);
 
-    private static HashMap<String, Histogram> histograms = new HashMap<>();
+    private static ConcurrentMap<String, Histogram> histograms = new ConcurrentHashMap<>();
 
     private final String histogramName;
     private Histogram.Timer requestTimer;
 
     public SimpleHistogramMetric(String name, String help, List<Double> buckets, List<String> labelNames) {
-        if (!histograms.containsKey(name)) {
+        histograms.computeIfAbsent(name, k -> {
             Histogram.Builder summaryBuilder = Histogram.build()
                     .namespace("camunda")
                     .name(name)
@@ -30,8 +31,8 @@ public class SimpleHistogramMetric {
             }
             Histogram summary = summaryBuilder.register();
             LOGGER.info("Prometheus SimpleHistogramMetric has been created: " + name);
-            histograms.put(name,summary);
-        }
+            return summary;
+        });
         histogramName = name;
     }
 
