@@ -94,3 +94,14 @@ custom:
     - someWorkerJohn
     - someOtherWorkerChris
     - someLegacyWorkerFrank
+- collector: classpath:prometheus/customcollectors/HistoricActivityStatisticsPerProcessDefinition.groovy
+  enable: true
+  startDelay: 0
+  frequency: 10000
+  config:
+    processDefinitionKeys:
+      - employeeOnboarding
+      - ccProcessing
+    processDefinitionIds:
+      - aProcessDefinitionId
+      - someOtherProcessDefinitionId

@@ -96,3 +96,10 @@ custom:
     - SW1
     - SW2
     - SW3
+- collector: classpath:prometheus/customcollectors/HistoricActivityStatisticsPerProcessDefinition.groovy
+  enable: true
+  startDelay: 0
+  frequency: 5000
+  config:
+    processDefinitionKeys:
+    - myTestProcess
