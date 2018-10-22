@@ -81,7 +81,7 @@ static void collectAll(ProcessEngine processEngine, Logger LOG, Map<String, Obje
                 .singleResult()
 
         if (processDefinition != null){
-            collectProcessDefinitionActivityInstanceCounts(processEngine, engineName, LOG, processDefinition.getId(), processDefinition.getKey())
+            collectProcessDefinitionActivityInstanceCounts(processEngine, engineName, LOG, processDefinition)
         }
     }
 
