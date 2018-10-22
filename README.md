@@ -349,3 +349,12 @@ where the `camunda_` is the namespace of the metric
 # How to run tests
 
 1. `./mvnw clean test`
+
+
+# TODO Metrics
+
+1. Rate of Process Start Per Process Def (Per Hour): `3600 * rate(sum(processInstanceStartCount{processDefKey="someKey"[1h]}))`
+
+1. New Users Per Day / Week / Month / Year
+
+1. 
