@@ -22,36 +22,36 @@ collectAll((ProcessEngine)processEngine, (Logger)LOGGER, configs.getConfig())
  * @param LOG
  * @param processDefinitionId
  */
-static void collectProcessDefinitionActivityInstanceCounts(ProcessEngine processEngine, String engineName, Logger LOG, String processDefinitionId){
+static void collectProcessDefinitionActivityInstanceCounts(ProcessEngine processEngine, String engineName, Logger LOG, ProcessDefinition processDefinition){
     SimpleGaugeMetric counterFinished = new SimpleGaugeMetric(
             "process_definition_activity_finished_instance_counts",
             "Finished Activity instance counts (labels) for a specific process definition id (label)",
-            Arrays.asList("engine_name", "process_definition_id", "activity_id")
+            Arrays.asList("engine_name", "process_definition_id", "process_definition_key", "activity_id")
     );
 
     SimpleGaugeMetric counterActive = new SimpleGaugeMetric(
             "process_definition_activity_active_instance_counts",
             "Active Activity instance counts (labels) for a specific process definition id (label)",
-            Arrays.asList("engine_name", "process_definition_id", "activity_id")
+            Arrays.asList("engine_name", "process_definition_id", "process_definition_key", "activity_id")
     );
 
     List<HistoricActivityStatistics> activityFinishedStats = processEngine.getHistoryService()
-            .createHistoricActivityStatisticsQuery(processDefinitionId)
+            .createHistoricActivityStatisticsQuery(processDefinition.getId())
             .includeFinished()
             .list();
 
     List<HistoricActivityStatistics> activityActiveStats = processEngine.getHistoryService()
-            .createHistoricActivityStatisticsQuery(processDefinitionId)
+            .createHistoricActivityStatisticsQuery(processDefinition.getId())
             .list();
 
     activityActiveStats.each { instance ->
         LOG.debug("Activity Instance Stats (Active Query): ACTIVE: instance: ${instance.getId()}  active: ${instance.getInstances()} finished: ${instance.getFinished()}")
-        counterActive.setValue(instance.getInstances(), [engineName, processDefinitionId, instance.getId()])
+        counterActive.setValue(instance.getInstances(), [engineName, processDefinition.getId(), processDefinition.getKey(), instance.getId()])
     }
 
     activityFinishedStats.each { instance ->
         LOG.debug("Activity Instance Stats (Finished Query): FINISHED: instance: ${instance.getId()}  active: ${instance.getInstances()} finished: ${instance.getFinished()}")
-        counterFinished.setValue(instance.getFinished(), [engineName, processDefinitionId, instance.getId()])
+        counterFinished.setValue(instance.getFinished(), [engineName, processDefinition.getId(), processDefinition.getKey(), instance.getId()])
     }
 }
 
@@ -70,7 +70,7 @@ static void collectAll(ProcessEngine processEngine, Logger LOG, Map<String, Obje
                 .singleResult()
 
         if (processDefinition != null){
-            collectProcessDefinitionActivityInstanceCounts(processEngine, engineName, LOG, processDefinition.getId())
+            collectProcessDefinitionActivityInstanceCounts(processEngine, engineName, LOG, processDefinition)
         }
     }
 
@@ -81,7 +81,7 @@ static void collectAll(ProcessEngine processEngine, Logger LOG, Map<String, Obje
                 .singleResult()
 
         if (processDefinition != null){
-            collectProcessDefinitionActivityInstanceCounts(processEngine, engineName, LOG, processDefinition.getId())
+            collectProcessDefinitionActivityInstanceCounts(processEngine, engineName, LOG, processDefinition.getId(), processDefinition.getKey())
         }
     }
 
