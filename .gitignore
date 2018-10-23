@@ -53,8 +53,5 @@ build-reports/
  
 # Maven
 log/
-target/
 
-.mvn/*/*.jar
-
-!docker/**/*.jar
+#docker/**/*.jar

@@ -54,10 +54,7 @@ public class SimpleSummaryMetric {
 
     public void observeValue(Double observedValue, List<String> labels){
         Summary summary = summaries.get(this.summaryName);
-        if (labels != null){
-            summary.labels(labels.toArray(new String[0]));
-        }
-        summary.observe(observedValue);
+        summary.labels(labels.toArray(new String[0])).observe(observedValue);
     }
     public void observeValue(Double observedValue){
         Summary summary = summaries.get(this.summaryName);

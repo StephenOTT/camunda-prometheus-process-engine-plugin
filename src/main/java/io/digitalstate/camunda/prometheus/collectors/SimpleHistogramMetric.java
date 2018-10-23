@@ -57,10 +57,8 @@ public class SimpleHistogramMetric {
 
     public void observeValue(Number observedValue, List<String> labels){
         Histogram histogram = histograms.get(this.histogramName);
-        if (labels != null){
-            histogram.labels(labels.toArray(new String[0]));
-        }
-        histogram.observe(observedValue.doubleValue());
+            histogram.labels(labels.toArray(new String[0]))
+                    .observe(observedValue.doubleValue());
     }
     public void observeValue(Number observedValue){
         Histogram histogram = histograms.get(this.histogramName);

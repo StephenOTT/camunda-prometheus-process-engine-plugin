@@ -28,6 +28,7 @@
                     <property name="port" value="9999" />
                     <property name="camundaReportingIntervalInSeconds" value="5"/>
                     <property name="collectorYmlFilePath" value="src/test/resources/prometheus-metrics.yml"/>
+                    <property name="bpmnActivityDurationParseListener" value="true"/>
                 </bean>
             </list>
         </property>
