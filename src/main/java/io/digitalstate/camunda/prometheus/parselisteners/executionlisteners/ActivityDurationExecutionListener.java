@@ -32,7 +32,7 @@ public class ActivityDurationExecutionListener implements ExecutionListener {
         ProcessEngine engine = (ProcessEngine) execution.getProcessEngineServices();
         final String engineName = engine.getName();
 
-        // If boolean is set to true for useProcessDefinitionkeyWithName, then we modify the metric name
+        // If boolean is set to true for useProcessDefinitionIdWithName, then we modify the metric name
         String histogramNameAggregate;
         if (this.useProcessDefinitionIdWithName){
             histogramNameAggregate = String.format("%s_%s", histogramName, processDefinitionId);
