@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
+import io.digitalstate.camunda.prometheus.config.yaml.ActivityDurationTrackingConfig;
 import io.digitalstate.camunda.prometheus.config.yaml.CustomMetricsConfig;
 import io.digitalstate.camunda.prometheus.config.yaml.SystemMetricsConfig;
 import io.digitalstate.camunda.prometheus.config.yaml.YamlFile;
@@ -17,7 +18,9 @@ import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class YamlConfig {
 
@@ -26,6 +29,7 @@ public class YamlConfig {
     private YamlFile yamlConfig = new YamlFile();
     private List<SystemMetricsConfig> systemMetricsConfigs = new ArrayList<>();
     private List<CustomMetricsConfig> customMetricsConfigs = new ArrayList<>();
+    private Map<String, ActivityDurationTrackingConfig> activityDurationTrackingConfigs = new HashMap<>();
 
     public YamlConfig(String filePath) {
         ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
@@ -36,15 +40,25 @@ public class YamlConfig {
             // @TODO Add error handling for various read errors such as no system section, no custom section, etc.
             yamlConfig = mapper.readValue(file.toFile(), YamlFile.class);
 
+            // System Metrics
             if (yamlConfig != null && !yamlConfig.getSystem().isEmpty()) {
                     systemMetricsConfigs = yamlConfig.getSystem();
             } else {
                 LOGGER.warn("No Prometheus Camunda System Metrics were not found.");
             }
+
+            // Custom metrics
             if (yamlConfig != null && !yamlConfig.getCustom().isEmpty()) {
                 customMetricsConfigs = yamlConfig.getCustom();
             } else {
                 LOGGER.info("No Custom Prometheus Metrics Collectors were found.");
+            }
+
+            // Activity Duration Tracking Configuration
+            if (yamlConfig != null && !yamlConfig.getActivityDurationTracking().isEmpty()) {
+                activityDurationTrackingConfigs = yamlConfig.getActivityDurationTracking();
+            } else {
+                LOGGER.info("No Activity Duration Tracking Configs for Prometheus Metrics were found.");
             }
 
         } catch (JsonParseException e) {
@@ -59,6 +73,7 @@ public class YamlConfig {
         }
     }
 
+
     //
     // SETTERS AND GETTER
     //
@@ -69,6 +84,10 @@ public class YamlConfig {
 
     public List<SystemMetricsConfig> getSystemMetricsConfigs() {
         return systemMetricsConfigs;
+    }
+
+    public Map<String, ActivityDurationTrackingConfig> getActivityDurationTrackingConfigs() {
+        return activityDurationTrackingConfigs;
     }
 
     public YamlFile getYamlConfig() {

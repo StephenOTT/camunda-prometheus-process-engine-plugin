@@ -3,7 +3,7 @@ package io.digitalstate.camunda.prometheus;
 import io.digitalstate.camunda.prometheus.collectors.camunda.CamundaMetrics;
 import io.digitalstate.camunda.prometheus.collectors.custom.CamundaCustomMetrics;
 import io.digitalstate.camunda.prometheus.config.YamlConfig;
-import io.digitalstate.camunda.prometheus.parselisteners.BpmnGlobalParseListener;
+import io.digitalstate.camunda.prometheus.parselisteners.BpmnActivityDurationTrackingParseListener;
 import io.prometheus.client.CollectorRegistry;
 import org.camunda.bpm.engine.impl.bpmn.parser.BpmnParseListener;
 import org.camunda.bpm.engine.impl.cfg.AbstractProcessEnginePlugin;
@@ -18,6 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PrometheusProcessEnginePlugin extends AbstractProcessEnginePlugin {
+
+    private static YamlConfig yamlConfig;
 
     /**
      * The Port that the Prometheus Client HTTP Server will be exposed on.
@@ -59,6 +61,10 @@ public class PrometheusProcessEnginePlugin extends AbstractProcessEnginePlugin {
 
     @Override
     public void preInit(ProcessEngineConfigurationImpl processEngineConfiguration) {
+
+        // Get YAML Config File
+        yamlConfig = new YamlConfig(getCollectorYmlFilePath());
+
         // Starts up the Prometheus Client HTTP Server
         new MetricsExporter(new Integer(getPort()));
 
@@ -68,12 +74,12 @@ public class PrometheusProcessEnginePlugin extends AbstractProcessEnginePlugin {
                 parseListeners = new ArrayList<BpmnParseListener>();
                 processEngineConfiguration.setCustomPreBPMNParseListeners(parseListeners);
             }
-            //@TODO Add YAML Configuration for each listener's configuration
-            parseListeners.add(new BpmnGlobalParseListener());
-            LOGGER.info("Prometheus Bpmn Activity Duration Parse Listener is ACTIVE");
+
+            parseListeners.add(new BpmnActivityDurationTrackingParseListener());
+            LOGGER.info("Prometheus Bpmn Activity Duration Parse Listener is Active");
 
         } else {
-            LOGGER.info("Prometheus Bpmn Activity Duration Parse Listener is DISABLED");
+            LOGGER.info("Prometheus Bpmn Activity Duration Parse Listener is Disabled");
         }
     }
 
@@ -81,7 +87,6 @@ public class PrometheusProcessEnginePlugin extends AbstractProcessEnginePlugin {
     public void postInit(ProcessEngineConfigurationImpl processEngineConfiguration) {
         // Overrides the default Metrics reporter with a new instance that has a customized Reporting interval.
         // This allows the override of the built in 15min interval
-
         LOGGER.info("DbMetricsReporter is being started with Interval of: " + getCamundaReportingIntervalInSeconds() + " seconds.");
 
         DbMetricsReporter metricsReporter = new DbMetricsReporter(processEngineConfiguration.getMetricsRegistry(),
@@ -89,15 +94,10 @@ public class PrometheusProcessEnginePlugin extends AbstractProcessEnginePlugin {
 
         metricsReporter.setReportingIntervalInSeconds(Long.parseLong(getCamundaReportingIntervalInSeconds()));
         processEngineConfiguration.setDbMetricsReporter(metricsReporter);
-
-
     }
 
     @Override
     public void postProcessEngineBuild(ProcessEngine processEngine) {
-
-        // Get YAML Config File
-        YamlConfig yamlConfig = new YamlConfig(getCollectorYmlFilePath());
 
         // Starts Prometheus reporting for the built in Camunda Metrics system.
         new CamundaMetrics(yamlConfig.getSystemMetricsConfigs(), processEngine);
@@ -135,5 +135,9 @@ public class PrometheusProcessEnginePlugin extends AbstractProcessEnginePlugin {
     }
     public void setBpmnActivityDurationParseListener(String bpmnActivityDurationParseListener){
         this.bpmnActivityDurationParseListener = bpmnActivityDurationParseListener;
+    }
+
+    public static YamlConfig getYamlConfig() {
+        return yamlConfig;
     }
 }
