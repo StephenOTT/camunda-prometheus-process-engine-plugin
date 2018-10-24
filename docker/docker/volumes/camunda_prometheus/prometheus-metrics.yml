@@ -103,3 +103,14 @@ custom:
   config:
     processDefinitionKeys:
     - myTestProcess
+
+activityDurationTracking:
+  activity_instance_duration:
+    help: "Core activity instance duration tracking. Used to track all activity instances."
+    buckets: [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 2.0, 3.0]
+  mycustom_metric_duration:
+    help: "Some custom metric i am tracking"
+    buckets: [1, 5, 10, 20, 50]
+  some_userTask_metric:
+    help: "Tracking the duration of specific user tasks: 1m, 2m, 3m, 4m, 5m, 10m, 15m, 30m, 60m, 8h, 24h."
+    buckets: [60, 120, 180, 240, 300, 600, 900, 1800, 3600, 28800, 86400]

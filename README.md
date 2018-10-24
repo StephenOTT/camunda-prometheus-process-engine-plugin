@@ -463,7 +463,7 @@ Activity Definition specific tracking is the specific selection of BPMN activiti
  
  Additional labels are not current configurable through the BPMN or YAML.
  
- ### Metric Initilization
+ ### Metric Initialization
  
  Metrics defined in the YAML file under the `activityDurationTracking` section are only initialized as a Histogram metric once they are used for the first time.  
  This means that if duration metrics are being collected on a process definition that has never run, then the metrics will not be reporting anything.  

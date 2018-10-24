@@ -41,6 +41,7 @@
                 <property name="port">9999</property>
                 <property name="camundaReportingIntervalInSeconds">5</property>
                 <property name="collectorYmlFilePath">/camunda_prometheus/prometheus-metrics.yml</property>
+                <property name="bpmnActivityDurationParseListener">true</property>
             </properties>
             </plugin>
         </plugins>
