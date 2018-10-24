@@ -342,6 +342,161 @@ where the `camunda_` is the namespace of the metric
 
 
 
+
+# Activity Duration Tracking (Beta)
+
+This plugin provides the ability to track Activity Instance Durations using Prometheus Histograms.
+
+Use of Activity Duration Tracking is handled through a Transaction Listener that executes once the Transaction has 
+Committed into the database and thus the Duration of the activity has become calculated.  The cached value is used during the duration lookup to ensure speed.
+
+## Plugin Configuration
+
+To enable the Activity Duration Tracking, the Parse Listener must be activated.  The Parse Listener will Parse all 
+relevant BPMN Activities during BPMN Deployment, to add a End-Listener that will add a Transaction Listener to 
+collect the specific activity duration.
+
+In the plugin xml set the `bpmnActivityDurationParseListener` property to `"true"`.
+
+```xml
+...
+<bean id="prometheusPlugin" class="io.digitalstate.camunda.prometheus.PrometheusProcessEnginePlugin">
+    <property name="port" value="9999" />
+    <property name="camundaReportingIntervalInSeconds" value="5"/>
+    <property name="collectorYmlFilePath" value="src/test/resources/prometheus-metrics.yml"/>
+    <property name="bpmnActivityDurationParseListener" value="true"/>
+</bean>
+...
+```
+
+Once the parse listener is active, you can configure the YAML and BPMN.
+
+:exclamation: The Activity Duration Reporting is not subject to the `camundaReportingIntervalInSeconds` property.  
+Activity Durations are reported in real-time/as they are observed/collected.
+
+## YAML Configuration
+
+In the yaml file (as defined in the `collectorYmlFilePath` property of the plugin's xml configuration), 
+you can add a `activityDurationTracking` section:
+
+```yaml
+...
+activityDurationTracking:
+  activity_instance_duration:
+    help: "Core activity instance duration tracking. Used to track all activity instances."
+    buckets: [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 2.0, 3.0]
+  mycustom_metric_duration:
+    help: "Some custom metric i am tracking"
+    buckets: [1, 5, 10, 20, 50]
+  some_userTask_metric:
+    help: "Tracking the duration of specific user tasks: 1m, 2m, 3m, 4m, 5m, 10m, 15m, 30m, 60m, 8h, 24h."
+    buckets: [60, 120, 180, 240, 300, 600, 900, 1800, 3600, 28800, 86400]
+...
+```
+
+The `activity_instance_duration` is the only "required" object.  This object is used by the "core" activity duration tracker.
+If The global activity duration tracker is activited at the BPMN level, then it will look for the `activity_instance_duration` object, and the deployment will fail to parse if the object is not found.
+You can fully configure the help and bucket properties as needed, but the `activity_instance_duration` key is required.
+
+Duration tracking configuration is set with 3 configurations:
+
+1. Histogram Name (the key of the object.  See [Prometheus metric naming rules](https://prometheus.io/docs/practices/naming/#metric-names))
+1. Help Text (the `help` property)
+1. List of buckets to use in the Histogram (the `buckets` property.  Each bucket represent number of seconds in `<double>`)
+
+## BPMN Configuration
+
+Once the YAML has been configured, you can access these configurations within the BPMN.
+
+Two levels of activity duration tracking can be activated:
+
+1. BPMN Wide Activity Durations
+1. Activity Definition Specific
+
+### BPMN Wide Activity Durations
+
+BPMN Wide duration tracking is managed through a configuration at the BPMN level.  
+
+Example:
+
+`prometheus.track:{type:'activity-duration', metric:'activity_instance_duration'}`
+
+This value is placed into the "Element Documentation" field of the BPMN Process.
+
+:exclamation: The `Element Documentation` field is used due to limitations in the BPMN Parse Listener of the Camunda Engine.  
+The BPMN extension properties are not available on a per Activity Element parsing basis, but the built in Properties 
+of the Process Definition are.  Thus the BPMN's "documentation" property is available across all BPMN Elements.
+
+Activating this form of tracking will track duration across all relevant BPMN Activities.
+
+![bpmn wide tracking](./docs/images/bpmn-wide-activity-tracking.png)
+
+:exclamation: the `appendPdId=true` property (which is supported in Activity Definition Specific) is not currently supported for process wide tracking, but will be added soon.
+In the mean time, you can still track the Process Definition Id through the metric's label `process_definition_id`
+
+### Activity Definition Specific
+
+Activity Definition specific tracking is the specific selection of BPMN activities to track with the Duration tracker.
+
+ On a specific BPMN element you can use the Camunda Extension Properties to add:
+ 
+ **Name**: `prometheus.track`
+ **Value**: `{type:'activity-duration', metric:'mycustom_metric_duration'}`
+ 
+ A alternate value can be used of `{type:'activity-duration', metric:'mycustom_metric_duration', appendPdId=true}`.  
+ the `appendPdId` property means "append the Process Definition Id to the Metric Name".  If this value is true, then in the 
+ case where the metric name is `mycustom_metric_duration`, the resulting name would be `mycustom_metric_duration_someProcessDefinitionId`,
+ 
+ ![bpmn config](./docs/images/bpmn-activity-duration-config.png)
+ 
+ 
+ ## Overall Configurations and Notes
+ 
+ ### Metric Labels
+ 
+ For all activity duration tracking, the follow labels are applied:
+ 
+1. `engine_name` : the name of the engine
+1. `element_type` : the element type such as startEvent, userTask, endEvent, etc.
+1. `process_definition_id` : the specific process definition Id
+1. `activity_id` : the activity Id (**not** the activity instance id)
+ 
+ Additional labels are not current configurable through the BPMN or YAML.
+ 
+ ### Metric Initilization
+ 
+ Metrics defined in the YAML file under the `activityDurationTracking` section are only initialized as a Histogram metric once they are used for the first time.  
+ This means that if duration metrics are being collected on a process definition that has never run, then the metrics will not be reporting anything.  
+ Further, if a specific Activity has never executed, then it will not appear in the metrics until it has executed for the first time.
+
+### Understand Prometheus Histogram Metrics
+
+Prometheus Histograms have specific usage that should be understood before making assumptions on how to read the results.
+
+Specifically look at:
+
+1. https://www.robustperception.io/why-are-prometheus-histograms-cumulative
+1. https://prometheus.io/docs/concepts/metric_types/#histogram
+1. https://prometheus.io/docs/practices/histograms/
+1. http://linuxczar.net/blog/2017/06/15/prometheus-histogram-2/
+
+It is most important to understand that Prometheus Histograms are "Cumulative". See the links above for further details.
+
+### Multi Duration Tracking on Activities :exclamation:
+
+Note that it is possible to have multiple duration tracking.  
+
+- It is possible to have the BPMN wide tracking active, and add specific Activity duration trackers.
+- It is possible to have the BPMN Wide tracking active, and also activate the same tracker on a per activity basis.  This is generally considered a error on the configuration side.  It can also have impacts for performance, so pay attention!
+
+### Future Features under consideration
+
+1. Ability to enable BPMN Wide Tracking, but disable the tracker on specific activities
+1. Ability to enable other types of tracking using Camunda Extension Properties.
+1. Ability to Enable/Disable specific trackers using a boolean rather than having to remove the extension property. 
+1. Have a Idea? Please post in the Issue Queue!!!
+
+
 # How to build the package
 
 1. `./mvnw clean package`
@@ -356,5 +511,3 @@ where the `camunda_` is the namespace of the metric
 1. Rate of Process Start Per Process Def (Per Hour): `3600 * rate(sum(processInstanceStartCount{processDefKey="someKey"[1h]}))`
 
 1. New Users Per Day / Week / Month / Year
-
-1. 
