@@ -19,33 +19,39 @@ public class PromethusTest1 {
     public void shouldExecuteProcess() {
         // Given we create a new process instance
         ProcessInstance processInstance = runtimeService().startProcessInstanceByKey("testProcess");
+        execute(job(processInstance));
         ProcessInstance processInstance2 = runtimeService().startProcessInstanceByKey("testProcess");
-
+        execute(job(processInstance2));
         try {
-            Thread.sleep(8000);
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
         ProcessInstance processInstance3 = runtimeService().startProcessInstanceByKey("testProcess");
+        execute(job(processInstance3));
         ProcessInstance processInstance4 = runtimeService().startProcessInstanceByKey("testProcess");
+        execute(job(processInstance4));
 
         try {
-            Thread.sleep(15000);
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
         ProcessInstance processInstance5 = runtimeService().startProcessInstanceByKey("testProcess");
+        execute(job(processInstance5));
         ProcessInstance processInstance6 = runtimeService().startProcessInstanceByKey("testProcess");
+        execute(job(processInstance6));
 
         try {
-            Thread.sleep(10000);
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
         ProcessInstance processInstance7 = runtimeService().startProcessInstanceByKey("testProcess");
+        execute(job(processInstance7));
 
         try {
             Thread.sleep(100000000);
