@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="_7FrToMrfEeOyYYI9xhG4Cw" targetNamespace="http://camunda.org/schema/1.0/bpmn" exporter="Camunda Modeler" exporterVersion="1.14.0" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd">
   <bpmn2:process id="testProcess" isExecutable="true">
+    <bpmn2:documentation>prometheus.track:{type:'activity-duration', metric:'activity_instance_duration'}</bpmn2:documentation>
+    <bpmn2:extensionElements>
+      <camunda:executionListener event="start">
+        <camunda:script scriptFormat="groovy">println('dogsss')</camunda:script>
+      </camunda:executionListener>
+    </bpmn2:extensionElements>
     <bpmn2:startEvent id="StartEvent_1" name="Case Opened">
       <bpmn2:extensionElements>
         <camunda:executionListener event="end">
@@ -10,6 +16,9 @@ def openCases = new SimpleGaugeMetric('open_cases', 'Number of Open Cases, label
 
 openCases.increment(['standard'])</camunda:script>
         </camunda:executionListener>
+        <camunda:properties>
+          <camunda:property name="prometheus.track" value="{type:&#39;activity-duration&#39;, metric:&#39;mycustom_metric_duration&#39;}" />
+        </camunda:properties>
       </bpmn2:extensionElements>
       <bpmn2:outgoing>SequenceFlow_0fc3gcj</bpmn2:outgoing>
     </bpmn2:startEvent>
@@ -47,7 +56,7 @@ def httpRequest = new SimpleHistogramMetric('legacy_system_123_request', 'Connec
 
 httpRequest.startTimer(['POST'])
 
-sleep(Math.abs(new Random().nextInt() % 5000) + 650)
+sleep(Math.abs(new Random().nextInt() % 1000) + 100)
 
 httpRequest.observeDuration()</bpmn2:script>
     </bpmn2:scriptTask>
