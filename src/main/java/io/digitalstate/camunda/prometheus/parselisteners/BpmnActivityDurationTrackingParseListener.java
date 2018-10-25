@@ -24,11 +24,21 @@ import java.util.Map;
 public class BpmnActivityDurationTrackingParseListener extends AbstractBpmnParseListener {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(BpmnActivityDurationTrackingParseListener.class);
+
     private ExpressionParser parser = new SpelExpressionParser();
     private SimpleEvaluationContext context = new SimpleEvaluationContext.Builder().build();
+
+    // Yaml File configuration holding the specific config for Activity Duration Tracking
     private Map<String, ActivityDurationTrackingConfig> yamlFile = PrometheusProcessEnginePlugin.getYamlConfig().getActivityDurationTrackingConfigs();
 
 
+    /**
+     * Gets the Camunda Extension Properties from a BPMN element and converts it into a MultiValueMap.
+     * The MultiValueMap allows for multiple duplicate keys in the Camunda Extension Properties.
+     * @param element Element: BPMN Element
+     * @param propertyNameStartsWith String of Property key to look for.  Default is 'prometheus.'
+     * @return MultiValueMap<String,String>
+     */
     private MultiValueMap<String,String> getCamundaExtensionPropertiesThatStartWith(Element element, String propertyNameStartsWith){
         MultiValueMap<String,String> extensionProperties = new LinkedMultiValueMap<>();
         try{
@@ -53,11 +63,26 @@ public class BpmnActivityDurationTrackingParseListener extends AbstractBpmnParse
         }
     }
 
+    /**
+     * Checks if the MultiValueMap of camunda extension properties has a "prometheus.track" key
+     * @param properties MultiValueMap<String,String>
+     * @return boolean
+     */
     private Boolean hasTrack(MultiValueMap<String,String> properties){
         return !properties.isEmpty() &&
                 properties.containsKey("prometheus.track");
     }
 
+    /**
+     * Checks if the process definition has a tracking config in the documentation property of the BPMN
+     * @param processDefinition ProcessDefinitionEntity
+     * @return boolean
+     */
+    private boolean hasProcessWideTracking(ProcessDefinitionEntity processDefinition){
+        Object documentationProperty = processDefinition.getProcessDefinition().getProperty("documentation");
+        return documentationProperty != null && documentationProperty.toString()
+                .contains("prometheus.track:{type:'activity-duration', metric:'activity_instance_duration'}");
+    }
 
     private void generateActivityDurationListener(ActivityImpl activity, Element element, Map trackArguments){
         // Get the defined metric name from the metric key in the config
@@ -82,12 +107,6 @@ public class BpmnActivityDurationTrackingParseListener extends AbstractBpmnParse
         }
     }
 
-    private boolean hasProcessWideTracking(ProcessDefinitionEntity processDefinition){
-        Object documentationProperty = processDefinition.getProcessDefinition().getProperty("documentation");
-        return documentationProperty != null && documentationProperty.toString()
-                .contains("prometheus.track:{type:'activity-duration', metric:'activity_instance_duration'}");
-    }
-
     private void processElementForActivityDurationTracking(Element element, ActivityImpl activity){
         MultiValueMap<String,String> properties = getCamundaExtensionPropertiesThatStartWith(element, "prometheus.");
 
@@ -98,7 +117,7 @@ public class BpmnActivityDurationTrackingParseListener extends AbstractBpmnParse
             generateActivityDurationListener(activity, element, processWideConfig );
 
             LOGGER.debug("Activity Duration Tracking has been added to {}, from BPMN Wide Tracking Configuration", activity.getActivityId());
-            
+
         }
         if (hasTrack(properties)){
                 properties.get("prometheus.track").forEach(item -> {
