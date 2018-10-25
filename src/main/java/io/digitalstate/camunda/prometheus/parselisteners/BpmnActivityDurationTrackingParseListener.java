@@ -82,12 +82,16 @@ public class BpmnActivityDurationTrackingParseListener extends AbstractBpmnParse
         }
     }
 
+    private boolean hasProcessWideTracking(ProcessDefinitionEntity processDefinition){
+        Object documentationProperty = processDefinition.getProcessDefinition().getProperty("documentation");
+        return documentationProperty != null && documentationProperty.toString()
+                .contains("prometheus.track:{type:'activity-duration', metric:'activity_instance_duration'}");
+    }
+
     private void processElementForActivityDurationTracking(Element element, ActivityImpl activity){
         MultiValueMap<String,String> properties = getCamundaExtensionPropertiesThatStartWith(element, "prometheus.");
 
-        boolean processWideTracking = activity.getProcessDefinition()
-                .getProperty("documentation").toString()
-                .contains("prometheus.track:{type:'activity-duration', metric:'activity_instance_duration'}");
+        boolean processWideTracking = hasProcessWideTracking((ProcessDefinitionEntity)activity.getProcessDefinition());
 
         if (processWideTracking){
             Map processWideConfig = evalProperty("{type:'activity-duration', metric:'activity_instance_duration'}");
@@ -126,7 +130,7 @@ public class BpmnActivityDurationTrackingParseListener extends AbstractBpmnParse
     @Override
     public void parseProcess(Element element, ProcessDefinitionEntity processDefinition) {
         //@TODO refactor the below boolean into a method for reuse
-        boolean processWideTracking = processDefinition.getProcessDefinition().getProperty("documentation").toString().contains("prometheus.track:{type:'activity-duration', metric:'activity_instance_duration'}");
+        boolean processWideTracking = hasProcessWideTracking(processDefinition);
         if (processWideTracking){
             LOGGER.info("Process Wide Activity Duration Tracking is active for {}", processDefinition.getKey());
         }
