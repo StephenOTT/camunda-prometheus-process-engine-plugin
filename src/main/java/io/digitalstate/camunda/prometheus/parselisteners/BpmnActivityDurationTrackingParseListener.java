@@ -98,8 +98,7 @@ public class BpmnActivityDurationTrackingParseListener extends AbstractBpmnParse
             generateActivityDurationListener(activity, element, processWideConfig );
 
             LOGGER.debug("Activity Duration Tracking has been added to {}, from BPMN Wide Tracking Configuration", activity.getActivityId());
-
-//        } else if (hasTrackActivityDurationProperty(properties)){
+            
         }
         if (hasTrack(properties)){
                 properties.get("prometheus.track").forEach(item -> {
