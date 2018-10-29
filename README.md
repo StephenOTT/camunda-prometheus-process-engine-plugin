@@ -5,6 +5,8 @@ system, and a Groovy based custom collector system allowing yml based configurat
 
 ![basic metrics](./docs/images/camunda-grafana-metrics-2.png)
 
+![activity duration 1](./docs/images/activity-duration-incremental-improvement.png)
+
 ![activity duration](./docs/images/Duration-Monitoring.png)
 
 # How to Install Plugin into Camunda
