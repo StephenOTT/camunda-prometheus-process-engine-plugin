@@ -61,7 +61,8 @@ public class ActivityDurationExecutionListener implements ExecutionListener {
                             .getCachedEntity(HistoricActivityInstanceEventEntity.class, activityInstanceId);
 
                     if (activity != null){
-                        long durationInSeconds = TimeUnit.MILLISECONDS.toSeconds(activity.getDurationInMillis());
+                        double durationInSeconds = activity.getDurationInMillis() / 1000.0;
+                        LOGGER.debug("Duration in seconds<double> calculation: {} : {} seconds", activityId, String.valueOf(durationInSeconds));
 
                         // set the histogram with the duration from the activity instance
                         histogramMetric.observeValue(durationInSeconds, Arrays.asList(engineName, elementTypeName, processDefinitionId, activityId));
