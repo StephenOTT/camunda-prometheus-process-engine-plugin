@@ -500,6 +500,54 @@ Note that it is possible to have multiple duration tracking.
 1. Ability to Enable/Disable specific trackers using a boolean rather than having to remove the extension property. 
 1. Have a Idea? Please post in the Issue Queue!!!
 
+# Grafana Annotation Reporting
+
+This plugin contains the ability to generate Grafana Annotations using the Grafana REST API.
+
+## Deployment of BPMN Processes
+
+When a BPMN is deployed and parsed, a Parse Listener is in place allowing for a Grafana Anotation to be created upon successful deployment of the BPMN process.
+
+### Pluging Configuration
+
+```xml
+<bean id="prometheusPlugin" class="io.digitalstate.camunda.prometheus.PrometheusProcessEnginePlugin">
+           <property name="port" value="9999" />
+           <property name="camundaReportingIntervalInSeconds" value="5"/>
+           <property name="collectorYmlFilePath" value="src/test/resources/prometheus-metrics.yml"/>
+           <property name="bpmnActivityDurationParseListener" value="true"/>
+           <property name="grafanaAnnotationReporting" value="true"/>
+           <property name="grafanaServer" value="http://localhost:3000"/>
+           <property name="grafanaAuthTokenPath" value="./target/test-classes/grafana-token.txt"/>
+       </bean>
+```
+
+1. `grafanaAnnotationReporting` : Boolean to enable or disable Annotation reporting.
+1. `grafanaServer` : URI of Grafana Server for Annotation usage.  Defaults to `http://localhost:3000`.
+1. `grafanaBasicAuthTokenPath` : File System Path to a text based file that contains the Bearer Token. 
+
+### Usage
+
+Upon successful deployment of a BPMN process, the plugin will perform a Grafana Annotation creation to the configured Grafana Server.
+
+![grafan annotation](./docs/images/camunda-deployment-annotation-for-grafana.png)
+
+#### Default Annotation Text
+
+1. `Key` : The process definition key
+1. `Id` :  The process definition id
+1. `Version` : The process definition version (not to be confused with Version Tag)
+
+
+#### Default Tags:
+
+1. `camunda` : fixed string to indicate this is a camunda related annotation.
+1. `bpmn` : fixed string to indicate this is a bpmn related annotation
+1. `deployment` : fixed string to indicate this is a deployment related annoation
+1. `engine:[engineName]` : dynamic string where `[engineName]` will be the specific engine name configured in the Prociess Engine Configuration.
+1. `processDefKey:[processDefinitionKey]` : dynamic string where `[processDefinitionKey]` is the specific key defined in the BPMN xml that is deployed.
+
+
 
 # How to build the package
 

@@ -29,6 +29,9 @@
                     <property name="camundaReportingIntervalInSeconds" value="5"/>
                     <property name="collectorYmlFilePath" value="src/test/resources/prometheus-metrics.yml"/>
                     <property name="bpmnActivityDurationParseListener" value="true"/>
+                    <property name="grafanaAnnotationReporting" value="true"/>
+                    <property name="grafanaServer" value="http://localhost:3000"/>
+                    <property name="grafanaAuthTokenPath" value="./target/test-classes/grafana-token.txt"/>
                 </bean>
             </list>
         </property>
