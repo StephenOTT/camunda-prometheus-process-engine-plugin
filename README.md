@@ -547,6 +547,12 @@ Upon successful deployment of a BPMN process, the plugin will perform a Grafana 
 1. `engine:[engineName]` : dynamic string where `[engineName]` will be the specific engine name configured in the Prociess Engine Configuration.
 1. `processDefKey:[processDefinitionKey]` : dynamic string where `[processDefinitionKey]` is the specific key defined in the BPMN xml that is deployed.
 
+### Grafana Auth Token setup
+
+Grafana has Authentication enabled by default; as a result you must generate a Auth token with at least the `editor` role level in order for the Grafana Annotation HTTP API to be used by the Camunda Prometheus Metrics plugin for generating a Grafana Annotation.
+
+In order to setup a Auth Token follow the steps in the UI of Grafana as per: http://docs.grafana.org/http_api/auth/#create-api-token.  Copy the generated token into a text file and point the `grafanaAuthTokenPath` plugin configuration value to that path. 
+
 
 
 # How to build the package
