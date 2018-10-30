@@ -7,34 +7,31 @@ import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.ExecutionListener;
 import org.camunda.bpm.engine.impl.cfg.TransactionState;
 import org.camunda.bpm.engine.impl.context.Context;
-import org.camunda.bpm.engine.impl.history.event.HistoricActivityInstanceEventEntity;
+import org.camunda.bpm.engine.impl.history.event.HistoricProcessInstanceEventEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 import java.util.List;
 
-public class ActivityDurationExecutionListener implements ExecutionListener {
+public class ProcessDurationExecutionListener implements ExecutionListener {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ActivityDurationExecutionListener.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ProcessDurationExecutionListener.class);
 
-    private List<String> histogramLabelNames = Arrays.asList("engine_name", "element_type", "process_definition_id", "activity_id");
+    private List<String> histogramLabelNames = Arrays.asList("engine_name", "process_definition_id");
     private DurationTrackingConfig metricConfig;
 
-    public ActivityDurationExecutionListener(DurationTrackingConfig metricConfig){
+    public ProcessDurationExecutionListener(DurationTrackingConfig metricConfig){
         this.metricConfig = metricConfig;
     }
 
     public void notify(DelegateExecution execution) throws Exception {
         final String processDefinitionId = execution.getProcessDefinitionId();
-        final String activityInstanceId = execution.getActivityInstanceId();
-        final String activityId = execution.getCurrentActivityId();
-        final String activityIdClean = execution.getCurrentActivityId().replace("-", "_");
-        final String elementTypeName = execution.getBpmnModelElementInstance().getElementType().getTypeName();
-
+        final String executionId = execution.getId();
         ProcessEngine engine = (ProcessEngine) execution.getProcessEngineServices();
         final String engineName = engine.getName();
         final String engineNameClean = engine.getName().replace("-", "_");
+        //@TODO create a Prometheus helper for cleaning strings of bad characters rather than use the .replace()
 
         String histogramNameAggregate;
         String metricNameClean = this.metricConfig.getMetricName().replace("-","_");
@@ -57,19 +54,19 @@ public class ActivityDurationExecutionListener implements ExecutionListener {
                     // Get the cached entity which holds the duration of the activity instance
                     // Cache is used so another call to the DB is not required, as this chunk of
                     // code may be run for every single activity execution.
-                    HistoricActivityInstanceEventEntity activity = commandContext.getDbEntityManager()
-                            .getCachedEntity(HistoricActivityInstanceEventEntity.class, activityInstanceId);
+                    HistoricProcessInstanceEventEntity process = commandContext.getDbEntityManager()
+                            .getCachedEntity(HistoricProcessInstanceEventEntity.class, executionId);
 
-                    if (activity != null){
-                        double durationInSeconds = activity.getDurationInMillis() / 1000.0;
-                        LOGGER.debug("Duration in seconds<double> calculation: {} : {} seconds", activityId, String.valueOf(durationInSeconds));
+                    if (process != null){
+                        double durationInSeconds = process.getDurationInMillis() / 1000.0;
+                        LOGGER.debug("Process Duration in seconds<double> calculation: {} : {} seconds", executionId, String.valueOf(durationInSeconds));
 
                         // set the histogram with the duration from the activity instance
-                        histogramMetric.observeValue(durationInSeconds, Arrays.asList(engineNameClean, elementTypeName, processDefinitionIdClean, activityIdClean));
-                        LOGGER.debug("Prometheus Activity Duration collected: {} : {} : {}", processDefinitionId,  activityInstanceId, durationInSeconds);
+                        histogramMetric.observeValue(durationInSeconds, Arrays.asList(engineNameClean, processDefinitionIdClean));
+                        LOGGER.debug("Prometheus Process Duration collected: {} : {}", processDefinitionId, durationInSeconds);
 
                     } else {
-                        LOGGER.error("Activity Instance Entity query returned null: {} : {}", processDefinitionId,  activityInstanceId);
+                        LOGGER.error("Process Instance Entity query returned null: {}", processDefinitionId);
                     }
                 });
     }

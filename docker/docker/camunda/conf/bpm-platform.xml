@@ -41,7 +41,7 @@
                 <property name="port">9999</property>
                 <property name="camundaReportingIntervalInSeconds">5</property>
                 <property name="collectorYmlFilePath">/camunda_prometheus/prometheus-metrics.yml</property>
-                <property name="bpmnActivityDurationParseListener">true</property>
+                <property name="bpmnDurationParseListener">true</property>
                 <property name="grafanaAnnotationReporting">true</property>
                 <property name="grafanaServer">http://grafana:3000</property>
                 <property name="grafanaAuthTokenPath">/camunda_prometheus/grafana-token.txt</property>

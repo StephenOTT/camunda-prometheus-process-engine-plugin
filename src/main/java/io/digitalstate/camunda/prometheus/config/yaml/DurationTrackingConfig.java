@@ -5,9 +5,9 @@ import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
-public class ActivityDurationTrackingConfig {
+public class DurationTrackingConfig {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ActivityDurationTrackingConfig.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DurationTrackingConfig.class);
 
     private String help;
     private List<Double> buckets;

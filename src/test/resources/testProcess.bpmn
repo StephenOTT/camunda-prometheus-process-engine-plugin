@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="_7FrToMrfEeOyYYI9xhG4Cw" targetNamespace="http://camunda.org/schema/1.0/bpmn" exporter="Camunda Modeler" exporterVersion="1.14.0" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd">
   <bpmn2:process id="testProcess" isExecutable="true">
+    <bpmn2:documentation>prometheus.track:{type:'process-duration'}
+prometheus.track:{type:'activity-duration', metric:'activity_instance_duration'}
+</bpmn2:documentation>
     <bpmn2:extensionElements>
       <camunda:executionListener event="start">
         <camunda:script scriptFormat="groovy">println('dogsss')</camunda:script>
@@ -52,7 +55,7 @@ def httpRequest = new SimpleHistogramMetric('legacy_system_123_request', 'Connec
 
 httpRequest.startTimer(['POST'])
 
-sleep(Math.abs(new Random().nextInt() % 1000) + 100)
+sleep(Math.abs(new Random().nextInt() % 6000) + 3000)
 
 httpRequest.observeDuration()</bpmn2:script>
     </bpmn2:scriptTask>

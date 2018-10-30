@@ -5,16 +5,14 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
-import io.digitalstate.camunda.prometheus.config.yaml.ActivityDurationTrackingConfig;
+import io.digitalstate.camunda.prometheus.config.yaml.DurationTrackingConfig;
 import io.digitalstate.camunda.prometheus.config.yaml.CustomMetricsConfig;
 import io.digitalstate.camunda.prometheus.config.yaml.SystemMetricsConfig;
 import io.digitalstate.camunda.prometheus.config.yaml.YamlFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -29,7 +27,7 @@ public class YamlConfig {
     private YamlFile yamlConfig = new YamlFile();
     private List<SystemMetricsConfig> systemMetricsConfigs = new ArrayList<>();
     private List<CustomMetricsConfig> customMetricsConfigs = new ArrayList<>();
-    private Map<String, ActivityDurationTrackingConfig> activityDurationTrackingConfigs = new HashMap<>();
+    private Map<String, DurationTrackingConfig> activityDurationTrackingConfigs = new HashMap<>();
 
     public YamlConfig(String filePath) {
         ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
@@ -55,8 +53,8 @@ public class YamlConfig {
             }
 
             // Activity Duration Tracking Configuration
-            if (yamlConfig != null && !yamlConfig.getActivityDurationTracking().isEmpty()) {
-                activityDurationTrackingConfigs = yamlConfig.getActivityDurationTracking();
+            if (yamlConfig != null && !yamlConfig.getDurationTracking().isEmpty()) {
+                activityDurationTrackingConfigs = yamlConfig.getDurationTracking();
             } else {
                 LOGGER.info("No Activity Duration Tracking Configs for Prometheus Metrics were found.");
             }
@@ -86,7 +84,7 @@ public class YamlConfig {
         return systemMetricsConfigs;
     }
 
-    public Map<String, ActivityDurationTrackingConfig> getActivityDurationTrackingConfigs() {
+    public Map<String, DurationTrackingConfig> getActivityDurationTrackingConfigs() {
         return activityDurationTrackingConfigs;
     }
 

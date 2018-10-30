@@ -4,7 +4,7 @@ import io.digitalstate.camunda.grafana.annotations.reporters.DeploymentReporterP
 import io.digitalstate.camunda.prometheus.collectors.camunda.CamundaMetrics;
 import io.digitalstate.camunda.prometheus.collectors.custom.CamundaCustomMetrics;
 import io.digitalstate.camunda.prometheus.config.YamlConfig;
-import io.digitalstate.camunda.prometheus.parselisteners.BpmnActivityDurationTrackingParseListener;
+import io.digitalstate.camunda.prometheus.parselisteners.BpmnDurationTrackingParseListener;
 import io.prometheus.client.CollectorRegistry;
 import org.camunda.bpm.engine.impl.bpmn.parser.BpmnParseListener;
 import org.camunda.bpm.engine.impl.cfg.AbstractProcessEnginePlugin;
@@ -59,9 +59,9 @@ public class PrometheusProcessEnginePlugin extends AbstractProcessEnginePlugin {
     private String collectorYmlFilePath;
 
     /**
-     * Boolean as string (true/false) to indicate whether to activate the BPMN Activity Duration Parse Listener.
+     * Boolean as string (true/false) to indicate whether to activate the BPMN Duration Parse Listener.
      */
-    private String bpmnActivityDurationParseListener;
+    private String bpmnDurationParseListener;
 
     /**
      * Boolean as string (true/false) to indicate whether to activate the Grafana Annotation Reporting.
@@ -99,14 +99,14 @@ public class PrometheusProcessEnginePlugin extends AbstractProcessEnginePlugin {
             processEngineConfiguration.setCustomPreBPMNParseListeners(parseListeners);
         }
 
-        // Add BPMN Parse Listener for Activity Duration if it is set to True
-        if (Boolean.parseBoolean(bpmnActivityDurationParseListener)){
-            // Add BPMN Activity Duration Tracking Parse Listener
-            parseListeners.add(new BpmnActivityDurationTrackingParseListener());
-            LOGGER.info("Prometheus Bpmn Activity Duration Parse Listener is Active");
+        // Add BPMN Parse Listener for Duration Tracking if it is set to True
+        if (Boolean.parseBoolean(bpmnDurationParseListener)){
+            // Add BPMN  Duration Tracking Parse Listener
+            parseListeners.add(new BpmnDurationTrackingParseListener());
+            LOGGER.info("Prometheus Bpmn Duration Parse Listener is Active");
 
         } else {
-            LOGGER.info("Prometheus Bpmn Activity Duration Parse Listener is Disabled");
+            LOGGER.info("Prometheus Bpmn Duration Parse Listener is Disabled");
         }
 
         // Add Grafana Annotation Reporting Parse Listener if set to True
@@ -177,11 +177,11 @@ public class PrometheusProcessEnginePlugin extends AbstractProcessEnginePlugin {
         return collectorYmlFilePath;
     }
 
-    public String getBpmnActivityDurationParseListener(){
-        return this.bpmnActivityDurationParseListener;
+    public String getBpmnDurationParseListener(){
+        return this.bpmnDurationParseListener;
     }
-    public void setBpmnActivityDurationParseListener(String bpmnActivityDurationParseListener){
-        this.bpmnActivityDurationParseListener = bpmnActivityDurationParseListener;
+    public void setBpmnDurationParseListener(String bpmnDurationParseListener){
+        this.bpmnDurationParseListener = bpmnDurationParseListener;
     }
 
     public static YamlConfig getYamlConfig() {
@@ -191,7 +191,6 @@ public class PrometheusProcessEnginePlugin extends AbstractProcessEnginePlugin {
     public void setGrafanaServer(String grafanaServer) {
         this.grafanaServer = grafanaServer;
     }
-
     public String getGrafanaServer() {
         return grafanaServer;
     }
@@ -206,7 +205,6 @@ public class PrometheusProcessEnginePlugin extends AbstractProcessEnginePlugin {
     public void setGrafanaAnnotationReporting(String grafanaAnnotationReporting) {
         this.grafanaAnnotationReporting = grafanaAnnotationReporting;
     }
-
     public String getGrafanaAnnotationReporting() {
         return grafanaAnnotationReporting;
     }

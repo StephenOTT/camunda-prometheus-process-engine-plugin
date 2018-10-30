@@ -8,7 +8,7 @@ import java.util.Map;
 public class YamlFile {
     private List<SystemMetricsConfig> system = new ArrayList<>();
     private List<CustomMetricsConfig> custom = new ArrayList<>();
-    private Map<String, ActivityDurationTrackingConfig> activityDurationTracking = new HashMap<>();
+    private Map<String, DurationTrackingConfig> durationTracking = new HashMap<>();
 
     public void setSystem(List<SystemMetricsConfig> system) {
         this.system = system;
@@ -24,10 +24,10 @@ public class YamlFile {
         return custom;
     }
 
-    public void setActivityDurationTracking(Map<String, ActivityDurationTrackingConfig> activityDurationTracking) {
-        this.activityDurationTracking = activityDurationTracking;
+    public void setDurationTracking(Map<String, DurationTrackingConfig> durationTracking) {
+        this.durationTracking = durationTracking;
     }
-    public Map<String, ActivityDurationTrackingConfig> getActivityDurationTracking() {
-        return activityDurationTracking;
+    public Map<String, DurationTrackingConfig> getDurationTracking() {
+        return durationTracking;
     }
 }

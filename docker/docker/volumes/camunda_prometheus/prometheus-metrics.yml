@@ -104,7 +104,10 @@ custom:
     processDefinitionKeys:
     - myTestProcess
 
-activityDurationTracking:
+durationTracking:
   activity_instance_duration:
     help: "Core activity instance duration tracking. Used to track all activity instances."
     buckets: [0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.1, 0.2, 0.3, 0.4, 0.5, 1.0, 5.0, 10.0, 20.0, 30.0, 60.0, 120.0]
+  process_instance_duration_testProcess:
+    help: "The Duration of the Process Definition key: testProcess"
+    buckets: [1, 5, 10, 15, 20, 30, 60, 120, 300, 600, 1200, 2400]
