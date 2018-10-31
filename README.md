@@ -347,6 +347,74 @@ Example:  Using the Camunda metric `activity-instance-start`, the metric would b
 `metric_activity_instance_start`, and would appear in Prometheus / Grafana as `camunda_metric_activity_instance_start`, 
 where the `camunda_` is the namespace of the metric
 
+# Reusable Collector Groovy Scripts
+
+Reusable/configurable groovy scripts are provided within the classpath of the jar for common usage cases:
+
+You can use these scripts in production, or as a basis for your own re-usable script for a different metric within the engine.
+
+## External Tasks
+
+Tracking external tasks can be configured for "per-workerId" and "per-topicName":
+
+```yaml
+custom:
+- collector: classpath:prometheus/customcollectors/ExternalTasksCustomTopics.groovy
+  enable: true
+  startDelay: 0
+  frequency: 10000
+  config:
+    topics:
+    - myTopic1
+    - myTopic2
+    - someCustomTopic
+- collector: classpath:prometheus/customcollectors/ExternalTasksCustomTopics.groovy
+  enable: true
+  startDelay: 0
+  frequency: 8000
+  config:
+    topics:
+    - myTopic3
+    - myTopic4
+    - someOtherCustomTopic
+- collector: classpath:prometheus/customcollectors/ExternalTasksCustomWorkers.groovy
+  enable: true
+  startDelay: 0
+  frequency: 2000
+  config:
+    workers:
+    - someWorkerID123
+    - someOtherWorkerId567890
+    - someLegacyWorker001
+``` 
+
+Take note of the following:
+
+1. The use of the `config` property allowing you to define a array of `topics` or `workers`.
+1. The same collector .groovy file is used multiple times: this allows you to run the script under different timer configurations: this is often needed for use-cases where not-call workers or topics need to be queried frequently due to low usage. 
+
+
+## Historic Activity Statistics Per Process Definition
+
+Gathers Activity instance counts (finished and active) for each activity for a process definition ID.
+
+``yaml
+custom:
+- collector: classpath:prometheus/customcollectors/HistoricActivityStatisticsPerProcessDefinition.groovy
+  enable: true
+  startDelay: 0
+  frequency: 5000
+  config:
+    processDefinitionKeys:
+    - myTestProcess
+``
+
+The same collector .groovy file can be used multiple times: this allows you to run the script under different 
+timer configurations for different process definition keys: this is often needed for use-cases where not-call 
+processes need to be queried frequently due to low usage.
+
+
+
 
 # Instance Duration Tracking (Beta)
 
