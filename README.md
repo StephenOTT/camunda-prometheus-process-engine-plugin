@@ -7,7 +7,7 @@ system, and a Groovy based custom collector system allowing yml based configurat
 
 ![activity duration 1](./docs/images/activity-duration-incremental-improvement.png)
 
-![activity duration](./docs/images/Duration-Monitoring.png)
+----
 
 # How to Install Plugin into Camunda
 
@@ -220,6 +220,7 @@ See folder: `./grafana/dashboards`
 1. Current working template for Generic Metrics: `Camunda Metrics-1.json`
 1. Current working template for Process and Activity Duration Tracking: `Camunda Duration Tracking-1.json`
 
+----
 
 # Custom Metrics as Groovy Scripts
 
@@ -237,6 +238,7 @@ run as a standalone timer thread execution, but the more collectors you add, and
 data processing and/or database query time/load the collector uses per execution, it can create 
 large performance impacts on the engine.
 
+----
 
 # Generic Metrics Classes
 
@@ -262,7 +264,7 @@ The Default registry is used.
 
 Labels are supported and are generally implemented as a optional parameter in the method.  See examples above.
 
-
+----
 
 # Further screenshots
 
@@ -271,7 +273,7 @@ Labels are supported and are generally implemented as a optional parameter in th
 ![3](./docs/images/empty-3.png)
 ![4](./docs/images/empty-4.png)
 
-
+----
 
 # Script examples for BPMN, DMN, CMMN execution: Creating and using Metric within the BPM execution
  
@@ -323,6 +325,7 @@ def closedCases = new SimpleGaugeMetric('closed_cases', 'Number of Open Cases, l
 closedCases.increment(['standard'])
 ```
 
+----
 
 # Default Metrics
 
@@ -346,6 +349,8 @@ Metric names follow the pattern of:
 Example:  Using the Camunda metric `activity-instance-start`, the metric would be created as 
 `metric_activity_instance_start`, and would appear in Prometheus / Grafana as `camunda_metric_activity_instance_start`, 
 where the `camunda_` is the namespace of the metric
+
+----
 
 # Reusable Collector Groovy Scripts
 
@@ -414,15 +419,16 @@ timer configurations for different process definition keys: this is often needed
 processes need to be queried frequently due to low usage.
 
 
+----
 
 
-# Instance Duration Tracking (Beta)
+# Duration Tracking
 
-This plugin provides the ability to track Instance Durations using Prometheus Histograms.
+The ability to track Instance Durations using Prometheus Histograms for Activity Duration and Process Duration.
 
 Use of Duration Tracking is handled through a Transaction Listener that executes once the Transaction has 
-Committed into the database and thus the Duration of the activity or process instance has become calculated.  
-The cached value is used during the duration lookup to ensure speed.
+Committed into the database and thus the Duration of the activity or process instance has become calculated and "confirmed".  
+The cached value is used during the duration lookup to ensure speed and thus no additional DB queries are required/used.
 
 ## Plugin Configuration
 
@@ -619,6 +625,9 @@ Note that it is possible to have multiple duration tracking.
 1. Have a Idea? Please post in the Issue Queue!!!
 
 
+----
+
+
 # Grafana Annotation Reporting
 
 This plugin contains the ability to generate Grafana Annotations using the Grafana REST API.
@@ -672,7 +681,7 @@ Grafana has Authentication enabled by default; as a result you must generate a A
 
 In order to setup a Auth Token follow the steps in the UI of Grafana as per: http://docs.grafana.org/http_api/auth/#create-api-token.  Copy the generated token into a text file and point the `grafanaAuthTokenPath` plugin configuration value to that path. 
 
-
+----
 
 # How to build the package
 
