@@ -7,6 +7,8 @@ system, and a Groovy based custom collector system allowing yml based configurat
 
 ![activity duration 1](./docs/images/activity-duration-incremental-improvement.png)
 
+![architecture](./docs/architecture/camunda-prometheus-architecture.png)
+
 ----
 
 # How to Install Plugin into Camunda
