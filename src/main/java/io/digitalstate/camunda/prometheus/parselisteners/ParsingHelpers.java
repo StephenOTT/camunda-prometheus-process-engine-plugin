@@ -9,6 +9,7 @@ import org.springframework.expression.spel.support.SimpleEvaluationContext;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -68,8 +69,9 @@ class ParsingHelpers {
      * @return
      */
     static Map evalProperty(String propertyValue){
-        Map parsedProperty = parser.parseExpression(propertyValue).getValue(context, Map.class);
+        Map parsedProperty = parser.parseExpression(propertyValue).getValue(context, HashMap.class);
         LOGGER.debug("Prometheus Property Value Evaluation result: {}", parsedProperty);
         return parsedProperty;
     }
+
 }

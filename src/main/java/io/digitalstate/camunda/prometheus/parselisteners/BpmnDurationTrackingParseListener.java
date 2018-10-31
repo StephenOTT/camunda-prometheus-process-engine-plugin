@@ -13,7 +13,7 @@ public class BpmnDurationTrackingParseListener extends AbstractBpmnParseListener
     private static final Logger LOGGER = LoggerFactory.getLogger(BpmnDurationTrackingParseListener.class);
 
     //
-    // OVERRIDES for parsing:
+    // Overrides for parsing:
     //
     @Override
     public void parseProcess(Element element, ProcessDefinitionEntity processDefinition) {

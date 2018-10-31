@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="_7FrToMrfEeOyYYI9xhG4Cw" targetNamespace="http://camunda.org/schema/1.0/bpmn" exporter="Camunda Modeler" exporterVersion="1.14.0" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd">
-  <bpmn2:process id="testProcess" isExecutable="true">
-    <bpmn2:documentation>prometheus.track:{type:'process-duration'}
-prometheus.track:{type:'activity-duration', metric:'activity_instance_duration'}
-</bpmn2:documentation>
+  <bpmn2:process id="test-Process" isExecutable="true">
+    <bpmn2:documentation>prometheus.track:{type:'activity-duration', metric:'activity_instance_duration'}</bpmn2:documentation>
     <bpmn2:extensionElements>
       <camunda:executionListener event="start">
         <camunda:script scriptFormat="groovy">println('dogsss')</camunda:script>
       </camunda:executionListener>
+      <camunda:properties>
+        <camunda:property name="prometheus.track" value="{type:&#39;process-duration&#39;, appendPdId:true, metric:&#39;some_specific_type_of_processes&#39;}" />
+      </camunda:properties>
     </bpmn2:extensionElements>
     <bpmn2:startEvent id="StartEvent_1" name="Case Opened">
       <bpmn2:extensionElements>
@@ -79,7 +80,7 @@ money.increment(amount, ['credit-card'])</bpmn2:script>
     </bpmn2:scriptTask>
   </bpmn2:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
-    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="testProcess">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="test-Process">
       <bpmndi:BPMNShape id="_BPMNShape_StartEvent_3" bpmnElement="StartEvent_1">
         <dc:Bounds x="404" y="204" width="36" height="36" />
         <bpmndi:BPMNLabel>

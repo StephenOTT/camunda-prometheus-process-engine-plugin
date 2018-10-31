@@ -3,12 +3,12 @@ package io.digitalstate.camunda.prometheus.parselisteners;
 import io.digitalstate.camunda.prometheus.PrometheusProcessEnginePlugin;
 import io.digitalstate.camunda.prometheus.config.yaml.DurationTrackingConfig;
 import io.digitalstate.camunda.prometheus.executionlisteners.ProcessDurationExecutionListener;
-import org.camunda.bpm.engine.BpmnParseException;
 import org.camunda.bpm.engine.delegate.ExecutionListener;
 import org.camunda.bpm.engine.impl.persistence.entity.ProcessDefinitionEntity;
 import org.camunda.bpm.engine.impl.util.xml.Element;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.MultiValueMap;
 
 import java.util.Map;
 
@@ -65,22 +65,26 @@ class ProcessDurationHelpers {
      * @param element
      * @param processDefinition
      */
-    static void processForProcessDurationTracking(Element element, ProcessDefinitionEntity processDefinition){
-        String promTrack = "prometheus.track:";
-        String trackInfo = "{type:'process-duration'}";
-        String containsValue = String.join("",promTrack, trackInfo);
-        boolean processDurationTracking = hasProcessDurationTracking(processDefinition, containsValue);
+    static void processForProcessDurationTracking(Element element, ProcessDefinitionEntity processDefinition) {
+        MultiValueMap<String, String> properties = ParsingHelpers.getCamundaExtensionPropertiesThatStartWith(element, "prometheus.");
 
-        if (processDurationTracking){
-            String processDefinitionKeyClean = processDefinition.getKey().replace("-", "_");
-            Map processDurationTrackingConfig = ParsingHelpers.evalProperty(String.join("",
-                    "{type:'process-duration', metric:'process_instance_duration_", processDefinitionKeyClean, "'}"));
+        if (ParsingHelpers.hasTrack(properties)) {
+            // For each prometheus.track found.  Possible for multiple properties to be used for different type of tracking
+            properties.get("prometheus.track").forEach(item -> {
+                // Eval the string found in the  into a Map
+                Map<String,String> property = (Map<String,String>)ParsingHelpers.evalProperty(item);
 
-            generateProcessDurationListener(processDefinition, element, processDurationTrackingConfig);
-            LOGGER.debug("Process Duration Tracking has been added to {}, from BPMN Configuration", processDefinition.getKey());
-        } else{
-            LOGGER.debug("Process Duration Tracking config is not found for {}", processDefinition.getKey());
+                // If the process-duration property is found
+                if (property.containsKey("type") && property.get("type").equals("process-duration")) {
+                    property.putIfAbsent("metric", "process_instance_duration");
+
+                    generateProcessDurationListener(processDefinition, element, property);
+
+                    LOGGER.debug("Process Duration Tracking has been added to {}, from BPMN Configuration", processDefinition.getKey());
+                } else {
+                    LOGGER.debug("Process Duration Tracking config is not found for {}", processDefinition.getKey());
+                }
+            });
         }
     }
-
 }

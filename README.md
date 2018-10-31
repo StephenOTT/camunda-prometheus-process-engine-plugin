@@ -81,10 +81,6 @@ Each collector is configured through a single yaml file.  the Yaml file is set i
 </bean>
 ```
 
-# :exclamation: Limitations :exclamation:
-
-1. :exclamation: Process Definition Keys **must** not break [Prometheus Metric naming rules](https://prometheus.io/docs/practices/naming/):  Most common issue: you cannot use hyphens/dashes (`-`) in process definition keys: GOOD: `myTestProcess` BAD: `my-test-Process`.
-
 ## System Collectors
 
 The System collectors use the following configuration
@@ -209,7 +205,8 @@ custom:
 
 Prometheus will attempt to scape the Camunda metrics through the exposed endpoint from the plugin.
 
-Make sure that Camunda and Prometheus are part of the same network / Prometheus is able to access the  metrics http endpoint being exposed on the Camunda server.
+Make sure that Camunda and Prometheus are part of the same network / Prometheus is able to access the  metrics 
+http endpoint being exposed on the Camunda server.
 
 See the examples in the ./docker folder of this project.
 
@@ -249,7 +246,8 @@ Simple but reusable metrics are provided for ease of use by BPMN process builder
 1. SimpleHistogramMetric (io.digitalstate.camunda.prometheus.collectors.SimpleHistorgramMetric)
 1. SimpleSummaryMetric (io.digitalstate.camunda.prometheus.collectors.SimpleSummaryMetric)
 
-See the Test folder for further usage, and see the metric classes.  They are generally simplifications over the existing metrics API.  They are designed to remove "extras" and simplify usage.
+See the Test folder for further usage, and see the metric classes.  
+They are generally simplifications over the existing metrics API.  They are designed to remove "extras" and simplify usage.
 
 # Namspace
 
@@ -356,7 +354,8 @@ where the `camunda_` is the namespace of the metric
 This plugin provides the ability to track Instance Durations using Prometheus Histograms.
 
 Use of Duration Tracking is handled through a Transaction Listener that executes once the Transaction has 
-Committed into the database and thus the Duration of the activity or process instance has become calculated.  The cached value is used during the duration lookup to ensure speed.
+Committed into the database and thus the Duration of the activity or process instance has become calculated.  
+The cached value is used during the duration lookup to ensure speed.
 
 ## Plugin Configuration
 
@@ -393,8 +392,8 @@ durationTracking:
   activity_instance_duration:
     help: "Core activity instance duration tracking. Used to track all activity instances."
     buckets: [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 2.0, 3.0]
-  process_instance_duration_testProcess:
-    help: "The Duration of the Process Definition key: testProcess"
+  process_instance_duration:
+    help: "The generic process instance duration buckets"
     buckets: [1, 5, 10, 15, 20, 30, 60, 120, 300, 600, 1200, 2400]
   mycustom_metric_duration:
     help: "Some custom metric i am tracking"
@@ -406,16 +405,27 @@ durationTracking:
 ```
 
 The `activity_instance_duration`  is used by the "core" activity duration tracker.
-If The global activity duration tracker is activated at the BPMN level, then it will look for the `activity_instance_duration` object, and the deployment will fail to parse if the object is not found.
-You can fully configure the help and bucket properties as needed, but the `activity_instance_duration` key is required if you are using Process Wide Activity Tracking.
+If the global activity duration tracker is activated at the BPMN level, then it will look for the 
+`activity_instance_duration` object, and the deployment will fail to parse if the object is not found.
+You can fully configure the help and bucket properties as needed, but the `activity_instance_duration` 
+key is required if you are using Process Wide Activity Tracking.
 
-Note the usage of `process_instance_duration_testProcess`, where `testProcess` is the process definition key.  This is the format required to use the Process Duration Tracking.
+The `process_instance_duration`  is used as the fallback default process instance duration tracker.
+If a process instance duration tracker is active on a BPMN and does not have a metric name defined then it will 
+default to `process_instance_duration`.
+You can fully configure the help and bucket properties as needed, but the `process_instance_duration` key is required 
+if you are using Process Instance Duration tracking without defining metric names in the tracker parameters.
 
 Duration tracking configuration is set with 3 configurations:
 
 1. Histogram Name (the key of the object.  See [Prometheus metric naming rules](https://prometheus.io/docs/practices/naming/#metric-names))
 1. Help Text (the `help` property)
-1. List of buckets to use in the Histogram (the `buckets` property.  Each bucket represent number of seconds in `<double>`.  For factions of seconds (milliseconds) you an use decimals such as 0.1 (100 milliseconds), 0.01 (10 milliseconds), 0.001 (1 millisecond))
+1. List of buckets to use in the Histogram (the `buckets` property.  Each bucket represent number of seconds in `<double>`.  
+For factions of seconds (milliseconds) you an use decimals such as 0.1 (100 milliseconds), 0.01 (10 milliseconds), 0.001 (1 millisecond))
+
+Note that histogram names will have their names "cleaned" or "invalid characters" before being sent to Prometheus.  
+This means that you can Configure your YAML and BPMN with something like "my-metric-name", but when the metric is 
+created and sent to prometheus, any invalid characters will be replaced with a underscore (`-`). 
 
 ## BPMN Configuration
 
@@ -464,48 +474,50 @@ Activity Definition specific tracking is the specific selection of BPMN activiti
  
  ![bpmn config](./docs/images/bpmn-activity-duration-config.png)
  
+ 
  ### BPMN Process Instance Duration
 
  BPMN Process Instance Duration tracking is managed through a configuration at the BPMN level.  
 
 Example:
+Camunda Extension Property at the BPMN level:
 
-`prometheus.track:{type:'process-duration'}`
+Name: `prometheus.track`
+Value: `{type:'process-duration'}` or `{type:'process-duration', appendPdId=true}`, or `{type:'process-duration', appendPdId=true, metric:'someMetricName'}`
 
-This value is placed into the "Element Documentation" field of the BPMN Process.
-The value is space-sensitive, and thus must be exactly as the example.
+This value is placed into the "Extension Properties" at the BPMN level.
 
-where the Process Definition's Key will be captured during parsing and under the `durationTracking` section of the 
-Yaml file, the following key would be expected: `process_instance_duration_testProcess`.  
-If this is not found, the parser will throw a exception and fail the deployment.
+Only the `type` parameter is required.  `appendPdId` and `metric` are optional.  If `metric` is omitted then the metric 
+name will default to `process_instance_duration`, and you will be required to have this durationTracking config in your Yaml file.
 
-:exclamation: The `Element Documentation` field is used due to limitations in the BPMN Parse Listener of the Camunda Engine.  
-The BPMN extension properties are not available on a per Activity Element parsing basis, but the built in Properties 
-of the Process Definition are.  Thus the BPMN's "documentation" property is available across all BPMN Elements.  
-In order to maintain sensible locations for configuration, the Process Duration tracking configuration is added 
-into the same element as the Process Wide Activity Duration tracking. 
+You can have multiple instances of this property in the extension properties, allowing you to track process instance 
+durations against multiple metrics configured in the Yaml file.
 
- 
+Note that using `appendPdId=true` is typically for advanced / special-case usage, as the Process Definition ID is 
+already appended as a label and available for filtering within Prometheus.
 
-
- 
  
  ## Overall Configurations and Notes
  
  ### Metric Labels
  
- For all activity duration tracking, the follow labels are applied:
+ For activity duration tracking, the follow labels are applied:
  
 1. `engine_name` : the name of the engine
 1. `element_type` : the element type such as startEvent, userTask, endEvent, etc.
 1. `process_definition_id` : the specific process definition Id
 1. `activity_id` : the activity Id (**not** the activity instance id)
+
+For process duration tracking the following labels are applied:
+
+1. `engine_name` : the name of the engine
+1. `process_definition_id` : the specific process definition Id
  
  Additional labels are not current configurable through the BPMN or YAML.
  
  ### Metric Initialization
  
- Metrics defined in the YAML file under the `activityDurationTracking` section are only initialized as a Histogram metric once they are used for the first time.  
+ Metrics defined in the YAML file under the `durationTracking` section are only initialized as a Histogram metric once they are used for the first time.  
  This means that if duration metrics are being collected on a process definition that has never run, then the metrics will not be reporting anything.  
  Further, if a specific Activity has never executed, then it will not appear in the metrics until it has executed for the first time.
 
@@ -522,19 +534,21 @@ Specifically look at:
 
 It is most important to understand that Prometheus Histograms are "Cumulative". See the links above for further details.
 
-### Multi Duration Tracking on Activities :exclamation:
+### Multi Duration Tracking :exclamation:
 
 Note that it is possible to have multiple duration tracking.  
 
 - It is possible to have the BPMN wide tracking active, and add specific Activity duration trackers.
 - It is possible to have the BPMN Wide tracking active, and also activate the same tracker on a per activity basis.  This is generally considered a error on the configuration side.  It can also have impacts for performance, so pay attention!
+- It is possible to track the duration of Process Instances against multiple metrics
 
 ### Future Features under consideration
 
-1. Ability to enable BPMN Wide Tracking, but disable the tracker on specific activities
+1. **DONE** <s>Ability to enable BPMN Wide Tracking, but disable the tracker on specific activities</s>
 1. Ability to enable other types of tracking using Camunda Extension Properties.
 1. Ability to Enable/Disable specific trackers using a boolean rather than having to remove the extension property. 
 1. Have a Idea? Please post in the Issue Queue!!!
+
 
 # Grafana Annotation Reporting
 

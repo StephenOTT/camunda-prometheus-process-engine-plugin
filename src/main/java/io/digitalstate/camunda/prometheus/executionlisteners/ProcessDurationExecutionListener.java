@@ -2,6 +2,7 @@ package io.digitalstate.camunda.prometheus.executionlisteners;
 
 import io.digitalstate.camunda.prometheus.collectors.SimpleHistogramMetric;
 import io.digitalstate.camunda.prometheus.config.yaml.DurationTrackingConfig;
+import static io.digitalstate.camunda.prometheus.PrometheusHelpers.promClean;
 import org.camunda.bpm.engine.ProcessEngine;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.ExecutionListener;
@@ -30,17 +31,13 @@ public class ProcessDurationExecutionListener implements ExecutionListener {
         final String executionId = execution.getId();
         ProcessEngine engine = (ProcessEngine) execution.getProcessEngineServices();
         final String engineName = engine.getName();
-        final String engineNameClean = engine.getName().replace("-", "_");
-        //@TODO create a Prometheus helper for cleaning strings of bad characters rather than use the .replace()
 
         String histogramNameAggregate;
-        String metricNameClean = this.metricConfig.getMetricName().replace("-","_");
-        String processDefinitionIdClean = processDefinitionId.replace("-", "_");
         // If boolean is set to true for useProcessDefinitionIdWithName, then we modify the metric name
         if (this.metricConfig.getAppendProcessDefinitionIdToMetricName()){
-            histogramNameAggregate = String.join("_", metricNameClean, processDefinitionIdClean);
+            histogramNameAggregate = String.join("__", promClean(this.metricConfig.getMetricName()), promClean(processDefinitionId));
         } else {
-            histogramNameAggregate = metricNameClean;
+            histogramNameAggregate = promClean(this.metricConfig.getMetricName());
         }
 
         SimpleHistogramMetric histogramMetric = new SimpleHistogramMetric(histogramNameAggregate,
@@ -62,7 +59,7 @@ public class ProcessDurationExecutionListener implements ExecutionListener {
                         LOGGER.debug("Process Duration in seconds<double> calculation: {} : {} seconds", executionId, String.valueOf(durationInSeconds));
 
                         // set the histogram with the duration from the activity instance
-                        histogramMetric.observeValue(durationInSeconds, Arrays.asList(engineNameClean, processDefinitionIdClean));
+                        histogramMetric.observeValue(durationInSeconds, Arrays.asList(promClean(engineName), promClean(processDefinitionId)));
                         LOGGER.debug("Prometheus Process Duration collected: {} : {}", processDefinitionId, durationInSeconds);
 
                     } else {

@@ -18,9 +18,9 @@ public class PromethusTest1 {
     @Deployment(resources = {"testProcess.bpmn"})
     public void shouldExecuteProcess() {
         // Given we create a new process instance
-        ProcessInstance processInstance = runtimeService().startProcessInstanceByKey("testProcess");
+        ProcessInstance processInstance = runtimeService().startProcessInstanceByKey("test-Process");
         execute(job(processInstance));
-        ProcessInstance processInstance2 = runtimeService().startProcessInstanceByKey("testProcess");
+        ProcessInstance processInstance2 = runtimeService().startProcessInstanceByKey("test-Process");
         execute(job(processInstance2));
         try {
             Thread.sleep(1000);
@@ -28,9 +28,9 @@ public class PromethusTest1 {
             e.printStackTrace();
         }
 
-        ProcessInstance processInstance3 = runtimeService().startProcessInstanceByKey("testProcess");
+        ProcessInstance processInstance3 = runtimeService().startProcessInstanceByKey("test-Process");
         execute(job(processInstance3));
-        ProcessInstance processInstance4 = runtimeService().startProcessInstanceByKey("testProcess");
+        ProcessInstance processInstance4 = runtimeService().startProcessInstanceByKey("test-Process");
         execute(job(processInstance4));
 
         try {
@@ -39,9 +39,9 @@ public class PromethusTest1 {
             e.printStackTrace();
         }
 
-        ProcessInstance processInstance5 = runtimeService().startProcessInstanceByKey("testProcess");
+        ProcessInstance processInstance5 = runtimeService().startProcessInstanceByKey("test-Process");
         execute(job(processInstance5));
-        ProcessInstance processInstance6 = runtimeService().startProcessInstanceByKey("testProcess");
+        ProcessInstance processInstance6 = runtimeService().startProcessInstanceByKey("test-Process");
         execute(job(processInstance6));
 
         try {
@@ -50,7 +50,7 @@ public class PromethusTest1 {
             e.printStackTrace();
         }
 
-        ProcessInstance processInstance7 = runtimeService().startProcessInstanceByKey("testProcess");
+        ProcessInstance processInstance7 = runtimeService().startProcessInstanceByKey("test-Process");
         execute(job(processInstance7));
 
         try {
