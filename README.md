@@ -347,8 +347,6 @@ Example:  Using the Camunda metric `activity-instance-start`, the metric would b
 where the `camunda_` is the namespace of the metric
 
 
-
-
 # Instance Duration Tracking (Beta)
 
 This plugin provides the ability to track Instance Durations using Prometheus Histograms.
@@ -478,6 +476,8 @@ Activity Definition specific tracking is the specific selection of BPMN activiti
  ### BPMN Process Instance Duration
 
  BPMN Process Instance Duration tracking is managed through a configuration at the BPMN level.  
+
+![process duration config](./docs/images/process-duration-config.png)
 
 Example:
 Camunda Extension Property at the BPMN level:
