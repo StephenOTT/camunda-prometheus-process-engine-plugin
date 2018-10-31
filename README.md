@@ -398,7 +398,7 @@ Take note of the following:
 
 Gathers Activity instance counts (finished and active) for each activity for a process definition ID.
 
-``yaml
+```yaml
 custom:
 - collector: classpath:prometheus/customcollectors/HistoricActivityStatisticsPerProcessDefinition.groovy
   enable: true
@@ -407,7 +407,7 @@ custom:
   config:
     processDefinitionKeys:
     - myTestProcess
-``
+```
 
 The same collector .groovy file can be used multiple times: this allows you to run the script under different 
 timer configurations for different process definition keys: this is often needed for use-cases where not-call 
