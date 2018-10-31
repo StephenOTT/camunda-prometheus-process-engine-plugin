@@ -217,7 +217,8 @@ A default Grafana dashboard with common queries is provided:
 
 See folder: `./grafana/dashboards`
 
-1. Current working template: `Camunda Metrics-1.json`
+1. Current working template for Generic Metrics: `Camunda Metrics-1.json`
+1. Current working template for Process and Activity Duration Tracking: `Camunda Duration Tracking-1.json`
 
 
 # Custom Metrics as Groovy Scripts
