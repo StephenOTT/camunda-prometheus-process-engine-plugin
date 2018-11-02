@@ -42,10 +42,9 @@ Then add the following dependency:
 ```xml
 ...
  <dependency>
-    <groupId>com.github.digitalstate</groupId>
+    <groupId>com.github.StephenOTT</groupId>
     <artifactId>camunda-prometheus-process-engine-plugin</artifactId>
     <version>v0.0.0-Replace-This-With-Real-Version</version>
-    <scope>compile</scope>
  </dependency>
  ...
 ```
