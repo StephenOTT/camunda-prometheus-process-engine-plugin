@@ -583,11 +583,17 @@ already appended as a label and available for filtering within Prometheus.
 1. `element_type` : the element type such as startEvent, userTask, endEvent, etc.
 1. `process_definition_id` : the specific process definition Id
 1. `activity_id` : the activity Id (**not** the activity instance id)
+1. `deployment_id` : the Deployment Id of the process definition
+1. `process_definition_version` : the version number of the process definition assigned at time of deployment
+1. `process_definition_version_tag` : the version tag value of the process definition.  If no tag was provided in the BPMN, the value defaults to a empty string (`""`)
 
 For process duration tracking the following labels are applied:
 
 1. `engine_name` : the name of the engine
 1. `process_definition_id` : the specific process definition Id
+1. `deployment_id` : the Deployment Id of the process definition
+1. `process_definition_version` : the version number of the process definition assigned at time of deployment
+1. `process_definition_version_tag` : the version tag value of the process definition.  If no tag was provided in the BPMN, the value defaults to a empty string (`""`)
  
  Additional labels are not current configurable through the BPMN or YAML.
  

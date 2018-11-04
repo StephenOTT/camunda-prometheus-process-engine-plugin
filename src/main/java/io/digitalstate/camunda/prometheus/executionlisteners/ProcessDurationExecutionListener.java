@@ -9,6 +9,7 @@ import org.camunda.bpm.engine.delegate.ExecutionListener;
 import org.camunda.bpm.engine.impl.cfg.TransactionState;
 import org.camunda.bpm.engine.impl.context.Context;
 import org.camunda.bpm.engine.impl.history.event.HistoricProcessInstanceEventEntity;
+import org.camunda.bpm.engine.repository.ProcessDefinition;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,7 +20,11 @@ public class ProcessDurationExecutionListener implements ExecutionListener {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ProcessDurationExecutionListener.class);
 
-    private List<String> histogramLabelNames = Arrays.asList("engine_name", "process_definition_id");
+    private List<String> histogramLabelNames = Arrays.asList("engine_name",
+                                                            "process_definition_id",
+                                                            "deployment_id",
+                                                            "process_definition_version",
+                                                            "process_definition_version_tag");
     private DurationTrackingConfig metricConfig;
 
     public ProcessDurationExecutionListener(DurationTrackingConfig metricConfig){
@@ -31,6 +36,12 @@ public class ProcessDurationExecutionListener implements ExecutionListener {
         final String executionId = execution.getId();
         ProcessEngine engine = (ProcessEngine) execution.getProcessEngineServices();
         final String engineName = engine.getName();
+
+        ProcessDefinition processDefinition = execution.getProcessEngineServices()
+                .getRepositoryService().getProcessDefinition(processDefinitionId);
+        String processDefinitionVersion = String.valueOf(processDefinition.getVersion());
+        String deploymentId = processDefinition.getDeploymentId();
+        String processDefinitionVersionTag = processDefinition.getVersionTag() == null ? "" : processDefinition.getVersionTag();
 
         String histogramNameAggregate;
         // If boolean is set to true for useProcessDefinitionIdWithName, then we modify the metric name
@@ -59,7 +70,12 @@ public class ProcessDurationExecutionListener implements ExecutionListener {
                         LOGGER.debug("Process Duration in seconds<double> calculation: {} : {} seconds", executionId, String.valueOf(durationInSeconds));
 
                         // set the histogram with the duration from the activity instance
-                        histogramMetric.observeValue(durationInSeconds, Arrays.asList(promClean(engineName), promClean(processDefinitionId)));
+                        histogramMetric.observeValue(durationInSeconds, Arrays.asList(promClean(engineName),
+                                                                                    promClean(processDefinitionId),
+                                                                                    promClean(deploymentId),
+                                                                                    promClean(processDefinitionVersion),
+                                                                                    promClean(processDefinitionVersionTag)));
+
                         LOGGER.debug("Prometheus Process Duration collected: {} : {}", processDefinitionId, durationInSeconds);
 
                     } else {

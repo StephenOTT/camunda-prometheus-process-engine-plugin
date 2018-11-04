@@ -7,7 +7,7 @@
         <camunda:script scriptFormat="groovy">println('dogsss')</camunda:script>
       </camunda:executionListener>
       <camunda:properties>
-        <camunda:property name="prometheus.track" value="{type:&#39;process-duration&#39;, metric:&#39;some_specific_type_of_processes&#39;}" />
+        <camunda:property name="prometheus.track" value="{type:&#39;process-duration&#39;, metric:&#39;some_specific_type_of_processes&#39;, variables:{&#39;myVar1&#39;, &#39;myVar2&#39;, &#39;myVar3&#39;}}" />
       </camunda:properties>
     </bpmn2:extensionElements>
     <bpmn2:startEvent id="StartEvent_1" name="Case Opened">
@@ -58,7 +58,9 @@ httpRequest.startTimer(['POST'])
 
 sleep(Math.abs(new Random().nextInt() % 6000) + 3000)
 
-httpRequest.observeDuration()</bpmn2:script>
+httpRequest.observeDuration()
+
+execution.setVariable('myVar1', 1234);</bpmn2:script>
     </bpmn2:scriptTask>
     <bpmn2:scriptTask id="Task_0ffexh6" name="Process Payment" scriptFormat="groovy">
       <bpmn2:incoming>SequenceFlow_0h4jbgk</bpmn2:incoming>
