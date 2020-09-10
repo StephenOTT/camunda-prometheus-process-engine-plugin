@@ -22,6 +22,7 @@ public class ProcessDurationExecutionListener implements ExecutionListener {
 
     private List<String> histogramLabelNames = Arrays.asList("engine_name",
                                                             "process_definition_id",
+                                                            "process_definition_key",
                                                             "deployment_id",
                                                             "process_definition_version",
                                                             "process_definition_version_tag");
@@ -39,6 +40,7 @@ public class ProcessDurationExecutionListener implements ExecutionListener {
 
         ProcessDefinition processDefinition = execution.getProcessEngineServices()
                 .getRepositoryService().getProcessDefinition(processDefinitionId);
+        final String processDefinitionKey = processDefinition.getKey();
         String processDefinitionVersion = String.valueOf(processDefinition.getVersion());
         String deploymentId = processDefinition.getDeploymentId();
         String processDefinitionVersionTag = processDefinition.getVersionTag() == null ? "" : processDefinition.getVersionTag();
@@ -72,6 +74,7 @@ public class ProcessDurationExecutionListener implements ExecutionListener {
                         // set the histogram with the duration from the activity instance
                         histogramMetric.observeValue(durationInSeconds, Arrays.asList(promClean(engineName),
                                                                                     promClean(processDefinitionId),
+                                                                                    promClean(processDefinitionKey),
                                                                                     promClean(deploymentId),
                                                                                     promClean(processDefinitionVersion),
                                                                                     promClean(processDefinitionVersionTag)));
