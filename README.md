@@ -1,5 +1,13 @@
 # Camunda BPM Prometheus Process Engine Plugin
 
+---
+
+This project has moved to: https://github.com/StephenOTT/Camunda-Monitoring
+
+---
+
+
+
 Camunda Process Engine Plugin that implements a Prometheus Client HTTP Server, Collectors for the Camunda Metric 
 system, and a Groovy based custom collector system allowing yml based configuration of custom collectors that are based on groovy scripts.
 
